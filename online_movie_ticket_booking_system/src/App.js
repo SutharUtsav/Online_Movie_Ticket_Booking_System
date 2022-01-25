@@ -1,11 +1,11 @@
 
 import './App.css';
-import Admin from './MyComponent/Admin';
+import Admin from './MyComponent/Admin/Admin.js';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link
+  Link,
 } from "react-router-dom";
 
 
