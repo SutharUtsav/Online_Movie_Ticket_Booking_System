@@ -1,0 +1,33 @@
+
+.border-md {
+    border-width: 2px;
+}
+
+.main{
+    background-color: rgb(8, 8, 8);
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.logostyle{
+    height: 50px;
+}
+
+.form-control:not(select) {
+    padding: 1.5rem 0.5rem;
+}
+
+select.form-control {
+    height: 52px;
+    padding-left: 0.5rem;
+}
+
+.form-control::placeholder {
+    color: #ccc;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+.form-control:focus {
+    box-shadow: none;
+}
