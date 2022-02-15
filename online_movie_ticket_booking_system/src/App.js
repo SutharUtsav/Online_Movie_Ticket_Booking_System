@@ -3,7 +3,7 @@ import './App.css';
 import Admin from './MyComponent/Admin/Admin.js';
 import Register from './MyComponent/Auth/register';
 import Login from './MyComponent/Auth/Login';
-
+import MD from './MyComponent/MD/MD.js';
 import Home from './MyComponent/Customer/Home';
 import {
   BrowserRouter as Router,
@@ -22,6 +22,8 @@ function App() {
           {/* <Route exact path="/customer" element={<Home />}>
           </Route> */}
           <Route exact path="/Admin" element={<Admin />}>
+          </Route>
+          <Route exact path="/Md" element={<MD />}>
           </Route>
           <Route exact path="/register"  element={<Register />}>
           </Route>

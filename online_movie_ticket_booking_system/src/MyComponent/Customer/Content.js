@@ -1,8 +1,9 @@
 import React from 'react';
 
 const Content = () => {
-    return (<div>
+    return (<div style={{height:"22pc"}}>
         <p>Main Content Works!!</p>
+        
     </div>);
 }
 

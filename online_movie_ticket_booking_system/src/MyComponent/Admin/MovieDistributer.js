@@ -20,28 +20,28 @@ const MovieDistributer = () => {
         return ()=>{isMounted=false};
     })
 
-    async function AddMovieDistributer(e) {
+    function AddMovieDistributer(e) {
         e.preventDefault();
         try {
             let userPassword = userName;
             alert("Your Password is your UserName")
             console.log(userName,userPhoneNumber,userEmail,userPassword);
-            await axios.post('http://localhost:3001/api/insertMD', {
+            axios.post('http://localhost:3001/api/insertMD', {
                 userName:userName,
                 userPhoneNumber:userPhoneNumber,
                 userEmail:userEmail,
                 userPassword:userName,
-            }).then(() => { alert("Successfully movie distributer inserted") })
+            }).then((response) => { alert(response.data.message) })
         }
         catch (error) {
             console.log(error)
         }
      }
 
-    async function DeleteMD(e){
+    function DeleteMD(e){
         try{
             console.log(e.target.value)
-            await axios.delete(`http://localhost:3001/api/deleteMD/${e.target.value}`)
+            axios.delete(`http://localhost:3001/api/deleteMD/${e.target.value}`)
             .then(()=>{ alert("Successfully delete Movie Distributer")})
         }catch(error){
             console.log(error)
@@ -66,13 +66,13 @@ const MovieDistributer = () => {
 
                 </div>
                 <div id="userPhoneNumberId" className="form-floating mb-3">
-                    <input type="text" className='form-control' value={userPhoneNumber} onChange={(e) => {
+                    <input type="tel" className='form-control' value={userPhoneNumber} onChange={(e) => {
                         setUserPhoneNumber(e.target.value);
                     }} required />
                     <label htmlFor="roleDescriptionID"> Enter Phone Number</label>
                 </div>
                 <div id="userEmailId" className="form-floating mb-3">
-                    <input type="text" className='form-control' value={userEmail} onChange={(e) => {
+                    <input type="email" className='form-control' value={userEmail} onChange={(e) => {
                         setUserEmail(e.target.value);
                     }} required />
                     <label htmlFor="roleDescriptionID"> Enter EmailId</label>

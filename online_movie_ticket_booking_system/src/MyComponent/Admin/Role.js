@@ -10,16 +10,20 @@ const Role = () => {
     const [rolesList, setRolesList] = useState([]);
 
     useEffect(() => {
+        let isMounted = true; //foe cleanup
         axios.get('http://localhost:3001/api/getRole').then((response) => {
-            setRolesList(response.data);
+            if(isMounted){
+                setRolesList(response.data);
+            }
         });
+        return ()=>{isMounted=false};
     })
 
-    async function AddRole(e) {
+    function AddRole(e) {
         e.preventDefault();
         try {
             // console.log(roleTitle, roleDescription);
-            await axios.post('http://localhost:3001/api/insertRole', {
+            axios.post('http://localhost:3001/api/insertRole', {
                 roleTitle: roleTitle,
                 roleDescription: roleDescription,
             }).then(() => { alert("Successfully role inserted") })
@@ -30,10 +34,10 @@ const Role = () => {
 
     }
 
-    async function DeleteRole(e){
+    function DeleteRole(e){
         try{
             //console.log(e.target.value)
-            await axios.delete(`http://localhost:3001/api/deleteRole/${e.target.value}`)
+            axios.delete(`http://localhost:3001/api/deleteRole/${e.target.value}`)
             .then(()=>{ alert("Successfully delete role")})
         }catch(error){
             console.log(error)
