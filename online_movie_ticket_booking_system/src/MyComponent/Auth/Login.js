@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from './register.module.css';
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
@@ -12,33 +12,25 @@ const Login = () => {
 
     const [userName, setUserName] = useState("");
     const [userPassword, setUserPassword] = useState("");
-    const [role, setRole] = useState("");
-    const [loginstatus, setLoginStatus] = useState("");
-    // const [loginAs, setLoginAs] = useState("");
+    
     function login(e) {
         e.preventDefault();
         try {
-
             axios.post('http://localhost:3001/api/login', {
                 userName: userName,
                 userPassword: userPassword,
-                role: role,
             }).then((response) => {
                 //console.log(response)
                 if (response.data.message) {
-                    setLoginStatus(response.data.message)
                     alert(response.data.message)
+                    setUserPassword("");
                 } else {
                     if (response.data.loginAs === "Customer") {
                         navigate("/");
                     }
-                    else if (response.data.loginAs === "Movie Distributer") {
-                        navigate("/Md");
-                    }
                     else if (response.data.loginAs === "Administrator") {
                         navigate("/Admin");
                     }
-
                 }
             })
         }
@@ -47,15 +39,14 @@ const Login = () => {
         }
     }
 
-    useEffect(() => {
-
-        axios.get('http://localhost:3001/api/login').then((response) => {
-            if (response.data.loggedIn === true) {
-                // setLoginAs(response.data.roleAs);
-                alert("You are already logged in");
-            }
-        })
-    }, [])
+    // useEffect(() => {
+    //     axios.get('http://localhost:3001/api/login').then((response) => {
+    //         if (response.data.loggedIn === true) {
+    //             // setLoginAs(response.data.roleAs);
+    //             alert("You are already logged in");
+    //         }
+    //     })
+    // }, [])
 
     return (
 
@@ -68,19 +59,6 @@ const Login = () => {
                         <form onSubmit={login} >
                             <div className="row">
 
-                                <div onChange={(e) => {
-                                    setRole(e.target.value);
-                                }} >
-                                    <input className="form-check-input" id="Administrator" type="radio" value="Administrator" name="role" required />
-                                    <label htmlFor="Administrator" className="form-check-label px-4 border-md border-right-0" style={{ height: "50px", color: "white" }} >Administrator</label>
-
-                                    <input className="form-check-input" id="customer" type="radio" value="Customer" name="role" />
-                                    <label htmlFor="customer" className="form-check-label px-4 border-md border-right-0" style={{ height: "50px", color: "white" }} >Customer</label>
-
-                                    <input className="form-check-input" id="MD" type="radio" value="Movie Distributer" name="role" />
-                                    <label htmlFor="MD" className="form-check-label px-4 border-md border-right-0" style={{ height: "50px", color: "white" }} >Movie Distributer</label>
-                                </div>
-
                                 <div className="input-group col-lg-6 mb-4">
                                     <div className="input-group-prepend">
                                         <span className="input-group-text bg-white px-4 border-md border-right-0" style={{ height: "50px" }} >
@@ -91,8 +69,6 @@ const Login = () => {
                                         setUserName(e.target.value);
                                     }} required />
                                 </div>
-
-
 
                                 <div className="input-group col-lg-6 mb-4">
                                     <div className="input-group-prepend">
@@ -106,8 +82,7 @@ const Login = () => {
                                 </div>
 
                                 <div className="form-group col-lg-12 mx-auto mb-0">
-                                    <button className="btn btn-outline-info py-2 font-weight-bold d-grid col-6 mx-auto" >Sign In</button>
-
+                                    <input type="submit" className="btn btn-outline-info py-2 font-weight-bold d-grid col-6 mx-auto" value="Sign In" />
                                 </div>
 
                                 <div className="form-group col-lg-12 mx-auto d-flex align-items-center my-4">
@@ -124,7 +99,6 @@ const Login = () => {
 
                             </div>
                         </form>
-                        <h1 style={{ color: "white" }}>{loginstatus}</h1>
                     </div>
                 </div>
             </div>

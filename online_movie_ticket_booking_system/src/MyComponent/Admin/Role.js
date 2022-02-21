@@ -27,6 +27,8 @@ const Role = () => {
                 roleTitle: roleTitle,
                 roleDescription: roleDescription,
             }).then(() => { alert("Successfully role inserted") })
+            setRoleTitle("")
+            setRoleDescription("")
         }
         catch (error) {
             console.log(error)
@@ -44,34 +46,30 @@ const Role = () => {
         }
     }
 
-    function EditRole(e){
-        console.log("Edit Role");
-    }
-
     return <div className={styles.content}>
         <br />
         <div className={styles.wrapper}>
             <form onSubmit={AddRole} >
-                <div id="roleTitleId" className="form-floating mb-3">
+                <div id="roleTitleId" className="form-floating mb-3" style={{width:"71%"}}>
                     <input type="text" className='form-control' value={roleTitle} onChange={(e) => {
                         setRoleTitle(e.target.value);
                     }} required />
-                    <label htmlFor="roleTitleId"> Enter Role Title</label>
+                    <label htmlFor="roleTitleId" style={{color:"black"}}> Enter Role Title</label>
 
                 </div>
-                <div id="roleDescriptionID" className="form-floating mb-3">
+                <div id="roleDescriptionID" className="form-floating mb-3" style={{width:"71%"}}>
                     <input type="text" className='form-control' value={roleDescription} onChange={(e) => {
                         setRoleDescription(e.target.value);
                     }} required />
-                    <label htmlFor="roleDescriptionID"> Enter Role Description</label>
+                    <label htmlFor="roleDescriptionID" style={{color:"black"}}> Enter Role Description</label>
                 </div>
 
-                <button type="submit" className="btn btn-primary">Add Role</button>
+                <button type="submit" className="btn btn-primary" style={{width:"37%"}}>Add Role</button>
             </form>
         </div>
         <br />
         <p className={styles.RoleList}> List of Roles</p>
-        <table className="table table-striped table-bordered">
+        <table className="table" style={{color:"white",marginLeft:"5%",width:"72%"}}>
             <thead>
                 <tr>
                     <th>Id</th>
@@ -85,11 +83,11 @@ const Role = () => {
                         <td>{++x} </td>
                         <td>{role.role_title}</td>
                         <td>{role.role_description}</td>
+                        <td>
                         <div style={{display:"inline"}}>
-                            <button value={role.id} className="btn btn-primary" onClick={EditRole} >Edit</button>
-                            <span> | </span>
                             <button value={role.id} className="btn btn-danger" onClick={DeleteRole}>Remove</button>
                         </div>
+                        </td>
                     </tr>
                 )}
             </tbody>

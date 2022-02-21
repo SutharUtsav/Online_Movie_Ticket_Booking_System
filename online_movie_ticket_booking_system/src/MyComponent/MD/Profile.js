@@ -1,13 +1,8 @@
-import React,{ useState, useEffect } from 'react';
-import styles from './Admin.module.css';
+import React, { useState, useEffect } from 'react';
+import styles from './MD.module.css';
 import axios from 'axios';
-// import {useNavigate}  from "react-router-dom";
-
 
 const Profile = (props) => {
-    // const navigate = useNavigate();
-    axios.defaults.withCredentials = true; //to work with cookie
-
     const [userId, setUserId] = useState(0);
     const [userName, setUserName] = useState("");
     const [userPhoneNumber, setUserPhoneNumber] = useState("");
@@ -19,10 +14,10 @@ const Profile = (props) => {
     useEffect(() => {
         axios.get('http://localhost:3001/api/login').then((response) => {
             if (response.data.loggedIn === true) {
-                setUserId(response.data.user.id)
-                setUserName(response.data.user.user_name)
-                setUserEmail(response.data.user.user_email)
-                setUserPhoneNumber(response.data.user.user_phone_number)
+                setUserId(response.data.user[0].id)
+                setUserName(response.data.user[0].user_name)
+                setUserEmail(response.data.user[0].user_email)
+                setUserPhoneNumber(response.data.user[0].user_phone_number)
             }
             else {
                 alert("You are not logged in...");
@@ -30,8 +25,7 @@ const Profile = (props) => {
         })
     }, [])
 
-
-    function updateAdmin(e) {
+    function changeUser(e) {
         e.preventDefault();
         try {
             if (userPassword === userConfirmPassword) {
@@ -55,23 +49,22 @@ const Profile = (props) => {
         }
     }
 
-    return (props.trigger)?(
-        <div className={styles.content}>
-            <div className={styles.popup}>
+    return (props.trigger) ? (
+        <div className={styles.popup}>
             <div className={styles.popup_inner}>
-                <button className={styles.close_btn} onClick={() => { props.setTrigger(false); props.setMovie(true) }}><i className="fa fa-close" style={{ fontSize: "24px" }}></i></button>
+                <button className={styles.close_btn} onClick={() => { props.setTrigger(false) }}><i className="fa fa-close" style={{ fontSize: "24px" }}></i></button>
 
                 <div className="container rounded bg-white mt-5 mb-5">
                     <div className="row" style={{ width: "60vw" }}>
                         <div className="col-md-2 border-right">
-                            <div className="d-flex flex-column align-items-center text-center p-3 py-5"><img className="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" alt="profile" /><span className="font-weight-bold">Administrator</span></div>
+                            <div className="d-flex flex-column align-items-center text-center p-3 py-5"><img className="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" alt="profile" /><span className="font-weight-bold">Movie Distributer</span></div>
                         </div>
                         <div className="col-md-5 border-right">
                             <div className="p-3 py-5">
                                 <div className="d-flex justify-content-between align-items-center mb-3">
                                     <h4 className="text-right">Update Profile</h4>
                                 </div>
-                                <form onSubmit={updateAdmin}>
+                                <form onSubmit={changeUser}>
                                     <div className="row mt-3">
                                         <div className="col-md-12"><label className="labels">Name</label><input type="text" className="form-control" placeholder="User name" value={userName} onChange={(e) => {
                                             setUserName(e.target.value)
@@ -102,10 +95,9 @@ const Profile = (props) => {
                         </div>
                     </div>
                 </div>
-
             </div>
         </div >
-        </div>):"";
-}
+    ) : "";
+};
 
 export default Profile;

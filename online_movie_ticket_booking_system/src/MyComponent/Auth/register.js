@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styles from './register.module.css';
 import { Link,useNavigate } from "react-router-dom";
 import axios from 'axios';
-//import { useState } from 'react';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -17,13 +16,23 @@ const Register = () => {
         e.preventDefault();
         try {
             if (userPassword === userConfirmPassword) {
-                console.log(userName, userPhoneNumber, userEmail, userPassword);
+                //console.log(userName, userPhoneNumber, userEmail, userPassword);
                 axios.post('http://localhost:3001/api/insertCustomer', {
                     userName: userName,
                     userPhoneNumber: userPhoneNumber,
                     userEmail: userEmail,
                     userPassword: userPassword,
-                }).then((response) => { alert(response.data.message);navigate("/Login") })
+                }).then((response) => { 
+                    if(response.data.msg){
+                        alert(response.data.msg)
+                        setUserPassword("")
+                        setUserConfirmPassword("")
+                    }
+                    else if(response.data.message){
+                        alert(response.data.message)
+                        navigate("/")
+                    }
+                })
             }
             else{
                 alert("Both entered passwords doesn's match");
@@ -36,20 +45,6 @@ const Register = () => {
 
     return (
         <div className={styles.main}>
-
-            {/* <header className="header">
-                <nav className="navbar navbar-expand-lg navbar-light py-3">
-                    <div className="container">
-                        
-                        { <a href="#" className="navbar-brand">
-                            <img src="https://bootstrapious.com/i/snippets/sn-registeration/logo.svg" alt="logo" width="150">
-                        </a> }
-
-                    </div>
-                </nav>
-            </header> */}
-
-
             <div className="container" style={{ marginTop: "7%" }}>
                 <div className="row py-5 mt-4 align-items-center">
 
@@ -74,7 +69,6 @@ const Register = () => {
                                         setUserName(e.target.value);
                                     }} />
                                 </div>
-
 
                                 <div className="input-group col-lg-12 mb-4">
                                     <div className="input-group-prepend">

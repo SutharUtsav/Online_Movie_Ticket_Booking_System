@@ -1,59 +1,68 @@
 import React from 'react';
 import styles from './Admin.module.css';
-import Dashboard from './Dashboard';
 import Profile from './Profile';
 import Role from './Role';
-import MovieDistributer from './MovieDistributer';
 import Screen from './Screen';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import Movie from './Movie';
+import Snacks from './Snacks';
 
-export default function AdminContent() {
+export default function AdminContent(props) {
 
-    const [dashboard, setDashboard] = useState(true);
     const [profile, setProfile] = useState(false);
-    const [role,setRole] = useState(false);
-    const [MD,setMD] = useState(false);
-    const [screen,setScreen] = useState(false);
+    const [role, setRole] = useState(false);
+    const [movie, setMovie] = useState(true);
+    const [screen, setScreen] = useState(false);
+    const [snacks,setSnacks] = useState(false);
+
+    useEffect(() => {
+        if (props.isProfile === true) {
+            setMovie(false);
+            setRole(false);
+            setScreen(false);
+            setProfile(true);
+        }
+    },[props.isProfile])
 
     return (
         < >
-        <div className={styles.sidenav_container}>
-            
-            < button className={styles.navtext} onClick={() => { 
-                setDashboard(true); setProfile(false);  setRole(false);setScreen(false);
-                }}>
-                <span>Dashboard</span>
-            </button>
+            {props.isProfile}
+            <div className={styles.sidebar_container}>
 
-            < button className={styles.navtext} onClick={() => { 
-                setProfile(true); setDashboard(false); setRole(false); setMD(false);setScreen(false);
-                }}>
-                <span>Profile</span>
-            </button>
+                < button className={(movie === false) ? styles.navtext : styles.navtext_click}
+                    onClick={() => {
+                        setRole(false); setScreen(false); setMovie(true);setSnacks(false);
+                    }}>
+                    <span>Movie</span>
+                </button>
 
-            < button className={styles.navtext} 
-            onClick={() => { 
-                setProfile(false); setDashboard(false); setRole(true); setMD(false);setScreen(false);
+                < button className={(screen === false) ? styles.navtext : styles.navtext_click} onClick={(e) => {
+                    setRole(false); setScreen(true); setMovie(false);setSnacks(false);
                 }}>
-                <span>Role</span>
-            </button>
-            < button className={styles.navtext} onClick={() => { 
-                setProfile(false); setDashboard(false); setRole(false); setMD(true);setScreen(false);
-                }}>
-                <span>Movie Distributer</span>
-            </button>
-            < button className={styles.navtext} onClick={() => { 
-                setProfile(false); setDashboard(false); setRole(false); setMD(false);setScreen(true);
-                }}>
-                <span>Screen</span>
-            </button>
+                    <span>Screen</span>
+                </button>
 
-        </div >
-            {dashboard === true ? <Dashboard /> : null}
-            {profile === true ? <Profile /> : null}
-            {role === true ? <Role /> : null }
-            {MD === true ? <MovieDistributer/> : null}
-            {screen === true ? <Screen/> : null}
+                < button className={(snacks === false) ? styles.navtext : styles.navtext_click}
+                    onClick={() => {
+                        setRole(false); setScreen(false); setMovie(false);setSnacks(true);
+                    }}>
+                    <span>Snacks</span>
+                </button>
+
+                < button className={(role === false) ? styles.navtext : styles.navtext_click}
+                    onClick={() => {
+                        setRole(true); setScreen(false); setMovie(false);setSnacks(false);
+                    }}>
+                    <span>Role</span>
+                </button>
+
+            </div >
+            {profile === true ? <Profile trigger={props.isProfile} setTrigger={props.setIsProfile} setMovie={setMovie} /> : null}
+            {role === true ? <Role /> : null}
+            {screen === true ? <Screen /> : null}
+            {movie === true ? <Movie /> : null}
+            {snacks === true? <Snacks />:null}
+
         </>
     );
 }

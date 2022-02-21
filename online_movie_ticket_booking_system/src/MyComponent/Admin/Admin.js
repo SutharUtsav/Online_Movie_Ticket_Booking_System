@@ -1,21 +1,22 @@
-
-import styles from './Admin.module.css'; 
-import React from 'react';
+import React, {useState,useEffect} from 'react';
 import AdminHeader from './AdminHeader';
 import AdminFooter from './AdminFooter';
 import AdminContent from './AdminContent';
 
+
 export default function Admin() {
+  const [isProfile,setIsProfile] = useState(false);
 
-  
-
+  useEffect(()=>{
+    console.log(isProfile)
+  })
   return (
 
-    <div className={styles.root} >
-      <AdminHeader/>
-      <AdminContent />
+    < >
+      <AdminHeader isProfile={isProfile} setIsProfile={setIsProfile}/>
+      <AdminContent isProfile={isProfile} setIsProfile={setIsProfile}/>
       <AdminFooter />
-    </div>
+    </>
     
   );
 }

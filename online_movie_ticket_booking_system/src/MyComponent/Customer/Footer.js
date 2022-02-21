@@ -7,12 +7,12 @@ const Footer = () => {
       <div className="d-flex flex-column h-100">
 
 
-        <section className="hero bg-black text-white py-5 flex-grow-1">
+        <section className="hero text-white py-5 flex-grow-1">
           <div className="container py-4">
-            <div className="row">
+            <div className="row" style={{justifyContent:"center"}}>
               <div className="col-lg-6">
-
-                <p className="fst-italic text-white"> Footer!</p>
+              <div><img src='/movie_logo.png' alt="movie-logo" style={{height:"inherit"}}></img></div>
+                <p className="fst-italic text-white" style={{marginLeft:"7pc"}}> Thank you for visiting ...</p>
               </div>
             </div>
           </div>
@@ -20,7 +20,7 @@ const Footer = () => {
 
 
 
-        <footer className="bg-black text-white mainfooter" role="contentinfo">
+        <footer className=" text-white mainfooter" role="contentinfo">
           <div className="footer-middle">
             <div className="container">
               <div className="row">
@@ -77,7 +77,7 @@ const Footer = () => {
               </div>
               <div className="row">
                 <div className="col-md-12 copy">
-                  <p className="text-center">&copy; Copyright 2022 - Company Name.  All rights reserved.</p>
+                  <p className="text-center">&copy; Copyright 2023  All rights reserved.</p>
                 </div>
               </div>
 
