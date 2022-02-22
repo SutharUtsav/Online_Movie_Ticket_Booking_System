@@ -10,7 +10,7 @@ const Role = () => {
     const [rolesList, setRolesList] = useState([]);
 
     useEffect(() => {
-        let isMounted = true; //foe cleanup
+        let isMounted = true; //for cleanup
         axios.get('http://localhost:3001/api/getRole').then((response) => {
             if(isMounted){
                 setRolesList(response.data);
