@@ -16,6 +16,102 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `booking`
+--
+
+DROP TABLE IF EXISTS `booking`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `booking` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `booking_movie_id` int DEFAULT NULL,
+  `booking_screen_id` int DEFAULT NULL,
+  `booking_user_id` int DEFAULT NULL,
+  `booking_seat_id` int DEFAULT NULL,
+  `booking_date` date NOT NULL,
+  `booking_snack_id` int DEFAULT NULL,
+  `booking_price` double NOT NULL,
+  `booking_payment_status` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `booking_movie_id_UNIQUE` (`booking_movie_id`),
+  KEY `booking_screen_id_idx` (`booking_screen_id`),
+  KEY `booking_user_id_idx` (`booking_user_id`),
+  KEY `booking_seat_id_idx` (`booking_seat_id`),
+  KEY `booking_snack_id_idx` (`booking_snack_id`),
+  CONSTRAINT `booking_movie_id` FOREIGN KEY (`booking_movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `booking_screen_id` FOREIGN KEY (`booking_screen_id`) REFERENCES `screen` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
+  CONSTRAINT `booking_seat_id` FOREIGN KEY (`booking_seat_id`) REFERENCES `seat` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
+  CONSTRAINT `booking_snack_id` FOREIGN KEY (`booking_snack_id`) REFERENCES `snack` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
+  CONSTRAINT `booking_user_id` FOREIGN KEY (`booking_user_id`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `booking`
+--
+
+LOCK TABLES `booking` WRITE;
+/*!40000 ALTER TABLE `booking` DISABLE KEYS */;
+/*!40000 ALTER TABLE `booking` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `collection`
+--
+
+DROP TABLE IF EXISTS `collection`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `collection` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `collection_movie_id` int NOT NULL,
+  `collection_total_amount` double NOT NULL,
+  `morning_collection_amount` double NOT NULL,
+  `evening_collection_amount` double NOT NULL,
+  `night_collection_amount` double NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `collection_movie_id_idx` (`collection_movie_id`),
+  CONSTRAINT `collection_movie_id` FOREIGN KEY (`collection_movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `collection`
+--
+
+LOCK TABLES `collection` WRITE;
+/*!40000 ALTER TABLE `collection` DISABLE KEYS */;
+/*!40000 ALTER TABLE `collection` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `e_gift`
+--
+
+DROP TABLE IF EXISTS `e_gift`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `e_gift` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `voucher_user_id` int NOT NULL,
+  `voucher_code` varchar(45) NOT NULL,
+  `voucher_amount` double NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `voucher_user_id_idx` (`voucher_user_id`),
+  CONSTRAINT `voucher_user_id` FOREIGN KEY (`voucher_user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `e_gift`
+--
+
+LOCK TABLES `e_gift` WRITE;
+/*!40000 ALTER TABLE `e_gift` DISABLE KEYS */;
+/*!40000 ALTER TABLE `e_gift` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `movie`
 --
 
@@ -48,6 +144,69 @@ INSERT INTO `movie` VALUES (3,'Pushpa - The Rise','Hindi','02:45:00','Action','p
 UNLOCK TABLES;
 
 --
+-- Table structure for table `payment`
+--
+
+DROP TABLE IF EXISTS `payment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `payment` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `payment_booking_id` int NOT NULL,
+  `payment_mehod` varchar(45) NOT NULL,
+  `payment_user_id` int NOT NULL,
+  `payment_date` date NOT NULL,
+  `payment_description` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `payment_booking_id_idx` (`payment_booking_id`),
+  KEY `payment_user_id_idx` (`payment_user_id`),
+  CONSTRAINT `payment_booking_id` FOREIGN KEY (`payment_booking_id`) REFERENCES `booking` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `payment_user_id` FOREIGN KEY (`payment_user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `payment`
+--
+
+LOCK TABLES `payment` WRITE;
+/*!40000 ALTER TABLE `payment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `payment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `private_screen`
+--
+
+DROP TABLE IF EXISTS `private_screen`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `private_screen` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `p_screen_id` int NOT NULL,
+  `p_movie_id` int NOT NULL,
+  `p_user_id` int NOT NULL,
+  `p_time` date NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `p_screen_id_idx` (`p_screen_id`),
+  KEY `p_movie_id_idx` (`p_movie_id`),
+  KEY `p_user_id_idx` (`p_user_id`),
+  CONSTRAINT `p_movie_id` FOREIGN KEY (`p_movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `p_screen_id` FOREIGN KEY (`p_screen_id`) REFERENCES `screen` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `p_user_id` FOREIGN KEY (`p_user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `private_screen`
+--
+
+LOCK TABLES `private_screen` WRITE;
+/*!40000 ALTER TABLE `private_screen` DISABLE KEYS */;
+/*!40000 ALTER TABLE `private_screen` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `role`
 --
 
@@ -73,6 +232,87 @@ INSERT INTO `role` VALUES (10,'Administrator','This is an Administrator'),(11,'C
 UNLOCK TABLES;
 
 --
+-- Table structure for table `screen`
+--
+
+DROP TABLE IF EXISTS `screen`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `screen` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `screen_movie_id` int NOT NULL,
+  `screen_movie_time` varchar(45) NOT NULL,
+  `private_screen_booking` tinyint NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `screen_movie_id` (`screen_movie_id`),
+  CONSTRAINT `screen_movie_id_fk` FOREIGN KEY (`screen_movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `screen`
+--
+
+LOCK TABLES `screen` WRITE;
+/*!40000 ALTER TABLE `screen` DISABLE KEYS */;
+/*!40000 ALTER TABLE `screen` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `seat`
+--
+
+DROP TABLE IF EXISTS `seat`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `seat` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `seat_price` double NOT NULL,
+  `seat_screen_id` int NOT NULL,
+  `seat_type` varchar(45) NOT NULL,
+  `seat_status` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `seat_screen_id_idx` (`seat_screen_id`),
+  CONSTRAINT `seat_screen_id` FOREIGN KEY (`seat_screen_id`) REFERENCES `screen` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `seat`
+--
+
+LOCK TABLES `seat` WRITE;
+/*!40000 ALTER TABLE `seat` DISABLE KEYS */;
+/*!40000 ALTER TABLE `seat` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `snack`
+--
+
+DROP TABLE IF EXISTS `snack`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `snack` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `snack_amount` double NOT NULL,
+  `snack_type` varchar(45) NOT NULL,
+  `snack_description` text NOT NULL,
+  `snack_offer` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `snack`
+--
+
+LOCK TABLES `snack` WRITE;
+/*!40000 ALTER TABLE `snack` DISABLE KEYS */;
+/*!40000 ALTER TABLE `snack` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user`
 --
 
@@ -88,7 +328,7 @@ CREATE TABLE `user` (
   `user_password` char(60) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_role_id_idx` (`user_role_id`),
-  CONSTRAINT `user_role_id` FOREIGN KEY (`user_role_id`) REFERENCES `role` (`id`)
+  CONSTRAINT `user_role_id` FOREIGN KEY (`user_role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -111,4 +351,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-23  0:52:23
+-- Dump completed on 2022-02-23 11:26:34
