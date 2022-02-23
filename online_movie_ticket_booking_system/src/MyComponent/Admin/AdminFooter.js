@@ -4,7 +4,7 @@ import styles from './Admin.module.css';
 export default function AdminFooter() {
     return (
     <div className={styles.footer}>
-        <p>Footer!!</p>
+        <p style={{marginLeft:"35vw"}}>&copy; Copyright 2023  All rights reserved.</p>
     </div>
     );
 }
