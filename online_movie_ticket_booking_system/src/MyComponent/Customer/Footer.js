@@ -9,7 +9,7 @@ const Footer = () => {
 
         <section className="hero text-white py-5 flex-grow-1">
           <div className="container py-4">
-            <div className="row" style={{justifyContent:"center"}}>
+            <div className="row" style={{justifyContent:"center",marginLeft:"8pc"}}>
               <div className="col-lg-6">
               <div><img src='/movie_logo.png' alt="movie-logo" style={{height:"inherit"}}></img></div>
                 <p className="fst-italic text-white" style={{marginLeft:"7pc"}}> Thank you for visiting ...</p>

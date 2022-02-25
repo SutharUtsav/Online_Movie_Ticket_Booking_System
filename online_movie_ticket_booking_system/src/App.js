@@ -1,15 +1,14 @@
-
 import './App.css';
 import Admin from './MyComponent/Admin/Admin.js';
 import Register from './MyComponent/Auth/register';
 import Login from './MyComponent/Auth/Login';
-import MD from './MyComponent/MD/MD.js';
 import Home from './MyComponent/Customer/Home';
 import {
   BrowserRouter as Router,
   Routes,
   Route
 } from "react-router-dom";
+import Pscreen from './PrivateScreen/Pscreen';
 
 function App() {
 
@@ -23,11 +22,11 @@ function App() {
           </Route> */}
           <Route exact path="/Admin" element={<Admin />}>
           </Route>
-          <Route exact path="/Md" element={<MD />}>
-          </Route>
           <Route exact path="/register"  element={<Register />}>
           </Route>
           <Route exact path="/login"  element={<Login />}>
+          </Route>
+          <Route exact path="/pscreen"  element={<Pscreen />}>
           </Route>
         </Routes>
       </Router>

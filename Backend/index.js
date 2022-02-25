@@ -100,124 +100,49 @@ app.post("/api/updateAdmin", async (req, res) => {
     let userPassword = req.body.userPassword;
     let id = req.body.userid;
     // console.log(userName,userPhoneNumber,userEmail,userPassword);
-    bcrypt.hash(userPassword, saltRounds, (err, hash) => {
-        if (err) {
-            console.log(err)
-        }
-        let admin = "Administrator";
+    var sqlInsert;
 
-        var sqlInsert = `UPDATE user SET user_name=?
-                                        ,user_role_id = (
-                                            SELECT id FROM role WHERE role_title=? 
-                                        ),
-                                        user_phone_number=?,
-                                        user_email=?,
-                                        user_password=? WHERE id=?`;
-        db.query(sqlInsert, [userName, admin, userPhoneNumber, userEmail, hash, id], (err, result) => {
+    let admin = "Administrator";
+    if (userPassword == "") {
+        sqlInsert = `UPDATE user SET user_name=?
+                                    ,user_role_id = (
+                                        SELECT id FROM role WHERE role_title=? 
+                                    ),
+                                    user_phone_number=?,
+                                    user_email=? WHERE id=?`;
+        db.query(sqlInsert, [userName, admin, userPhoneNumber, userEmail, id], (err, result) => {
             if (err)
                 console.log(err);
             else {
                 res.send({ message: "Administrator is successfully updated" })
             }
         });
-    })
+    }
+    else {
+        bcrypt.hash(userPassword, saltRounds, (err, hash) => {
+            if (err) {
+                console.log(err)
+            }
+
+            sqlInsert = `UPDATE user SET user_name=?
+                                        ,user_role_id = (
+                                            SELECT id FROM role WHERE role_title=? 
+                                        ),
+                                        user_phone_number=?,
+                                        user_email=?,
+                                        user_password=? WHERE id=?`;
+            db.query(sqlInsert, [userName, admin, userPhoneNumber, userEmail, hash, id], (err, result) => {
+                if (err)
+                    console.log(err);
+                else {
+                    res.send({ message: "Administrator is successfully updated" })
+                }
+            });
+
+        })
+    }
 
 })
-
-
-//Movie Distributer
-// app.get("/api/getMD", (req, res) => {
-//     let mD = "Movie Distributer"
-//     var sqlSelect = `SELECT * FROM user WHERE user_role_id=(
-//                             SELECT id FROM role WHERE role_title=? )`
-//     db.query(sqlSelect, mD, (err, result) => {
-//         if (err)
-//             console.log(err.message);
-//         else {
-//             res.send(result);
-//         }
-//     });
-// })
-
-// app.post("/api/insertMD", async (req, res) => {
-
-//     let userName = req.body.userName;
-//     let userPhoneNumber = req.body.userPhoneNumber;
-//     let userEmail = req.body.userEmail;
-//     let userPassword = req.body.userPassword;
-//     let id;
-//     // console.log(userName,userPhoneNumber,userEmail,userPassword);
-//     bcrypt.hash(userPassword, saltRounds, (err, hash) => {
-//         if (err) {
-//             console.log(err)
-//         }
-//         let mD = "Movie Distributer";
-
-//         var sqlInsert = `INSERT INTO user SET user_name=?
-//                                         ,user_role_id = (
-//                                             SELECT id FROM role WHERE role_title=? 
-//                                         ),
-//                                         user_phone_number=?,
-//                                         user_email=?,
-//                                         user_password=?`;
-//         db.query(sqlInsert, [userName, mD, userPhoneNumber, userEmail, hash], (err, result) => {
-//             if (err)
-//                 console.log(err);
-//             else {
-//                 res.send({ message: "Movie Distributer is successfully registered" })
-//             }
-//         });
-//     })
-
-// })
-
-
-// app.post("/api/updateMD", async (req, res) => {
-
-//     let userName = req.body.userName;
-//     let userPhoneNumber = req.body.userPhoneNumber;
-//     let userEmail = req.body.userEmail;
-//     let userPassword = req.body.userPassword;
-//     let id=req.body.userid;
-//     // console.log(userName,userPhoneNumber,userEmail,userPassword);
-//     bcrypt.hash(userPassword, saltRounds, (err, hash) => {
-//         if (err) {
-//             console.log(err)
-//         }
-//         let mD = "Movie Distributer";
-
-//         var sqlInsert = `UPDATE user SET user_name=?
-//                                         ,user_role_id = (
-//                                             SELECT id FROM role WHERE role_title=? 
-//                                         ),
-//                                         user_phone_number=?,
-//                                         user_email=?,
-//                                         user_password=? WHERE id=?`;
-//         db.query(sqlInsert, [userName, mD, userPhoneNumber, userEmail, hash,id], (err, result) => {
-//             if (err)
-//                 console.log(err);
-//             else {
-//                 res.send({ message: "Movie Distributer is successfully updated" })
-//             }
-//         });
-//     })
-
-// })
-
-// app.delete("/api/deleteMD/:id", async (req, res) => {
-//     let id = req.params.id;
-
-//     var sqlDelete = "DELETE FROM user WHERE id=?";
-//     db.query(sqlDelete, id, (err, result) => {
-//         if (err)
-//             console.log(err.message);
-//         else {
-//             console.log(result);
-//         }
-//     });
-
-// })
-
 
 //customer
 app.post("/api/insertCustomer", async (req, res) => {
@@ -341,6 +266,103 @@ app.post("/api/logout", async (req, res) => {
         res.send({ message: "You are not logged in!!" })
     }
 })
+
+
+//Movie
+
+app.get("/api/getMovies", async (req, res) => {
+    var sqlGet = 'SELECT * FROM movie';
+    db.query(sqlGet,(err,result)=>{
+        if(err){
+            console.log(err)
+        }
+        else{
+            res.send({movies:result})
+        }
+    })
+})
+
+app.post("/api/insertMovie", async (req, res) => {
+
+    let movieName = req.body.movieName;
+    let movieLanguage = req.body.movieLanguage;
+    let movieGenre = req.body.movieGenre;
+    let movieTrailerLink = req.body.movieTrailerLink;
+    let movieReleaseDate = req.body.movieReleaseDate;
+    let movieHours = req.body.movieHours;
+    let movieBanner = req.body.movieBanner;
+    let movieImage = req.body.movieImage;
+    let movieDescription = req.body.movieDescription;
+
+    //console.log(movieName, movieLanguage, movieGenre, movieTrailerLink, movieReleaseDate, movieHours, movieBanner);
+
+    var sqlInsert = `INSERT INTO movie SET movie_name=?,
+                                                movie_language=?,
+                                                movie_genre=?,
+                                                movie_trailer_link=?,
+                                                movie_release_date=?,
+                                                movie_hours=?,
+                                                movie_banner=?,
+                                                movie_image=?,
+                                                movie_description=?`;
+    db.query(sqlInsert, [movieName, movieLanguage, movieGenre, movieTrailerLink, movieReleaseDate, movieHours, movieBanner,movieImage,movieDescription], (err, result) => {
+        if (err)
+            console.log(err.message);
+        else if (result) {
+            res.send({ message: "Movie is successfully inserted" })
+        }
+    })
+})
+
+
+app.post("/api/updateMovie", async (req, res) => {
+    let id = req.body.movieId;
+    let movieName = req.body.movieName;
+    let movieLanguage = req.body.movieLanguage;
+    let movieGenre = req.body.movieGenre;
+    let movieTrailerLink = req.body.movieTrailerLink;
+    let movieReleaseDate = req.body.movieReleaseDate;
+    let movieHours = req.body.movieHours;
+    let movieBanner = req.body.movieBanner;
+    let movieImage = req.body.movieImage;
+    let movieDescription = req.body.movieDescription;
+
+    //console.log(movieName, movieLanguage, movieGenre, movieTrailerLink, movieReleaseDate, movieHours, movieBanner);
+
+    var sqlUpdate = `UPDATE movie SET movie_name=?,
+                                                movie_language=?,
+                                                movie_genre=?,
+                                                movie_trailer_link=?,
+                                                movie_release_date=?,
+                                                movie_hours=?,
+                                                movie_banner=?,
+                                                movie_image=?,
+                                                movie_description=? WHERE id=?`;
+    db.query(sqlUpdate, [movieName, movieLanguage, movieGenre, movieTrailerLink, movieReleaseDate, movieHours, movieBanner,movieImage,movieDescription,id], (err, result) => {
+        if (err)
+            console.log(err.message);
+        else if (result) {
+            res.send({ message: "Movie is successfully updated" })
+        }
+    })
+})
+
+
+app.delete("/api/deleteMovie/:id", async (req, res) => {
+    let id = req.params.id;
+
+    var sqlDelete = "DELETE FROM movie WHERE id=?";
+    db.query(sqlDelete, id, (err, result) => {
+        if (err)
+            console.log(err);
+        else if(result) {
+            res.send({message :"Movie Deleted Successfully"})
+        }
+    });
+
+})
+
+
 
 app.listen(port, function (err) {
     if (err)
