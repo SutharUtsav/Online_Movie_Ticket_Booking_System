@@ -272,15 +272,16 @@ app.post("/api/logout", async (req, res) => {
 
 app.get("/api/getMovies", async (req, res) => {
     var sqlGet = 'SELECT * FROM movie';
-    db.query(sqlGet,(err,result)=>{
-        if(err){
+    db.query(sqlGet, (err, result) => {
+        if (err) {
             console.log(err)
         }
-        else{
-            res.send({movies:result})
+        else {
+            res.send({ movies: result })
         }
     })
 })
+
 
 app.post("/api/insertMovie", async (req, res) => {
 
@@ -305,7 +306,7 @@ app.post("/api/insertMovie", async (req, res) => {
                                                 movie_banner=?,
                                                 movie_image=?,
                                                 movie_description=?`;
-    db.query(sqlInsert, [movieName, movieLanguage, movieGenre, movieTrailerLink, movieReleaseDate, movieHours, movieBanner,movieImage,movieDescription], (err, result) => {
+    db.query(sqlInsert, [movieName, movieLanguage, movieGenre, movieTrailerLink, movieReleaseDate, movieHours, movieBanner, movieImage, movieDescription], (err, result) => {
         if (err)
             console.log(err.message);
         else if (result) {
@@ -338,7 +339,7 @@ app.post("/api/updateMovie", async (req, res) => {
                                                 movie_banner=?,
                                                 movie_image=?,
                                                 movie_description=? WHERE id=?`;
-    db.query(sqlUpdate, [movieName, movieLanguage, movieGenre, movieTrailerLink, movieReleaseDate, movieHours, movieBanner,movieImage,movieDescription,id], (err, result) => {
+    db.query(sqlUpdate, [movieName, movieLanguage, movieGenre, movieTrailerLink, movieReleaseDate, movieHours, movieBanner, movieImage, movieDescription, id], (err, result) => {
         if (err)
             console.log(err.message);
         else if (result) {
@@ -355,13 +356,185 @@ app.delete("/api/deleteMovie/:id", async (req, res) => {
     db.query(sqlDelete, id, (err, result) => {
         if (err)
             console.log(err);
-        else if(result) {
-            res.send({message :"Movie Deleted Successfully"})
+        else if (result) {
+            res.send({ message: "Movie Deleted Successfully" })
         }
     });
 
 })
 
+
+
+//Screen
+
+app.post("/api/insertShow", async (req, res) => {
+    let movieId = req.body.movieId;
+    let showstartTime = req.body.showStartTime;
+    let showEndtime = req.body.showEndtime;
+    let privateScreen = req.body.privateScreen;
+    let screenNo = req.body.screenNo;
+
+    console.log(showstartTime,showEndtime)
+    var sqlInsert = `INSERT INTO screen SET screen_movie_id=?,
+            screen_show_start_time=?,
+            screen_show_end_time=?,
+            private_screen_booking=?,
+            screen_no=?`;
+    db.query(sqlInsert, [movieId, showstartTime, showEndtime, privateScreen, screenNo], (err, result) => {
+        if (err)
+            console.log(err.message);
+        else if (result) {
+            res.send({ success: "Show is successfully Added" })
+        }
+    })
+})
+
+app.get("/api/getShows", async (req, res) => {
+    let screenNo = req.body.screenNo;
+    //console.log(screenNo)
+    var sqlSelect = `SELECT * FROM screen`;
+    db.query(sqlSelect, screenNo, (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        else if (result) {
+            res.send({ shows: result })
+        }
+    })
+})
+
+app.delete("/api/deleteShow/:id", async (req, res) => {
+    let id = req.params.id;
+
+    var sqlDelete = "DELETE FROM screen WHERE id=?";
+    db.query(sqlDelete, id, (err, result) => {
+        if (err)
+            console.log(err);
+        else {
+           res.send({message:"Successfully deleted a Show"})
+        }
+    });
+
+})
+
+
+app.post("/api/updateShow", async (req, res) => {
+    let id = req.body.showid;
+    let movieId = req.body.movieId;
+    let showstartTime = req.body.showStartTime;
+    let showEndtime = req.body.showEndtime;
+    let privateScreen = req.body.privateScreen;
+    let screenNo = req.body.screenNo;
+
+    var sqlUpdate = `UPDATE screen SET screen_movie_id=?,
+                                    screen_show_start_time=?,
+                                    screen_show_end_time=?,
+                                    private_screen_booking=?,
+                                    screen_no=? WHERE id=?`;
+    db.query(sqlUpdate, [movieId, showstartTime, showEndtime, privateScreen, screenNo, id], (err, result) => {
+        if (err)
+            console.log(err.message);
+        else if (result) {
+            res.send({ message: "Movie is successfully updated" })
+        }
+    })
+})
+
+//Seats
+app.get("/api/getSeats", async (req, res) => {
+    var sqlSelect = `SELECT * FROM seat`;
+    db.query(sqlSelect, (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        else if (result.length >0) {
+            res.send({ seats: result })
+        }
+    })
+})
+
+
+
+//Snack
+
+app.get("/api/getSnack", async (req, res) => {
+    var sqlGet = 'SELECT * FROM snack';
+    db.query(sqlGet,(err,result)=>{
+        if(err){
+            console.log(err)
+        }
+        else{
+            res.send({snacks:result})
+        }
+    })
+})
+
+app.post("/api/insertSnack", async (req, res) => {
+
+    let snackAmount = req.body.snackAmount;
+    let snackType = req.body.snackType;
+    let snackDescription = req.body.snackDescription;
+    let snackOffer = req.body.snackOffer;
+    let snackImage = req.body.snackImage;
+
+
+    //console.log(movieName, movieLanguage, movieGenre, movieTrailerLink, movieReleaseDate, movieHours, movieBanner);
+
+    var sqlInsert = `INSERT INTO snack SET snack_amount=?,
+                                                snack_type=?,
+                                                snack_description=?,
+                                                snack_offer=?,
+                                                snack_image=?`;
+    db.query(sqlInsert, [snackAmount, snackType, snackDescription, snackOffer, snackImage], (err, result) => {
+        if (err)
+            console.log(err.message);
+        else if (result) {
+            res.send({ message: "snack is successfully inserted" })
+        }
+    })
+})
+
+
+app.post("/api/updateSnack", async (req, res) => {
+    let id = req.body.snackId;
+
+    let snackAmount = req.body.snackAmount;
+    let snackType = req.body.snackType;
+    let snackDescription = req.body.snackDescription;
+    let snackOffer = req.body.snackOffer;
+    let snackImage = req.body.snackImage;
+ 
+
+    //console.log(movieName, movieLanguage, movieGenre, movieTrailerLink, movieReleaseDate, movieHours, movieBanner);
+
+    var sqlUpdate = `UPDATE snack SET snack_amount=?,
+                                                snack_type=?,
+                                                snack_description=?,
+                                                snack_offer=?,
+                                                snack_image=? WHERE id=?`;
+    db.query(sqlUpdate, [snackAmount, snackType, snackDescription, snackOffer, snackImage,id], (err, result) => {
+        if (err)
+            console.log(err.message);
+        else if (result) {
+            res.send({ message: "snack is successfully updated" })
+        }
+    })
+})
+
+
+app.delete("/api/deleteSnack/:id", async (req, res) => {
+    let id = req.params.id;
+
+    var sqlDelete = "DELETE FROM snack WHERE id=?";
+    db.query(sqlDelete, id, (err, result) => {
+        if (err)
+            console.log(err);
+        else if(result) {
+            res.send({message :"snack Deleted Successfully"})
+        }
+    });
+
+})
 
 
 app.listen(port, function (err) {

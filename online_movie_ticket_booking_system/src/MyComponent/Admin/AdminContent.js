@@ -5,7 +5,7 @@ import Role from './Role';
 import Screen from './Screen';
 import { useState, useEffect } from 'react';
 import Movie from '../Movie/Movie.js'
-import Snacks from './Snacks';
+import Snacks from '../Snacks/Snack';
 
 export default function AdminContent(props) {
 
@@ -22,6 +22,7 @@ export default function AdminContent(props) {
                 setMovie(false);
                 setRole(false);
                 setScreen(false);
+                setSnacks(false)
                 setProfile(true);
             }
         }

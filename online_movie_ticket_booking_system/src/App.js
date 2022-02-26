@@ -3,6 +3,7 @@ import Admin from './MyComponent/Admin/Admin.js';
 import Register from './MyComponent/Auth/register';
 import Login from './MyComponent/Auth/Login';
 import Home from './MyComponent/Customer/Home';
+import Pscreen from './MyComponent/PraivateScreen/PScreen';
 import {
   BrowserRouter as Router,
   Routes,
@@ -24,6 +25,8 @@ function App() {
           <Route exact path="/register"  element={<Register />}>
           </Route>
           <Route exact path="/login"  element={<Login />}>
+          </Route>
+          <Route exact path="/pscreen"  element={<Pscreen />}>
           </Route>
         </Routes>
       </Router>

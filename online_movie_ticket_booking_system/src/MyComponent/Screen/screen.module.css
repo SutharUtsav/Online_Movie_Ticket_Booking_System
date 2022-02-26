@@ -1,0 +1,22 @@
+.addshowbutton{
+    color: white;
+    background-color: darkcyan;
+    font-weight: 500;
+    height: 50px;
+    width: 15%;
+    margin-left: 55%;
+}
+.seatingButton{
+    color: white;
+    background-color: steelblue;
+    font-weight: 500;
+    height: 50px;
+    width: 15%;
+    margin-left: 2px;
+}
+.close_btn{
+    position: sticky;
+    left:62%;
+    border: none;
+}
+

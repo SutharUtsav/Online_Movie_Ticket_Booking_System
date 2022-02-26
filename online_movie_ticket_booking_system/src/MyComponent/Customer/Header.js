@@ -43,9 +43,9 @@ export default function Header(props) {
   return (
     <div className={styles.navbar}>
       <nav className={styles.navbar}>
-        <img src='/movie_logo.png' alt="movie-logo" style={{height:"inherit"}}></img>
+        <img src='/movie_logo.png' alt="movie-logo" width="200px"></img>
     
-        <form className="d-flex px-2" style={{marginLeft:"13vw",width:"39vw"}}>
+        <form className="d-flex px-2" style={{marginLeft:"18vw",width:"39vw"}}>
           <input className="form-control me-2 w-12" type="search" placeholder="Search" aria-label="Search" />
           <button className="btn btn-outline-success" type="submit">Search</button>
         </form>

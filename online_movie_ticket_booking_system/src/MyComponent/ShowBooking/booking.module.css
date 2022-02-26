@@ -1,0 +1,151 @@
+.container_view {
+    max-width: 860px;
+    height: 500px;
+    margin: 100px auto 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.container_detail{
+    width:77vw;
+    margin: 5pc 14%;
+    height: 100%;
+}
+.back_btn{
+    position: sticky;
+    border-radius: 30px;
+    background-color: white;
+    margin: 17px;
+    border: none;
+}
+
+.showcase .seat:not(.occupied):hover {
+    cursor: default;
+    transform: scale(1);
+}
+  
+.showcase {
+    padding: 5px 10px;
+    border-radius: 5px;
+    list-style-type: none;
+    display: flex;
+    justify-content: space-evenly;
+}
+  
+.showcase li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 10px;
+}
+  
+.showcase li small {
+    margin-left: 10px;
+}
+ 
+.container {
+    perspective: 1000px;
+    margin-bottom: 30px;
+    margin-left: 19%;
+  }
+  
+.seat {
+    background-color: #444451;
+    height: 2pc;
+    width: 3pc;
+    margin: 1pc;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  
+.seat_selected {
+    background-color: rgb(45, 141, 206);
+    height: 2pc;
+    width: 3pc;
+    margin: 1pc;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.seat_selected .tooltiptext{
+  visibility: hidden;
+    height: inherit;
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+  
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.seat_selected:hover .tooltiptext {
+  visibility: visible;
+  margin-left: 2pc;
+  margin-top: 20px;
+  cursor: pointer;
+  transform: scale(1.2);
+}
+  
+  .seat_occupied {
+    background-color: rgb(36, 158, 25);
+    height: 2pc;
+    width: 3pc;
+    margin: 1pc;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  .seat .tooltiptext{
+    visibility: hidden;
+    height: inherit;
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+  
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+  }
+
+  .seat:hover .tooltiptext {
+    visibility: visible;
+    margin-left: 2pc;
+    margin-top: 25px;
+    cursor: pointer;
+    transform: scale(1.2);
+  }
+
+  .seat:nth-of-type(2) {
+    margin-right: 18px;
+  }
+  
+  .seat:nth-last-of-type(2) {
+    margin-left: 18px;
+  }
+    
+  .row {
+    display: flex;
+  }
+  
+  .screen {
+    background-color: #fff;
+    height: 70px;
+    width: 100%;
+    margin: 15px 0;
+    transform: rotateX(-45deg);
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.75);
+  }
+  
+  p.text {
+    margin: 2pc 2pc;
+  }
+  
+  p.text span {
+    color: #6feaf6;
+  }
