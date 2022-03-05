@@ -24,26 +24,21 @@ DROP TABLE IF EXISTS `booking`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `booking` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `booking_movie_id` int DEFAULT NULL,
-  `booking_screen_id` int DEFAULT NULL,
-  `booking_user_id` int DEFAULT NULL,
-  `booking_seat_id` int DEFAULT NULL,
-  `booking_date` date NOT NULL,
-  `booking_snack_id` int DEFAULT NULL,
+  `booking_movie_id` int NOT NULL,
+  `booking_screen_id` int NOT NULL,
+  `booking_user_id` int NOT NULL,
+  `booking_date` varchar(45) NOT NULL,
+  `booking_snacks` varchar(100) DEFAULT NULL,
   `booking_price` double NOT NULL,
   `booking_payment_status` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `booking_movie_id_UNIQUE` (`booking_movie_id`),
   KEY `booking_screen_id_idx` (`booking_screen_id`),
   KEY `booking_user_id_idx` (`booking_user_id`),
-  KEY `booking_seat_id_idx` (`booking_seat_id`),
-  KEY `booking_snack_id_idx` (`booking_snack_id`),
+  KEY `booking_movie_id_idx` (`booking_movie_id`),
   CONSTRAINT `booking_movie_id` FOREIGN KEY (`booking_movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `booking_screen_id` FOREIGN KEY (`booking_screen_id`) REFERENCES `screen` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
-  CONSTRAINT `booking_seat_id` FOREIGN KEY (`booking_seat_id`) REFERENCES `seat` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
-  CONSTRAINT `booking_snack_id` FOREIGN KEY (`booking_snack_id`) REFERENCES `snack` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
-  CONSTRAINT `booking_user_id` FOREIGN KEY (`booking_user_id`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `booking_screen_id` FOREIGN KEY (`booking_screen_id`) REFERENCES `screen` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `booking_user_id` FOREIGN KEY (`booking_user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -52,6 +47,7 @@ CREATE TABLE `booking` (
 
 LOCK TABLES `booking` WRITE;
 /*!40000 ALTER TABLE `booking` DISABLE KEYS */;
+INSERT INTO `booking` VALUES (20,3,34,15,'1646420412929','',360,'1'),(21,7,33,15,'1646420811253','popcorn + pepsi,',899,'1'),(22,7,33,23,'1646421374123','popcorn-large,popcorn-large,popcorn,',1457,'1');
 /*!40000 ALTER TABLE `booking` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -248,7 +244,7 @@ CREATE TABLE `screen` (
   PRIMARY KEY (`id`),
   KEY `screen_movie_id` (`screen_movie_id`),
   CONSTRAINT `screen_movie_id_fk` FOREIGN KEY (`screen_movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -257,7 +253,7 @@ CREATE TABLE `screen` (
 
 LOCK TABLES `screen` WRITE;
 /*!40000 ALTER TABLE `screen` DISABLE KEYS */;
-INSERT INTO `screen` VALUES (15,3,'1647067219483',0,2,'1644657919483'),(16,3,'1647080142701',0,3,'1644670842701'),(17,3,'1647068406709',0,1,'1644745506709'),(18,7,'1647094509194',0,2,'1644771609194');
+INSERT INTO `screen` VALUES (30,3,'1646406015563',0,1,'1646416800000'),(31,7,'1646473545263',0,2,'1646484000000'),(32,7,'1646491526096',0,3,'1646503200000'),(33,7,'1646541012101',0,1,'1646551500000'),(34,3,'1646559950756',0,1,'1646569800000'),(35,3,'1646486137472',0,2,'1646496000000'),(36,7,'1646631959265',0,3,'1646642400000');
 /*!40000 ALTER TABLE `screen` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -273,11 +269,13 @@ CREATE TABLE `seat` (
   `seat_price` double NOT NULL,
   `seat_show_id` int NOT NULL,
   `seat_type` varchar(45) NOT NULL,
-  `seat_status` varchar(45) NOT NULL,
+  `seat_booking_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `seat_screen_id_idx` (`seat_show_id`),
+  KEY `seat_booking_id_idx` (`seat_booking_id`),
+  CONSTRAINT `seat_booking_id` FOREIGN KEY (`seat_booking_id`) REFERENCES `booking` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `seat_screen_id` FOREIGN KEY (`seat_show_id`) REFERENCES `screen` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=153 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -286,6 +284,7 @@ CREATE TABLE `seat` (
 
 LOCK TABLES `seat` WRITE;
 /*!40000 ALTER TABLE `seat` DISABLE KEYS */;
+INSERT INTO `seat` VALUES (147,180,34,'B2',20),(148,180,34,'B3',20),(149,150,33,'C6',21),(150,150,33,'C5',21),(151,180,33,'B3',22),(152,180,33,'B2',22);
 /*!40000 ALTER TABLE `seat` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -313,7 +312,7 @@ CREATE TABLE `snack` (
 
 LOCK TABLES `snack` WRITE;
 /*!40000 ALTER TABLE `snack` DISABLE KEYS */;
-INSERT INTO `snack` VALUES (1,299,'popcorn','salty popcorn','-','popcorn_small.jpg'),(2,399,'popcorn-large','large salty popcorn','-','popcorn_large.jpg'),(3,599,'popcorn + coca pepsi','combo of popcorn and coke','combo','combo.jpg');
+INSERT INTO `snack` VALUES (1,299,'popcorn','salty popcorn','-','popcorn_small.jpg'),(2,399,'popcorn-large','large salty popcorn','-','popcorn_large.jpg'),(3,599,'popcorn + pepsi','combo of popcorn and coke','combo','combo.jpg');
 /*!40000 ALTER TABLE `snack` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -343,7 +342,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (15,'utsav',11,'7069052544','utsavsuthar24@gmail.com','$2b$10$ZgF5/m9yNRzXlSR3t4.ahuGCqmsNYoA.eBBHwUgDzYhKIugqJHkeO'),(18,'Admin',10,'0000000000','admin@gmail.com','$2b$10$/I6OT69z4B8focjD1Bwxdu0b6gbpV///K9JUQ.hJf00EwygI.BVaK'),(23,'rahil',11,'7069052542','rahil@gmail.com','$2b$10$0jwyqWpPu.q8HVCy4fjJUOqelvYFUXAGbtPUqB/MS.PbJozFYBduK'),(29,'admin1',10,'0000000001','admin@admin.com','admin');
+INSERT INTO `user` VALUES (15,'utsav',11,'7069052544','utsavsuthar24@gmail.com','$2b$10$mKhCw.HPX5c77UKjKyTU6.Yy64Ne1uFK2gRKyh91TLi7mAqwkJTRu'),(18,'Admin',10,'0000000000','admin@gmail.com','$2b$10$/I6OT69z4B8focjD1Bwxdu0b6gbpV///K9JUQ.hJf00EwygI.BVaK'),(23,'rahil',11,'7069052542','rahil@gmail.com','$2b$10$0jwyqWpPu.q8HVCy4fjJUOqelvYFUXAGbtPUqB/MS.PbJozFYBduK'),(29,'admin1',10,'0000000001','admin@admin.com','admin');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -356,4 +355,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-26  8:45:47
+-- Dump completed on 2022-03-05  8:35:38

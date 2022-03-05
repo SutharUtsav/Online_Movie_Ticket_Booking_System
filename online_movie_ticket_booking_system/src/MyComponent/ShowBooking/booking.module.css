@@ -149,3 +149,187 @@
   p.text span {
     color: #6feaf6;
   }
+
+  .screen {
+    background-color: #fff;
+    height: 11pc;
+    width: 80%;
+    margin: 15px 0;
+    transform: rotateX(72deg);
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.75);
+  }
+
+ .count {
+    color: #000;
+    width: 5pc;
+    display: inline-block;
+    vertical-align: top;
+    line-height: 30px;
+    padding: 0 2px;
+    text-align: center;
+}
+ .plus {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+    color: black;
+    width: 30px;
+    height: 34px;
+    font: 30px/1 Arial,sans-serif;
+    text-align: center;
+    border-radius: 50%;
+    margin-left: 3px;
+    }
+ .minus {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+    color: black;
+    width: 30px;
+    height: 34px;
+    font: 30px/1 Arial,sans-serif;
+    text-align: center;
+    border-radius: 50%;
+    background-clip: padding-box;
+    margin-right: 3px
+}
+.minus:hover{
+  background-color: #000 !important;
+  color:#fff
+}
+.plus:hover{
+  background-color: #000 !important;
+  color:#fff
+}
+
+.cardWrap {
+  width: 39em;
+  margin: 3em auto;
+  color: #fff;
+  font-family: sans-serif;
+}
+/* 
+.card {
+  background: linear-gradient(to bottom, red 0%, red 26%, grey 26%, grey 100%);
+  height: 20rem;
+  float: left;
+  position: relative;
+  padding: 1em;
+  margin-top: 100px;
+} */
+
+.cardLeft {
+  background-image: linear-gradient(135deg, rgba(159, 159, 159, 0.46) 0%, rgba(159, 159, 159, 0.46) 14.286%,rgba(165, 165, 165, 0.46) 14.286%, rgba(165, 165, 165, 0.46) 28.572%,rgba(171, 171, 171, 0.46) 28.572%, rgba(171, 171, 171, 0.46) 42.858%,rgba(178, 178, 178, 0.46) 42.858%, rgba(178, 178, 178, 0.46) 57.144%,rgba(184, 184, 184, 0.46) 57.144%, rgba(184, 184, 184, 0.46) 71.43%,rgba(190, 190, 190, 0.46) 71.43%, rgba(190, 190, 190, 0.46) 85.716%,rgba(196, 196, 196, 0.46) 85.716%, rgba(196, 196, 196, 0.46) 100.002%),linear-gradient(45deg, rgb(252, 252, 252) 0%, rgb(252, 252, 252) 14.286%,rgb(246, 246, 246) 14.286%, rgb(246, 246, 246) 28.572%,rgb(241, 241, 241) 28.572%, rgb(241, 241, 241) 42.858%,rgb(235, 235, 235) 42.858%, rgb(235, 235, 235) 57.144%,rgb(229, 229, 229) 57.144%, rgb(229, 229, 229) 71.43%,rgb(224, 224, 224) 71.43%, rgb(224, 224, 224) 85.716%,rgb(218, 218, 218) 85.716%, rgb(218, 218, 218) 100.002%);
+  float: left;
+  position: relative;
+  padding: 1em;
+  margin-top: 100px;
+  border-radius: 8px;
+  width: 40em;
+}
+
+.cardWrap {
+  font-size: 1.1em;
+  margin-top: 0; 
+}
+.cardWrap{
+  font-weight: normal;
+}
+.ticket_title, .ticket_name, .ticket_seat, .ticket_time,.ticket_snack,.amount {
+  text-transform: uppercase;
+  font-weight: normal;
+}
+
+.ticket_title, .ticket_name, .ticket_seat, .ticket_time,.ticket_snack,.amount{
+    font-size: 1.2em;
+    color: #000;
+}
+
+.ticket_title span, .ticket_name span, .ticket_seat span, .ticket_time span,.ticket_snack span,.amount span{
+  font-size: 1em;
+  color: rgb(65, 58, 58); 
+}
+.amount{
+  margin: -4em 4em 5px 1em;
+  color: #000;
+  float: right;
+}
+.ticket_title {
+  margin: 7.8% 0 0 0;
+  color: #000;
+}
+
+.ticket_name, .ticket_seat{
+  margin: .9em 0 0 0;
+  color: #000;
+}
+
+.ticket_time {
+  margin: 0em 0 0 3em;
+  color: #000;
+}
+
+.ticket_snack {
+  margin: 1em 0 0 15em;
+  color: #000;
+}
+.ticket_seat, .ticket_time {
+  float: left;
+  color: #000;
+}
+
+.eye {
+  position: relative;
+  width: 2em;
+  height: 1.5em;
+  background: #fff;
+  margin: 0 auto;
+  border-radius: 1em/0.6em;
+  z-index: 1;
+}
+
+.number {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.number{
+  color: red;
+  margin: .9em 0 0 0;
+  font-size: 2.5em;
+}
+
+.number span {
+  display: block;
+  color: #a2aeae;
+}
+
+/* .barcode {
+  height: 2em;
+  width: 0;
+  margin: 13.2em 0 0 .3em;
+  box-shadow: 1px 0 0 1px black,
+  5px 0 0 1px black,
+  10px 0 0 1px black,
+  11px 0 0 1px black,
+  15px 0 0 1px black,
+  18px 0 0 1px black,
+  22px 0 0 1px black,
+  23px 0 0 1px black,
+  26px 0 0 1px black,
+  30px 0 0 1px black,
+  35px 0 0 1px black,
+  37px 0 0 1px black,
+  41px 0 0 1px black,
+  44px 0 0 1px black,
+  47px 0 0 1px black,
+  51px 0 0 1px black,
+  56px 0 0 1px black,
+  59px 0 0 1px black,
+  64px 0 0 1px black,
+  68px 0 0 1px black,
+  72px 0 0 1px black,
+  74px 0 0 1px black,
+  77px 0 0 1px black,
+  81px 0 0 1px black;
+} */

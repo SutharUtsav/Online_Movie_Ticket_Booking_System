@@ -5,13 +5,14 @@ import axios from 'axios';
 const ListShows = (props) => {
     let x = 0;
 
-    const [showId,setShowId]=useState(0);
+    const [showId, setShowId] = useState(0);
     const [isUpdateShow, setIsUpdateShow] = useState(false);
-    const [showStartTime,setshowStartTime]=useState("")
+    const [showStartTime, setshowStartTime] = useState("")
+    const [showDate, setShowDate] = useState("")
     const [selectedMovieID, setSelectedMovieID] = useState(0);
     const [seletedMovieHours, setSelectedMovieHours] = useState("");
 
-    
+
     function deleteShow(e) {
         try {
             //console.log(e.target.value)
@@ -22,7 +23,7 @@ const ListShows = (props) => {
         }
     }
 
-    function editshow(e){
+    function editshow(e) {
         e.preventDefault();
         //console.log(showStartTime, selectedScreen)
         const start_time = new Date();
@@ -30,84 +31,75 @@ const ListShows = (props) => {
         // console.log(showTime.substring(0, 2))
         // console.log(showTime.substring(3, 5))
         start_time.setMinutes(showStartTime.substring(3, 5))
-        start_time.setFullYear(2022);
-        start_time.setDate(12);
-        start_time.setMonth(2);
+        start_time.setFullYear(showDate.substring(0, 4));
+        start_time.setDate(showDate.substring(8, 10));
+        start_time.setMonth(parseInt(showDate.substring(5, 7)) - 1);
 
-        console.log(seletedMovieHours)
-        const movie_hours = new Date();
-        movie_hours.setHours(seletedMovieHours.substring(0, 2))
-        // console.log(showTime.substring(0, 2))
-        // console.log(showTime.substring(3, 5))
-        movie_hours.setMinutes(seletedMovieHours.substring(3, 5))
-        movie_hours.setFullYear(2022);
-        movie_hours.setDate(12);
-        movie_hours.setMonth(2);
-
-        const end_time = new Date()
-        end_time.setHours(movie_hours.getHours() + start_time.getHours())
-        end_time.setMinutes(movie_hours.getMinutes() + start_time.getMinutes())
-
-        if (end_time.getDate() === 24) {
-            end_time.setDate(12)
+        const today = new Date()
+        if (start_time.getTime() < today.getTime()) {
+            alert("Please set upcomming shows")
         }
         else {
-            end_time.setDate(13)
-        }
-        // end_time.setFullYear(2022);
-        // end_time.setDate();
-        // end_time.setMonth(2);
+            //console.log(seletedMovieHours)
+            const movie_hours = new Date();
+            movie_hours.setHours(seletedMovieHours.substring(0, 2))
+            // console.log(showTime.substring(0, 2))
+            // console.log(showTime.substring(3, 5))
+            movie_hours.setMinutes(seletedMovieHours.substring(3, 5))
+            movie_hours.setFullYear(1970);
+            movie_hours.setDate(1);
+            movie_hours.setMonth(0);
 
-        // end_time.setTime(movie_hours.getTime() + start_time.getTime());
+            const end_time = new Date()
+            end_time.setTime(start_time.getTime() - movie_hours.getTime())
 
-        console.log(start_time)
-        console.log(movie_hours)
-        console.log(end_time)
 
-        var status = true;
-        props.shows.forEach((show) => {
-            console.log(show)
-            if (show.screen_no === props.screenNo) {
-                const st = new Date();
-                st.setTime(show.screen_show_start_time)
-                const et = new Date();
-                et.setTime(show.screen_show_end_time);
-                // console.log(st.getHours())
-                // console.log(et.getHours())
-                if ((start_time.getHours() <= st.getHours() & end_time.getHours() >= st.getHours()) |
-                    (st.getHours() < start_time.getHours() & et.getHours() > start_time.getHours())) {
-                    alert("This slot is already allocated")
-                    status = false;
-                }
-                else if (start_time.getHours() === et.getHours()) {
-                    if (start_time.getMinutes() < et.getMinutes()) {
+
+            var status = true;
+            props.shows.forEach((show) => {
+                console.log(show)
+                if (show.screen_no === props.screenNo) {
+                    const st = new Date();
+                    st.setTime(show.screen_show_start_time)
+                    const et = new Date();
+                    et.setTime(show.screen_show_end_time);
+
+                    if (start_time.getTime() < st.getTime()) {
+                        if (end_time.getTime() > st.getTime() & end_time.getTime() < et.getTime()) {
+                            alert("This slot is already allocated")
+                            status = false;
+                        }
+                    }
+                    else if (start_time.getTime() > st.getTime() & start_time.getTime() < et.getTime()) {
                         alert("This slot is already allocated")
                         status = false;
                     }
                 }
-            }
-        })
-        if (status) {
-            console.log("axios")
-            try {
-                axios.post('http://localhost:3001/api/updateShow', {
-                    showid:showId,
-                    movieId: selectedMovieID,
-                    showStartTime: start_time.getTime(),
-                    showEndtime: end_time.getTime(),
-                    privateScreen: false,
-                    screenNo: props.screenNo,
-                }).then((response) => {
-                    if (response.data.message) {
-                        alert(response.data.message)
-                        setIsUpdateShow(false);
-                    }
-                });
-            }
-            catch (error) {
-                console.log(error)
+            })
+            if (status) {
+                // console.log("axios")
+                try {
+                    axios.post('http://localhost:3001/api/updateShow', {
+                        showid: showId,
+                        movieId: selectedMovieID,
+                        showStartTime: start_time.getTime(),
+                        showEndtime: end_time.getTime(),
+                        privateScreen: false,
+                        screenNo: props.screenNo,
+                    }).then((response) => {
+                        if (response.data.message) {
+                            alert(response.data.message)
+                            setIsUpdateShow(false);
+                        }
+                    });
+                }
+                catch (error) {
+                    console.log(error)
+                }
             }
         }
+
+
     }
 
     function displayShows(show) {
@@ -128,19 +120,35 @@ const ListShows = (props) => {
                 <>
                     <td>{++x} </td>
                     <td>{movie_name}</td>
-                    <td>{start_time.getHours()}:{start_time.getMinutes()}</td>
-                    <td>{end_time.getHours()}:{end_time.getMinutes()}</td>
+                    <td>{(start_time.getHours() >= 0 && start_time.getHours() <= 9) ?
+                        "0" + start_time.getHours() : start_time.getHours()}
+                        :{(start_time.getMinutes() >= 0 && start_time.getMinutes() <= 9) ?
+                            "0" + start_time.getMinutes() : start_time.getMinutes()}</td>
+                    <td>{(end_time.getHours() >= 0 && end_time.getHours() <= 9) ?
+                        "0" + end_time.getHours() : end_time.getHours()}
+                        :{(end_time.getMinutes() >= 0 && end_time.getMinutes() <= 9) ?
+                            "0" + end_time.getMinutes() : end_time.getMinutes()}</td>
+                    <td>{(start_time.getDate() >= 0 & start_time.getDate() <= 9) ?
+                        "0" + start_time.getDate() : start_time.getDate()}
+                        /{(parseInt(start_time.getMonth()) + 1) ?
+                            "0" + (parseInt(start_time.getMonth()) + 1) : parseInt(start_time.getMonth()) + 1}
+                        /{start_time.getFullYear()}</td>
                     <td>
                         <div style={{ display: "inline" }}>
                             <button value={show.id} className="btn btn-danger" onClick={deleteShow} >Remove</button>
                             <button value={show.id} className="btn btn-primary mx-2 col-4" onClick={() => {
                                 const d = new Date()
                                 d.setTime(show.screen_show_start_time);
-                                if(d.getHours() < 10){
-                                    setshowStartTime("0"+d.getHours()+":"+d.getMinutes());
+
+                                var month = (parseInt(d.getMonth()) + 1 > 0 & parseInt(d.getMonth() + 1) < 9) ? ("0" + parseInt(d.getMonth() + 1)) : (parseInt(d.getMonth() + 1))
+                                var date = (parseInt(d.getDate()) > 0 & parseInt(d.getDate()) < 9) ? ("0" + parseInt(d.getDate())) : (parseInt(d.getDate()))
+                                setShowDate(d.getFullYear() + "-" + month + "-" + date)
+                                console.log(showDate)
+                                if (d.getHours() < 10) {
+                                    setshowStartTime("0" + d.getHours() + ":" + d.getMinutes());
                                 }
-                                else{
-                                    setshowStartTime(d.getHours()+":"+d.getMinutes());
+                                else {
+                                    setshowStartTime(d.getHours() + ":" + d.getMinutes());
                                 }
                                 setShowId(show.id);
                                 setIsUpdateShow(!isUpdateShow);
@@ -151,13 +159,14 @@ const ListShows = (props) => {
                                 diff.setHours(e.getHours() - d.getHours())
                                 diff.setMinutes(e.getMinutes() - d.getMinutes())
                                 //console.log("diff",diff)
-                                if(diff.getHours() < 10){
-                                    setSelectedMovieHours("0"+diff.getHours()+":"+d.getMinutes());
+                                if (diff.getHours() < 10) {
+                                    setSelectedMovieHours("0" + diff.getHours() + ":" + d.getMinutes());
                                 }
-                                else{
-                                    setSelectedMovieHours(diff.getHours()+":"+diff.getMinutes())
+                                else {
+                                    setSelectedMovieHours(diff.getHours() + ":" + diff.getMinutes())
                                 }
-                                
+
+
                             }} >Edit</button>
                         </div>
                     </td>
@@ -169,7 +178,7 @@ const ListShows = (props) => {
 
     function getmovielist(movie) {
         const today = new Date();
-        today.setMonth(today.getMonth()+1)
+        today.setMonth(today.getMonth() + 1)
         const releaseDate = new Date();
         releaseDate.setFullYear(movie.movie_release_date.substring(0, 4))
         releaseDate.setMonth(movie.movie_release_date.substring(5, 7))
@@ -177,7 +186,7 @@ const ListShows = (props) => {
         if (releaseDate.getTime() <= today.getTime()) {
             return (
                 <>
-                    <input className='form-check-input mx-2 mb-2 ' type="radio" checked={selectedMovieID===movie.id ? true:false} name="radioNoLabel" id="radioNoLabel1" value={movie.id} onChange={(e) => { setSelectedMovieID(e.target.value); setSelectedMovieHours(movie.movie_hours) }} required/>{movie.movie_name}
+                    <input className='form-check-input mx-2 mb-2 ' type="radio" checked={selectedMovieID === movie.id ? true : false} name="radioNoLabel" id="radioNoLabel1" value={movie.id} onChange={(e) => { setSelectedMovieID(e.target.value); setSelectedMovieHours(movie.movie_hours) }} required />{movie.movie_name}
                 </>
             )
         }
@@ -195,6 +204,7 @@ const ListShows = (props) => {
                         <th>Movie Name</th>
                         <th>Show Starting Time</th>
                         <th>Show Ending Time</th>
+                        <th>Show Date</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -210,15 +220,22 @@ const ListShows = (props) => {
             <div className="container" >
                 <div className="row py-5 mt-4 align-items-center" >
                     <div className="col-md-7 col-lg-6 ml-auto">
-                    <button className={styles.close_btn} onClick={() => { setIsUpdateShow(false) }}><i className="fa fa-close" style={{ fontSize: "24px" }}></i></button>
+                        <button className={styles.close_btn} onClick={() => { setIsUpdateShow(false) }}><i className="fa fa-close" style={{ fontSize: "24px" }}></i></button>
 
-                            
+
                         <p>Screen {props.screenNo}</p>
                         <form onSubmit={editshow}>
                             <div className="row">
-                        
+
                                 <div className="input-group col-lg-8 mb-4 form-floating" style={{ padding: "0px" }}>
-                                    <input id="showStartTime" type="time" name="showStartTime" placeholder="Enter Show Time" className="form-control bg-white border-left-0 border-md"  value={showStartTime}  onChange={(e) => {
+                                    <input id="showStartTime" type="date" name="showStartTime" placeholder="Enter Show Time" className="form-control bg-white border-left-0 border-md" value={showDate} onChange={(e) => {
+                                        setShowDate(e.target.value);
+                                    }} required />
+                                    <label htmlFor="showStartTime" style={{ color: "black", marginLeft: "14px", marginTop: "-5px", opacity: "0.75", fontSize: "larger" }}>Enter Show Date</label>
+                                </div>
+
+                                <div className="input-group col-lg-8 mb-4 form-floating" style={{ padding: "0px" }}>
+                                    <input id="showStartTime" type="time" name="showStartTime" placeholder="Enter Show Time" className="form-control bg-white border-left-0 border-md" value={showStartTime} onChange={(e) => {
                                         setshowStartTime(e.target.value);
                                     }} required />
                                     <label htmlFor="showStartTime" style={{ color: "black", marginLeft: "14px", marginTop: "-5px", opacity: "0.75", fontSize: "larger" }}>Enter Show Time</label>

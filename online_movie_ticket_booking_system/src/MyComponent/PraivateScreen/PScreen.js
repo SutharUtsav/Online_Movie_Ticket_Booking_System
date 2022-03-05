@@ -2,14 +2,6 @@ import React from 'react'
 import styles from './Pscreen.module.css';
 
 
-// const Pscreen = () => {
-
-//     const navigate = useNavigate();
-
-//     axios.defaults.withCredentials = true; //to work with cookie
-
-// }
-
 export default function Pscreen() {
     return (
         <div className={styles.main}>

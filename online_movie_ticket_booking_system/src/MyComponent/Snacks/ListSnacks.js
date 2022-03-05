@@ -20,7 +20,6 @@ const ListSnacks = (props) => {
         <>
       
         {props.snacks.map((snack,index)=>(
-            
                 <div key={snack.id} className= "justify-content-start m-3" style={{ width:"min-content"}} >
                  <img src={process.env.PUBLIC_URL + "/Snacks/" + snack.snack_image} alt='snack_image' width="300" height="300" />
                     <button className="btn btn-outline-info py-2 font-weight-bold col-5" style={{ marginLeft: "7px", marginTop: "10px" }} onClick={()=>{

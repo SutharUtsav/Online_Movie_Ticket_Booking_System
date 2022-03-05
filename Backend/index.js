@@ -27,6 +27,7 @@ app.use(session({
 
 const bcrypt = require('bcrypt');
 const { response } = require("express");
+const e = require("express");
 const saltRounds = 10;
 
 app.use(express.json());
@@ -191,6 +192,58 @@ app.post("/api/insertCustomer", async (req, res) => {
             })
         }
     })
+})
+
+app.post("/api/updateCustomer", async (req, res) => {
+
+    let userName = req.body.userName;
+    let userPhoneNumber = req.body.userPhoneNumber;
+    let userEmail = req.body.userEmail;
+    let userPassword = req.body.userPassword;
+    let id = req.body.userid;
+    // console.log(userName,userPhoneNumber,userEmail,userPassword);
+    var sqlInsert;
+
+    let admin = "Customer";
+    if (userPassword == "") {
+        sqlInsert = `UPDATE user SET user_name=?
+                                    ,user_role_id = (
+                                        SELECT id FROM role WHERE role_title=? 
+                                    ),
+                                    user_phone_number=?,
+                                    user_email=? WHERE id=?`;
+        db.query(sqlInsert, [userName, admin, userPhoneNumber, userEmail, id], (err, result) => {
+            if (err)
+                console.log(err);
+            else {
+                res.send({ message: "Customer is successfully updated" })
+            }
+        });
+    }
+    else {
+        bcrypt.hash(userPassword, saltRounds, (err, hash) => {
+            if (err) {
+                console.log(err)
+            }
+
+            sqlInsert = `UPDATE user SET user_name=?
+                                        ,user_role_id = (
+                                            SELECT id FROM role WHERE role_title=? 
+                                        ),
+                                        user_phone_number=?,
+                                        user_email=?,
+                                        user_password=? WHERE id=?`;
+            db.query(sqlInsert, [userName, admin, userPhoneNumber, userEmail, hash, id], (err, result) => {
+                if (err)
+                    console.log(err);
+                else {
+                    res.send({ message: "Administrator is successfully updated" })
+                }
+            });
+
+        })
+    }
+
 })
 
 
@@ -453,8 +506,6 @@ app.get("/api/getSeats", async (req, res) => {
     })
 })
 
-
-
 //Snack
 
 app.get("/api/getSnack", async (req, res) => {
@@ -536,6 +587,99 @@ app.delete("/api/deleteSnack/:id", async (req, res) => {
 
 })
 
+//Booking
+app.post("/api/insertBooking", async (req, res) => {
+
+    let movieId = req.body.movieId;
+    let showId = req.body.showId;
+    let userId = req.body.userId;
+    let seats = req.body.seats;
+    let bookingDate = req.body.bookingDate;
+    let snacks = req.body.snacks;
+    let price = req.body.price;
+    let payment_status = true;
+
+    // console.log(movieId)
+    // console.log(showId)
+    // console.log(userId)
+    // console.log(seats)
+    // console.log(bookingDate)
+    // console.log(snacks)
+    // console.log(price)
+
+    var sqlInsert = `INSERT INTO booking SET booking_movie_id=?,
+                                                booking_screen_id=?,
+                                                booking_user_id=?,
+                                                booking_date=?,
+                                                booking_snacks=?,
+                                                booking_price=?,
+                                                booking_payment_status=?`;
+
+    db.query(sqlInsert, [movieId, showId, userId, bookingDate, snacks, price, payment_status], (err, result) => {
+        if (err)
+            console.log(err.message);
+        else if (result) {
+            var sqlGet = `SELECT * FROM booking WHERE booking_movie_id=? AND
+                                                      booking_screen_id=? AND
+                                                      booking_user_id=? AND
+                                                      booking_date=? AND
+                                                      booking_snacks=? AND
+                                                      booking_price=? AND
+                                                      booking_payment_status=?`;
+
+            db.query(sqlGet, [movieId, showId, userId, bookingDate, snacks, price, payment_status], (error, result) =>{
+                if(error){
+                    console.log(error);
+                }
+                else{
+                    var status = true;
+                    seats.forEach((seat)=>{
+                        var insert = `INSERT INTO seat SET seat_price=?,
+                                                            seat_show_id=?,
+                                                            seat_type=?,
+                                                            seat_booking_id=?`;
+                        db.query(insert,[seat.seat_price,showId,seat.seat_type,result[0].id],(err,resp)=>{
+                            if(err){
+                                status=false;
+                                console.log(err)
+                            }
+                        })
+                    })
+                    if(status){
+                        res.send({message:"Succesfully Booked Your Ticket"})
+                    }                   
+                }
+            })
+        }
+    })
+})
+
+//Booking
+app.get("/api/getBooking", async (req, res) => {
+    var sqlGet = 'SELECT * FROM booking';
+    db.query(sqlGet,(err,result)=>{
+        if(err){
+            console.log(err)
+        }
+        else{
+            res.send({booking:result})
+        }
+    })
+})
+
+app.delete("/api/deleteBooking/:id", async (req, res) => {
+    let id = req.params.id;
+
+    var sqlDelete = "DELETE FROM booking WHERE id=?";
+    db.query(sqlDelete, id, (err, result) => {
+        if (err)
+            console.log(err.message);
+        else {
+            res.send({message:"Successfully cancel your booking"})
+        }
+    });
+
+})
 
 app.listen(port, function (err) {
     if (err)

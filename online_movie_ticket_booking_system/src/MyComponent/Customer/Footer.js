@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div style={{bottom:0}}>
+    <div style={{bottom:0,display:"inline-block",width:"100%"}}>
       <div className="d-flex flex-column h-100">
 
 
