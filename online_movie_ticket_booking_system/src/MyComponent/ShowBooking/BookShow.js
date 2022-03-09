@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import styles from './booking.module.css'
 import BookingSeat from './BookingSeat';
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 const BookShow = (props) => {
+    const navigate = useNavigate()
     const [selectedDateIndex, setSelectedDateIndex] = useState(0)
     const sort_show_by_date = []
 
@@ -44,6 +47,7 @@ const BookShow = (props) => {
     const [isShowSelected, setIsShowSelected] = useState(false);
     const [selectedShow, setSelectedShow] = useState({});
 
+    
     var show_count = 0;
     function availableshows(show) {
         if (show.screen_movie_id === props.selectedMovie.id) {
@@ -74,9 +78,24 @@ const BookShow = (props) => {
                 show_count++;
                 return (
                     <>
-                        <button value={show.id} className='py-2 my-1 mx-3 font-weight-bold col-9' style={{ border:"none",borderRadius:"5px",background:"goldenrod" }} onClick={() => {
-                            setSelectedShow(show)
-                            setIsShowSelected(true)
+                        <button value={show.id} className='py-2 my-1 mx-3 font-weight-bold col-9' style={{ border: "none", borderRadius: "5px", background: "goldenrod" }} onClick={() => {
+
+                            axios.get('http://localhost:3001/api/isUserAuth', {
+                                headers: {
+                                    "x-access-tokens": localStorage.getItem('token')
+                                }
+                            }).then((response) => {
+
+                                if (response.data.isLoggedin === true) {
+                                    setSelectedShow(show)
+                                    setIsShowSelected(true)
+                                }
+                                else {
+                                    alert(response.data.message)
+                                    navigate("/Login")
+                                }
+                            })
+                           
                         }}>{(start_time.getHours() >= 0 & start_time.getHours() <= 9) ? ("0" + start_time.getHours()) : (start_time.getHours())}:{(start_time.getMinutes() >= 0 & start_time.getMinutes() <= 9) ? ("0" + start_time.getMinutes()) : (start_time.getMinutes())} -
                             {(end_time.getHours() >= 0 & end_time.getHours() <= 9) ? ("0" + end_time.getHours()) : (end_time.getHours())}:{(start_time.getMinutes() >= 0 & start_time.getMinutes() <= 9) ? ("0" + start_time.getMinutes()) : (start_time.getMinutes())}</button>
                     </>
@@ -107,15 +126,15 @@ const BookShow = (props) => {
                 <p><b>Movie Release Date :</b> {props.selectedMovie.movie_release_date}</p><hr />
                 <p><b>Movie Description :</b> {props.selectedMovie.movie_description}</p>
             </div>
-            
-            <div style={{ marginTop: "8pc", position: "relative", display:"flex", width: "100%"  }}>
+
+            <div style={{ marginTop: "8pc", position: "relative", display: "flex", width: "100%" }}>
                 <div style={{ position: "relative", left: "auto", width: "50%" }}>
                     <h4 className='py-2 px-3 my-0' style={{}}>Select Date :</h4>
                     {(sort_show_by_date.length > 0) ? (
 
                         sort_show_by_date.map((date, index) => (
                             <div key={index}>
-                                <div className={selectedDateIndex === index ? "py-4 font-weight-bold bg-primary" : 'py-3 font-weight-bold'} style={{background:"cornflowerblue",textAlign:"center"}} onClick={() => { setSelectedDateIndex(index) }}>{date}</div>
+                                <div className={selectedDateIndex === index ? "py-4 font-weight-bold bg-primary" : 'py-3 font-weight-bold'} style={{ background: "cornflowerblue", textAlign: "center" }} onClick={() => { setSelectedDateIndex(index) }}>{date}</div>
                             </div>
                         ))
                     ) : <p className='mx-2' style={{ color: "red", padding: "11px 0" }}>NO SHOW AVAILABLE </p>
@@ -125,7 +144,7 @@ const BookShow = (props) => {
                 </div>
 
                 {(sort_show_by_date.length > 0) ? (
-                    
+
                     <div style={{ position: "sticky", left: "50%", width: "50%" }}>
                         <h4 className='py-2 px-4' style={{}}>Select Show :</h4>
                         {
@@ -136,7 +155,7 @@ const BookShow = (props) => {
                             ))
                         }{
                             (show_count === 0) ? (<p className='mx-2' style={{ color: "red", padding: "11px 0" }}>NO SHOW AVAILABLE </p>) : ""
-                            
+
                         }
                     </div>
                 ) : ""}
