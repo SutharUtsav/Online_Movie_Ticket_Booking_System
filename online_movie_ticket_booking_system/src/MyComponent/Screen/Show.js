@@ -26,7 +26,7 @@ const Show = (props) => {
             console.log(error)
         }
 
-    }, [props, shows])
+    }, [props,shows])
 
     function addshow(e) {
         e.preventDefault();

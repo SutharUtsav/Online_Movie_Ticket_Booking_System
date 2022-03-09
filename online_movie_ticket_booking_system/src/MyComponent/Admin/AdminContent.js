@@ -6,20 +6,26 @@ import Screen from './Screen';
 import { useState, useEffect } from 'react';
 import Movie from '../Movie/Movie.js'
 import Snacks from '../Snacks/Snack';
+import Dashboard from './Dashboard';
+import Collection from './Collection';
 
 export default function AdminContent(props) {
 
     const [profile, setProfile] = useState(false);
     const [role, setRole] = useState(false);
-    const [movie, setMovie] = useState(true);
+    const [movie, setMovie] = useState(false);
     const [screen, setScreen] = useState(false);
     const [snacks, setSnacks] = useState(false);
+    const [dashboard, setDashboard] = useState(true);
+    const [collection, setCollection] = useState(false);
+
 
     useEffect(() => {
         let isMounted = true; //for cleanup
         if (isMounted) {
             if (props.isProfile === true) {
                 setMovie(false);
+                setDashboard(false);
                 setRole(false);
                 setScreen(false);
                 setSnacks(false)
@@ -34,39 +40,55 @@ export default function AdminContent(props) {
             {props.isProfile}
             <div className={styles.sidebar_container}>
 
+                < button className={(dashboard === false) ? styles.navtext : styles.navtext_click}
+                    onClick={() => {
+                        setRole(false); setScreen(false); setMovie(false); setSnacks(false);setDashboard(true);setCollection(false)
+                    }}>
+                    <span>Dashboard</span>
+                </button>
+
                 < button className={(movie === false) ? styles.navtext : styles.navtext_click}
                     onClick={() => {
-                        setRole(false); setScreen(false); setMovie(true); setSnacks(false);
+                        setRole(false); setScreen(false); setMovie(true); setSnacks(false);setDashboard(false);setCollection(false)
                     }}>
                     <span>Movie</span>
                 </button>
 
                 < button className={(screen === false) ? styles.navtext : styles.navtext_click} onClick={(e) => {
-                    setRole(false); setScreen(true); setMovie(false); setSnacks(false);
+                    setRole(false); setScreen(true); setMovie(false); setSnacks(false);setDashboard(false);setCollection(false)
                 }}>
                     <span>Screen</span>
                 </button>
 
                 < button className={(snacks === false) ? styles.navtext : styles.navtext_click}
                     onClick={() => {
-                        setRole(false); setScreen(false); setMovie(false); setSnacks(true);
+                        setRole(false); setScreen(false); setMovie(false); setSnacks(true);setDashboard(false);setCollection(false)
                     }}>
                     <span>Snacks</span>
                 </button>
 
+                < button className={(collection === false) ? styles.navtext : styles.navtext_click}
+                    onClick={() => {
+                        setRole(false); setScreen(false); setMovie(false); setSnacks(false);setDashboard(false);setCollection(true)
+                    }}>
+                    <span>Collection</span>
+                </button>
+
                 < button className={(role === false) ? styles.navtext : styles.navtext_click}
                     onClick={() => {
-                        setRole(true); setScreen(false); setMovie(false); setSnacks(false);
+                        setRole(true); setScreen(false); setMovie(false); setSnacks(false);setDashboard(false);setCollection(false)
                     }}>
                     <span>Role</span>
                 </button>
 
             </div >
-            {profile === true ? <Profile trigger={props.isProfile} setTrigger={props.setIsProfile} movie={movie} setMovie={setMovie} /> : null}
+            {profile === true ? <Profile trigger={props.isProfile} setTrigger={props.setIsProfile} movie={movie} setDashboard={setDashboard} /> : null}
             {role === true ? <Role /> : null}
             {screen === true ? <Screen /> : null}
             {movie === true ? <Movie /> : null}
+            {dashboard === true ? <Dashboard />:null}
             {snacks === true ? <Snacks /> : null}
+            {collection === true ? <Collection /> : null}
 
         </>
     );

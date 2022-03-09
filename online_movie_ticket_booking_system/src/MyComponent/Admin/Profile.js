@@ -73,7 +73,7 @@ const Profile = (props) => {
         <div className={styles.content}>
             <div className={styles.popup}>
                 <div className={styles.popup_inner}>
-                    <button className={styles.close_btn} onClick={() => { props.setTrigger(false); props.setMovie(true) }}><i className="fa fa-close" style={{ fontSize: "24px" }}></i></button>
+                    <button className={styles.close_btn} onClick={() => { props.setTrigger(false); props.setDashboard(true) }}><i className="fa fa-close" style={{ fontSize: "24px" }}></i></button>
 
                     <div className="container rounded bg-white mt-5 mb-5">
                         <div className="row" style={{ width: "60vw" }}>

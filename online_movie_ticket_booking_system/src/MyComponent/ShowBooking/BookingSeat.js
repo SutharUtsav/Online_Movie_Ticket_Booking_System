@@ -10,6 +10,7 @@ const BookingSeat = (props) => {
     const raws = 8;
     const cols = 8;
     const theater = [];
+
     for (var i = 0; i < raws; i++) {
         const raw = [];
         for (var j = 0; j < cols; j++) {
@@ -17,7 +18,7 @@ const BookingSeat = (props) => {
                 raw.push({
                     seat_price: 200,
                     seat_type: "A" + (j + 1).toString(),
-                    selected: false
+                    selected: false,
                 })
             }
             else if (i === 1) {
@@ -78,10 +79,10 @@ const BookingSeat = (props) => {
     const [isSeatSelected, setIsSeatSelected] = useState(false)
 
     useEffect(() => {
-        if(props.user.id === undefined){
-            alert("You are not logged in")
-            props.setIsMovieSelected(false)
-        }
+        // if(props.user.id === undefined){
+        //     alert("You are not logged in")
+        //     props.setIsMovieSelected(false)
+        // }
         let isMounted = true; //for cleanup
         try {
             axios.get('http://localhost:3001/api/getSeats').then((response) => {
@@ -94,7 +95,7 @@ const BookingSeat = (props) => {
         catch (error) {
             console.log(error)
         }
-    },[props,seats])
+    },[])
 
     function displaySeat(seat, index1, index2) {
         var state = true
@@ -103,7 +104,6 @@ const BookingSeat = (props) => {
                 state=false;
             }
         })
-        // console.log(state)
 
         if(!state){
             return( raws /2 === (index1+1)?(
@@ -130,7 +130,9 @@ const BookingSeat = (props) => {
                 cols / 2 === (index2 + 1) ? (
                     <div key={index2} className={styles.seat} style={{ marginBottom: "5pc", marginRight: "5pc" }} onClick={
                         (e) => {
+                            console.log(seat.selected)
                             seat.selected = !seat.selected;
+                            console.log(seat.selected)
                             if (seat.selected === true) {
                                 e.target.className = styles.seat_selected
                                 var getSelectesSeats1 = JSON.parse(localStorage.getItem('selectedSeats'))

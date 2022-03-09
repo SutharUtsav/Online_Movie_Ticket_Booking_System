@@ -4,6 +4,10 @@ import Register from './MyComponent/Auth/register';
 import Login from './MyComponent/Auth/Login';
 import Home from './MyComponent/Customer/Home';
 import Pscreen from './MyComponent/PraivateScreen/PScreen';
+
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+
 import {
   BrowserRouter as Router,
   Routes,

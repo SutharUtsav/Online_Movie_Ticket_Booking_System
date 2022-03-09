@@ -30,6 +30,8 @@ const { response } = require("express");
 const e = require("express");
 const saltRounds = 10;
 
+const jwt = require('jsonwebtoken')
+
 app.use(express.json());
 
 const db = mysql.createConnection({
@@ -183,8 +185,12 @@ app.post("/api/insertCustomer", async (req, res) => {
                                 console.log(er)
                             }
                             if (resp.length > 0) {
-                                req.session.user = resp;
-                                res.send({ user: resp, message: "You are successfully registered" })
+                                const id = resp[0].id
+                                const token = jwt.sign({ id }, "jwtSecret", {
+                                    expiresIn: 300,
+                                })
+                                req.session.user = resp[0];
+                                res.send({ token: token, user: resp[0], message: "You are successfully registered" })
                             }
                         })
                     }
@@ -246,6 +252,27 @@ app.post("/api/updateCustomer", async (req, res) => {
 
 })
 
+//authentication
+
+const verifyJWT = (req, res, next) => {
+    const token = req.headers["x-access-tokens"]
+    if (!token) {
+        res.send("We need token")
+    } else {
+        jwt.verify(token, "jwtSecret", (err, decoded) => {
+            if (err) {
+                res.json({ isLoggedin: false, message: "Failed to authenticate" })
+            }
+            else {
+                req.userId = decoded.id;
+                next();
+            }
+        })
+    }
+}
+app.get('/api/isUserAuth', verifyJWT, (req, res) => {
+    res.send({isLoggedin:true,message:"You are already logged in!!"})
+})
 
 //login
 app.get("/api/login", async (req, res) => {
@@ -271,8 +298,14 @@ app.post("/api/login", async (req, res) => {
             result.forEach((r) => {
                 if (userPassword == r.user_password) {
                     //admin tries to login
+
+                    const id = r.id
+                    const token = jwt.sign({ id }, "jwtSecret", {
+                        expiresIn: 300,
+
+                    })
                     req.session.user = r;
-                    res.send({ user: r, loginAs: "Administrator" });
+                    res.send({ auth: true, token: token, user: r, loginAs: "Administrator" });
                 }
                 else {
                     bcrypt.compare(userPassword, r.user_password, (error, response) => {
@@ -285,12 +318,24 @@ app.post("/api/login", async (req, res) => {
                                     console.log(er)
                                 }
                                 if (rsp[0].role_title === "Administrator") {
+
+                                    const id = r.id
+                                    const token = jwt.sign({ id }, "jwtSecret", {
+                                        expiresIn: 300,
+
+                                    })
                                     req.session.user = r;
-                                    res.send({ user: r, loginAs: "Administrator" });
+
+                                    res.send({ auth: true, token: token, user: r, loginAs: "Administrator" });
                                 }
                                 else if (rsp[0].role_title === "Customer") {
+                                    const id = r.id
+                                    const token = jwt.sign({ id }, "jwtSecret", {
+                                        expiresIn: 300,
+
+                                    })
                                     req.session.user = r;
-                                    res.send({ user: r, loginAs: "Customer" });
+                                    res.send({ auth: true, token: token, user: r, loginAs: "Customer" });
                                 }
                             })
 
@@ -427,7 +472,7 @@ app.post("/api/insertShow", async (req, res) => {
     let privateScreen = req.body.privateScreen;
     let screenNo = req.body.screenNo;
 
-    console.log(showstartTime,showEndtime)
+    console.log(showstartTime, showEndtime)
     var sqlInsert = `INSERT INTO screen SET screen_movie_id=?,
             screen_show_start_time=?,
             screen_show_end_time=?,
@@ -464,7 +509,7 @@ app.delete("/api/deleteShow/:id", async (req, res) => {
         if (err)
             console.log(err);
         else {
-           res.send({message:"Successfully deleted a Show"})
+            res.send({ message: "Successfully deleted a Show" })
         }
     });
 
@@ -500,7 +545,7 @@ app.get("/api/getSeats", async (req, res) => {
         if (err) {
             console.log(err);
         }
-        else if (result.length >0) {
+        else if (result.length > 0) {
             res.send({ seats: result })
         }
     })
@@ -510,12 +555,12 @@ app.get("/api/getSeats", async (req, res) => {
 
 app.get("/api/getSnack", async (req, res) => {
     var sqlGet = 'SELECT * FROM snack';
-    db.query(sqlGet,(err,result)=>{
-        if(err){
+    db.query(sqlGet, (err, result) => {
+        if (err) {
             console.log(err)
         }
-        else{
-            res.send({snacks:result})
+        else {
+            res.send({ snacks: result })
         }
     })
 })
@@ -554,7 +599,7 @@ app.post("/api/updateSnack", async (req, res) => {
     let snackDescription = req.body.snackDescription;
     let snackOffer = req.body.snackOffer;
     let snackImage = req.body.snackImage;
- 
+
 
     //console.log(movieName, movieLanguage, movieGenre, movieTrailerLink, movieReleaseDate, movieHours, movieBanner);
 
@@ -563,7 +608,7 @@ app.post("/api/updateSnack", async (req, res) => {
                                                 snack_description=?,
                                                 snack_offer=?,
                                                 snack_image=? WHERE id=?`;
-    db.query(sqlUpdate, [snackAmount, snackType, snackDescription, snackOffer, snackImage,id], (err, result) => {
+    db.query(sqlUpdate, [snackAmount, snackType, snackDescription, snackOffer, snackImage, id], (err, result) => {
         if (err)
             console.log(err.message);
         else if (result) {
@@ -580,8 +625,8 @@ app.delete("/api/deleteSnack/:id", async (req, res) => {
     db.query(sqlDelete, id, (err, result) => {
         if (err)
             console.log(err);
-        else if(result) {
-            res.send({message :"snack Deleted Successfully"})
+        else if (result) {
+            res.send({ message: "snack Deleted Successfully" })
         }
     });
 
@@ -627,27 +672,27 @@ app.post("/api/insertBooking", async (req, res) => {
                                                       booking_price=? AND
                                                       booking_payment_status=?`;
 
-            db.query(sqlGet, [movieId, showId, userId, bookingDate, snacks, price, payment_status], (error, result) =>{
-                if(error){
+            db.query(sqlGet, [movieId, showId, userId, bookingDate, snacks, price, payment_status], (error, result) => {
+                if (error) {
                     console.log(error);
                 }
-                else{
+                else {
                     var status = true;
-                    seats.forEach((seat)=>{
+                    seats.forEach((seat) => {
                         var insert = `INSERT INTO seat SET seat_price=?,
                                                             seat_show_id=?,
                                                             seat_type=?,
                                                             seat_booking_id=?`;
-                        db.query(insert,[seat.seat_price,showId,seat.seat_type,result[0].id],(err,resp)=>{
-                            if(err){
-                                status=false;
+                        db.query(insert, [seat.seat_price, showId, seat.seat_type, result[0].id], (err, resp) => {
+                            if (err) {
+                                status = false;
                                 console.log(err)
                             }
                         })
                     })
-                    if(status){
-                        res.send({message:"Succesfully Booked Your Ticket"})
-                    }                   
+                    if (status) {
+                        res.send({ message: "Succesfully Booked Your Ticket" })
+                    }
                 }
             })
         }
@@ -657,12 +702,12 @@ app.post("/api/insertBooking", async (req, res) => {
 //Booking
 app.get("/api/getBooking", async (req, res) => {
     var sqlGet = 'SELECT * FROM booking';
-    db.query(sqlGet,(err,result)=>{
-        if(err){
+    db.query(sqlGet, (err, result) => {
+        if (err) {
             console.log(err)
         }
-        else{
-            res.send({booking:result})
+        else {
+            res.send({ booking: result })
         }
     })
 })
@@ -675,7 +720,7 @@ app.delete("/api/deleteBooking/:id", async (req, res) => {
         if (err)
             console.log(err.message);
         else {
-            res.send({message:"Successfully cancel your booking"})
+            res.send({ message: "Successfully cancel your booking" })
         }
     });
 

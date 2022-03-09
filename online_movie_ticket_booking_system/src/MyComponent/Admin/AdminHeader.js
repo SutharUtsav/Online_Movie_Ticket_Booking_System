@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 export default function AdminHeader(props) {
 
     const navigate = useNavigate();
+    
     axios.defaults.withCredentials = true; //to work with cookie
 
     const today = new Date();
@@ -24,6 +25,7 @@ export default function AdminHeader(props) {
 
     function logout(e) {
         e.preventDefault();
+        localStorage.removeItem('token')
         axios.post('http://localhost:3001/api/logout').then((response) => {
             if (response.data.message) {
                 alert(response.data.message)

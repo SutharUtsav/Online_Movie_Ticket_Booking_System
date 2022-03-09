@@ -17,7 +17,9 @@ const ListShows = (props) => {
         try {
             //console.log(e.target.value)
             axios.delete(`http://localhost:3001/api/deleteShow/${e.target.value}`)
-                .then((response) => { alert(response.data.message) })
+                .then((response) => { 
+                    alert(response.data.message)
+                 })
         } catch (error) {
             console.log(error)
         }

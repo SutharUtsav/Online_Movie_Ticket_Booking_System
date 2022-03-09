@@ -11,7 +11,6 @@ const Register = () => {
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
     const [userConfirmPassword, setUserConfirmPassword] = useState("");
-
     function AddCustomer(e) {
         e.preventDefault();
         try {
@@ -30,6 +29,8 @@ const Register = () => {
                     }
                     else if(response.data.message){
                         alert(response.data.message)
+                        localStorage.setItem('token',response.data.token)
+                        
                         navigate("/")
                     }
                 })
@@ -50,15 +51,15 @@ const Register = () => {
 
                     <div className="col-md-5 pr-lg-5 mb-5 mb-md-0">
                         <img src="https://bootstrapious.com/i/snippets/sn-registeration/illustration.svg" alt="" className="img-fluid mb-3 d-none d-md-block" />
-                        <h1 style={{ color: "white" }}>Create an Account</h1>
+                        <h3 style={{ color: "deepskyblue",marginLeft:"8pc" }}>Register with us</h3>
+                        <h2 style={{color:"white",marginLeft:"2pc"}}>ENJOY THE LIFE OF MOVIES</h2>
                     </div>
 
 
                     <div className="col-md-7 col-lg-6 ml-auto">
                         <form onSubmit={AddCustomer}>
                             <div className="row">
-
-
+                                
                                 <div className="input-group col-lg-6 mb-4">
                                     <div className="input-group-prepend">
                                         <span className="input-group-text bg-white px-4 border-md border-right-0" style={{ height: "50px" }} >

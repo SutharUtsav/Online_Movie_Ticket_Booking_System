@@ -25,6 +25,7 @@ const Login = () => {
                     alert(response.data.message)
                     setUserPassword("");
                 } else {
+                    localStorage.setItem('token',response.data.token)
                     if (response.data.loginAs === "Customer") {
                         navigate("/");
                     }
@@ -50,11 +51,10 @@ const Login = () => {
 
     return (
 
-        <div className={styles.main}>
-
+        <div className={styles.main}>            
             <div className="container" style={{ marginTop: "7%" }}>
                 <div className="row align-items-center" style={{ justifyContent: "center" }}>
-
+                    
                     <div className="col-md-7 col-lg-6 ml-auto">
                         <form onSubmit={login} >
                             <div className="row">

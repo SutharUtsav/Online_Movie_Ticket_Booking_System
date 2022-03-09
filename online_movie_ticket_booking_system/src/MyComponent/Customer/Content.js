@@ -13,14 +13,17 @@ const Content = (props) => {
         function displayMovies(movie) {
                 var status = false;
                 props.shows.forEach((show) => {
-                        if (show.screen_movie_id === movie.id) {
+                        // const date = new Date()
+                        // date.setTime(show.screen_show_start_time)
+                        const today = new Date()
+                        if (show.screen_movie_id === movie.id && show.screen_show_start_time > today.getTime()) {
                                 status = true;
                         }
                 })
                 if (status) {
                         return (<>
                                 {props.searchData === "" ? (
-                                        <div className="card m-5" style={{ width: "21pc" ,float:"left",background:"none"}} >
+                                        <div className="card m-5" style={{ width: "21pc", float: "left", background: "none" }} >
                                                 <img src={process.env.PUBLIC_URL + "/Movies/" + movie.movie_image} alt='movie-banner' width="300" height="400" className="card-img-top" />
                                                 <div className="card-body">
                                                         <button className="btn btn-outline-success py-2 font-weight-bold col-5" style={{ marginLeft: "7px", marginTop: "10px" }}
@@ -34,20 +37,21 @@ const Content = (props) => {
                                                 </div>
 
                                         </div>
-                                ) : (<div className="card m-5" style={{ width: "21pc",background:"none" }}>
+                                ) : (<div >
                                         {movie.movie_name.toLowerCase().indexOf(props.searchData.toLowerCase()) !== -1 ? (<>
-
-                                                <img src={process.env.PUBLIC_URL + "/Movies/" + movie.movie_image} alt='movie-banner' width="300" height="400" className="card-img-top" />
-                                                <div className="card-body">
-                                                        <button className="btn btn-outline-success py-2 font-weight-bold col-5" style={{ marginLeft: "7px", marginTop: "10px" }}
-                                                                onClick={() => {
-                                                                        props.setIsMovieSelected(true)
-                                                                        props.setSelectedMovie(movie)
-                                                                        props.setSearchData("")
-                                                                }} ><i className="fa fa-ticket"></i> Book Now</button>
-                                                        <button className="btn btn-outline-danger py-2 font-weight-bold col-5" style={{ marginLeft: "2pc", marginTop: "10px" }}
-                                                                value={movie.movie_trailer_link}
-                                                                onClick={playtrailer}><i className="fa fa-play" aria-hidden="true"></i> Play Trailer</button>
+                                                <div className="card m-5" style={{ width: "21pc", background: "none", float: "left" }}>
+                                                        <img src={process.env.PUBLIC_URL + "/Movies/" + movie.movie_image} alt='movie-banner' width="300" height="400" className="card-img-top" />
+                                                        <div className="card-body">
+                                                                <button className="btn btn-outline-success py-2 font-weight-bold col-5" style={{ marginLeft: "7px", marginTop: "10px" }}
+                                                                        onClick={() => {
+                                                                                props.setIsMovieSelected(true)
+                                                                                props.setSelectedMovie(movie)
+                                                                                props.setSearchData("")
+                                                                        }} ><i className="fa fa-ticket"></i> Book Now</button>
+                                                                <button className="btn btn-outline-danger py-2 font-weight-bold col-5" style={{ marginLeft: "2pc", marginTop: "10px" }}
+                                                                        value={movie.movie_trailer_link}
+                                                                        onClick={playtrailer}><i className="fa fa-play" aria-hidden="true"></i> Play Trailer</button>
+                                                        </div>
                                                 </div>
                                         </>) : ""}
                                 </div>)}
@@ -55,14 +59,35 @@ const Content = (props) => {
                 }
 
         }
-        return (<>
+        return (<div style={{ color: "white" }}>
+                {props.searchData === "" ? (
+                        <>
+
+                                <div>
+                                        <h3 style={{ marginTop: "2pc", marginLeft: "3pc" }}>Now Showing</h3>
+                                </div>
+                                {/* <div style={{ float: "right", marginRight: "2pc" }}>
+                                        <select className="form-select d-flex" aria-label="Default select example">
+                                                <option>All Genre</option>
+                                                <option defaultValue="1">Drama</option>
+                                                <option defaultValue="2">Action</option>
+                                                <option defaultValue="3">Horror</option>
+                                        </select>
+                                        <select className="form-select d-flex" placeholder='Language' aria-label="Select Language">
+                                                <option>All Language</option>
+                                                <option defaultValue="1">Hindi</option>
+                                                <option defaultValue="2">English</option>
+                                        </select>
+                                </div> */}
+
+                        </>) : <h3 style={{ marginTop: "2pc", marginLeft: "3pc" }}>Searching Result</h3>}
                 {props.movies.map((movie, index) => (
                         <div key={index} >
                                 {displayMovies(movie)}
                         </div>
                 ))}
                 {/* {!isBook ? <BookingSeat />:"" } */}
-        </>
+        </div>
         );
 }
 

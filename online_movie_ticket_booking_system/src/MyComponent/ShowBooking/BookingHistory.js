@@ -6,7 +6,7 @@ const BookingHistory = (props) => {
     let x = 0;
     const [booking, setBooking] = useState([])
     const [seats, setSeats] = useState([]);
-    
+
     useEffect(() => {
         let isMounted = true; //for cleanup
         try {
@@ -43,8 +43,10 @@ const BookingHistory = (props) => {
     }
 
     var show_date = ""
+    var is_show_end = true
     function displayShow(bk) {
         var show_time = ""
+        const today = new Date()
         props.shows.forEach((show) => {
             if (show.id === bk.booking_screen_id) {
                 const start_time = new Date()
@@ -68,6 +70,10 @@ const BookingHistory = (props) => {
                     "/" + ((parseInt(start_time.getMonth()) + 1) ?
                         "0" + (parseInt(start_time.getMonth()) + 1) : parseInt(start_time.getMonth()) + 1) +
                     "/" + start_time.getFullYear()
+
+                if (show.screen_show_end_time > today.getTime()) {
+                    is_show_end = false
+                }
             }
         })
         return show_time;
@@ -94,17 +100,17 @@ const BookingHistory = (props) => {
         return booking_date;
     }
 
-    function displaySeats(bk){
+    function displaySeats(bk) {
         var sts = ""
-        if(seats.length > 0){
-            seats.forEach((seat)=>{
-                if(seat.seat_booking_id === bk.id){
+        if (seats.length > 0) {
+            seats.forEach((seat) => {
+                if (seat.seat_booking_id === bk.id) {
                     sts += seat.seat_type + " "
                 }
             })
         }
         return sts;
-        
+
     }
 
     return (
@@ -135,14 +141,9 @@ const BookingHistory = (props) => {
                             <td>{displaySeats(bk)}</td>
                             <td>{displayBookingDate(bk)}</td>
                             <td>{bk.booking_price}</td>
-                            <td>
-                                <div style={{ display: "inline" }}>
-                                    <button value={bk.id} className="btn btn-danger" onClick={DeleteBooking}>Cancel Booking</button>
-                                </div>
-                            </td>
+                            <td>{ is_show_end ? (<p>Thank you for Booking!!</p>):(<button value={bk.id} className="btn btn-danger" onClick={DeleteBooking}>Cancel Booking</button>)}</td>
                         </tr>
-                    ) : ""
-
+                    ) : <tr key={bk.id} style={{display:"none"}}></tr>
                     ))}
                 </tbody>
             </table>

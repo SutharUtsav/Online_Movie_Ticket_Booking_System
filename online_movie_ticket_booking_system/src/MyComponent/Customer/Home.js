@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Content from './Content';
-import Slider from '../Slider/Slider';
+import SliderView from '../Slider/SliderView';
 import axios from 'axios';
 import styles from './customer.module.css'
 import BookShow from '../ShowBooking/BookShow';
@@ -178,7 +178,7 @@ const Home = () => {
         <div className={styles.background}>
             {!isMovieSelected ? (<>
                 <Header isProfile={isProfile} setIsProfile={setIsProfile} isbookingHistory={isbookingHistory} setIsBookingHistory={setIsBookingHistory} user={user} setUser={setUser} searchData={searchData} setSearchData={setSearchData}></Header>
-                <Slider banners={getBanners()} />
+                <SliderView searchData={searchData} banners={getBanners()} />
                 <Content searchData={searchData} setSearchData={setSearchData} isMovieSelected={isMovieSelected} selectedMovie={selectedMovie} setSelectedMovie={setSelectedMovie} setIsMovieSelected={setIsMovieSelected} shows={shows} movies={movies} />
             </>) : (<>
                 <BookShow user={user} setIsMovieSelected={setIsMovieSelected} shows={shows} selectedMovie={selectedMovie} />

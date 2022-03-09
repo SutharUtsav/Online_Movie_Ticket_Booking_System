@@ -46,7 +46,7 @@ const Role = () => {
         }
     }
 
-    return <div className={styles.content}>
+    return (<div className={styles.content}>
         <br />
         <div className={styles.wrapper}>
             <form onSubmit={AddRole} >
@@ -92,7 +92,7 @@ const Role = () => {
                 )}
             </tbody>
         </table>
-    </div>
+    </div>)
 }
 
 
