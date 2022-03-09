@@ -38,7 +38,7 @@ CREATE TABLE `booking` (
   CONSTRAINT `booking_movie_id` FOREIGN KEY (`booking_movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `booking_screen_id` FOREIGN KEY (`booking_screen_id`) REFERENCES `screen` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `booking_user_id` FOREIGN KEY (`booking_user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +47,7 @@ CREATE TABLE `booking` (
 
 LOCK TABLES `booking` WRITE;
 /*!40000 ALTER TABLE `booking` DISABLE KEYS */;
-INSERT INTO `booking` VALUES (20,3,34,15,'1646420412929','',360,'1'),(21,7,33,15,'1646420811253','popcorn + pepsi,',899,'1'),(22,7,33,23,'1646421374123','popcorn-large,popcorn-large,popcorn,',1457,'1');
+INSERT INTO `booking` VALUES (20,3,34,15,'1646420412929','',360,'1'),(25,7,37,15,'1646826146812','popcorn + pepsi,',719,'1'),(26,3,45,15,'1646826203375','',80,'1'),(27,3,45,15,'1646841000872','',150,'1'),(28,3,47,15,'1646841086874','',180,'1');
 /*!40000 ALTER TABLE `booking` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -81,33 +81,6 @@ LOCK TABLES `collection` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `e_gift`
---
-
-DROP TABLE IF EXISTS `e_gift`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `e_gift` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `voucher_user_id` int NOT NULL,
-  `voucher_code` varchar(45) NOT NULL,
-  `voucher_amount` double NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `voucher_user_id_idx` (`voucher_user_id`),
-  CONSTRAINT `voucher_user_id` FOREIGN KEY (`voucher_user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `e_gift`
---
-
-LOCK TABLES `e_gift` WRITE;
-/*!40000 ALTER TABLE `e_gift` DISABLE KEYS */;
-/*!40000 ALTER TABLE `e_gift` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `movie`
 --
 
@@ -137,69 +110,6 @@ LOCK TABLES `movie` WRITE;
 /*!40000 ALTER TABLE `movie` DISABLE KEYS */;
 INSERT INTO `movie` VALUES (3,'Pushpa - The Rise','Hindi','02:45:00','Action','pushpa_banner.jpg','https://youtu.be/pKctjlxbFDQ','2021-12-17','Pushpa: The Rise – Part 01 is a 2021 Indian Telugu-language action drama film written and directed by Sukumar. Produced by Mythri Movie Makers in association with Muttamsetty Media, it stars Allu Arjun as the titular character alongside Fahadh Faasil (in his Telugu debut) and Rashmika Mandanna while Jagadeesh Prathap Bandari, Sunil, Rao Ramesh, Dhananjaya, Anasuya Bharadwaj, Ajay and Ajay Ghosh play supporting roles. The first of two cinematic parts, the film depicts the rise of a coolie in the smuggling syndicate of red sandalwood, a rare wood that grows only in the Seshachalam Hills of Andhra Pradesh state.','Pushpa_image.jpg'),(4,'RRR-Rise Roar Revolt','Hindi','03:04:00','Action / Drama','RRR_banner.jpg','https://youtu.be/GY4BgdUSpbE','2022-03-25','RRR is an Indian Telugu-language period action drama film directed by S. S. Rajamouli, and produced by D. V. V. Danayya of DVV Entertainments. The film stars N. T. Rama Rao Jr. and Ram Charan in lead roles, while Ajay Devgn and Alia Bhatt make cameo appearances[5][6] while Samuthirakani, Alison Doody, Ray Stevenson, Olivia Morris and Shriya Saran play supporting roles. It is a fictional story about two Indian revolutionaries, Alluri Sitarama Raju (Charan) and Komaram Bheem (Rama Rao), who fought against the British Raj and Nizam of Hyderabad respectively.','RRR_image.jpg'),(5,'Bachhan Pandey','Hindi','02:35:00','Action / Comedy','Bachhan_Pandey_banner.jpg','https://youtu.be/4d8m59ct2wQ','2022-03-18','Bachchhan Paandey is an upcoming Indian Hindi-language action comedy film directed by Farhad Samji, written by Nischay Kuttanda and Farhad Samji and produced by Sajid Nadiadwala. It stars Akshay Kumar, Kriti Sanon, Jacqueline Fernandez and Arshad Warsi. It is a remake of the 2014 Tamil film Jigarthanda which itself was inspired by the 2006 South Korean movie A Dirty Carnival. The film is scheduled to be released theatrically on 18 March 2022.','Bachchan_Pandey_Image.jpeg'),(6,'Jersey','Hindi','02:50:00','Drama / Sports','Jersey_Poster.jpeg','https://youtu.be/BT0zd0kmTxM','2022-04-14','Jersey is an upcoming Indian Hindi-language sports drama film written and directed by Gowtam Tinnanuri, being his Hindi directorial debut and the remake of his 2019 Telugu film of the same title. It stars Shahid Kapoor as a former cricketer who returns to the game for his son\'s wish of a jersey, alongside Mrunal Thakur and Pankaj Kapoor. The film is produced by Geetha Arts, Dil Raju Production, Sithara Entertainments and Brat Films.','Jersey_Image.jpg'),(7,'Gangubai Kathiavadi','Hindi','02:35:00','Drama / Crime Film','Gangubai_Kathiavadi_banner.jfif','https://youtu.be/N1ZwRv3vJJY','2022-02-25','Gangubai Kathiawadi is a 2022 Indian Hindi-language biographical crime drama film directed by Sanjay Leela Bhansali and produced by Jayantilal Gada and Bhansali. The film stars Alia Bhatt as the title character while Shantanu Maheshwari, Vijay Raaz, Indira Tiwari and Seema Pahwa play pivotal roles with Ajay Devgn featuring in an extended cameo appearance. The narrative walks through the life of young Ganga who in no time marks her own territory and becomes Gangubai – a madame in the red light area of Kamathipura.','Gangubai_Kathiavadi_Image.jfif');
 /*!40000 ALTER TABLE `movie` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `payment`
---
-
-DROP TABLE IF EXISTS `payment`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `payment` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `payment_booking_id` int NOT NULL,
-  `payment_mehod` varchar(45) NOT NULL,
-  `payment_user_id` int NOT NULL,
-  `payment_date` date NOT NULL,
-  `payment_description` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `payment_booking_id_idx` (`payment_booking_id`),
-  KEY `payment_user_id_idx` (`payment_user_id`),
-  CONSTRAINT `payment_booking_id` FOREIGN KEY (`payment_booking_id`) REFERENCES `booking` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `payment_user_id` FOREIGN KEY (`payment_user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `payment`
---
-
-LOCK TABLES `payment` WRITE;
-/*!40000 ALTER TABLE `payment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `payment` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `private_screen`
---
-
-DROP TABLE IF EXISTS `private_screen`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `private_screen` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `p_screen_id` int NOT NULL,
-  `p_movie_id` int NOT NULL,
-  `p_user_id` int NOT NULL,
-  `p_time` date NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `p_screen_id_idx` (`p_screen_id`),
-  KEY `p_movie_id_idx` (`p_movie_id`),
-  KEY `p_user_id_idx` (`p_user_id`),
-  CONSTRAINT `p_movie_id` FOREIGN KEY (`p_movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `p_screen_id` FOREIGN KEY (`p_screen_id`) REFERENCES `screen` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `p_user_id` FOREIGN KEY (`p_user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `private_screen`
---
-
-LOCK TABLES `private_screen` WRITE;
-/*!40000 ALTER TABLE `private_screen` DISABLE KEYS */;
-/*!40000 ALTER TABLE `private_screen` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -244,7 +154,7 @@ CREATE TABLE `screen` (
   PRIMARY KEY (`id`),
   KEY `screen_movie_id` (`screen_movie_id`),
   CONSTRAINT `screen_movie_id_fk` FOREIGN KEY (`screen_movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -253,7 +163,7 @@ CREATE TABLE `screen` (
 
 LOCK TABLES `screen` WRITE;
 /*!40000 ALTER TABLE `screen` DISABLE KEYS */;
-INSERT INTO `screen` VALUES (30,3,'1646406015563',0,1,'1646416800000'),(31,7,'1646473545263',0,2,'1646484000000'),(32,7,'1646491526096',0,3,'1646503200000'),(33,7,'1646541012101',0,1,'1646551500000'),(34,3,'1646559950756',0,1,'1646569800000'),(35,3,'1646486137472',0,2,'1646496000000'),(36,7,'1646631959265',0,3,'1646642400000');
+INSERT INTO `screen` VALUES (31,7,'1646473545263',0,2,'1646484000000'),(32,7,'1646491526096',0,3,'1646503200000'),(34,3,'1646559950756',0,1,'1646569800000'),(35,3,'1646486137472',0,2,'1646496000000'),(36,7,'1646631959265',0,3,'1646642400000'),(37,7,'1646802937342',0,2,'1646813400000'),(38,7,'1646806555488',0,1,'1646816999999'),(40,7,'1646818216093',0,2,'1646828700000'),(41,7,'1646811051248',0,3,'1646821500000'),(43,3,'1646837128945',0,3,'1646846999999'),(45,3,'1646915420012',0,2,'1646925300000'),(46,7,'1646893831930',0,3,'1646904300000'),(47,3,'1647004559054',0,1,'1647014400000');
 /*!40000 ALTER TABLE `screen` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -275,7 +185,7 @@ CREATE TABLE `seat` (
   KEY `seat_booking_id_idx` (`seat_booking_id`),
   CONSTRAINT `seat_booking_id` FOREIGN KEY (`seat_booking_id`) REFERENCES `booking` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `seat_screen_id` FOREIGN KEY (`seat_show_id`) REFERENCES `screen` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=153 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=161 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -284,7 +194,7 @@ CREATE TABLE `seat` (
 
 LOCK TABLES `seat` WRITE;
 /*!40000 ALTER TABLE `seat` DISABLE KEYS */;
-INSERT INTO `seat` VALUES (147,180,34,'B2',20),(148,180,34,'B3',20),(149,150,33,'C6',21),(150,150,33,'C5',21),(151,180,33,'B3',22),(152,180,33,'B2',22);
+INSERT INTO `seat` VALUES (147,180,34,'B2',20),(148,180,34,'B3',20),(155,120,37,'D8',25),(156,80,45,'G6',26),(157,150,45,'C5',27),(158,180,47,'B5',28);
 /*!40000 ALTER TABLE `seat` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -333,7 +243,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`),
   KEY `user_role_id_idx` (`user_role_id`),
   CONSTRAINT `user_role_id` FOREIGN KEY (`user_role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -342,7 +252,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (15,'utsav',11,'7069052544','utsavsuthar24@gmail.com','$2b$10$mKhCw.HPX5c77UKjKyTU6.Yy64Ne1uFK2gRKyh91TLi7mAqwkJTRu'),(18,'Admin',10,'0000000000','admin@gmail.com','$2b$10$/I6OT69z4B8focjD1Bwxdu0b6gbpV///K9JUQ.hJf00EwygI.BVaK'),(23,'rahil',11,'7069052542','rahil@gmail.com','$2b$10$0jwyqWpPu.q8HVCy4fjJUOqelvYFUXAGbtPUqB/MS.PbJozFYBduK'),(29,'admin1',10,'0000000001','admin@admin.com','admin');
+INSERT INTO `user` VALUES (15,'utsav',11,'7069052544','utsavsuthar24@gmail.com','$2b$10$mKhCw.HPX5c77UKjKyTU6.Yy64Ne1uFK2gRKyh91TLi7mAqwkJTRu'),(18,'Admin',10,'0000000000','admin@gmail.com','$2b$10$/I6OT69z4B8focjD1Bwxdu0b6gbpV///K9JUQ.hJf00EwygI.BVaK'),(23,'rahil',11,'7069052542','rahil@gmail.com','$2b$10$0jwyqWpPu.q8HVCy4fjJUOqelvYFUXAGbtPUqB/MS.PbJozFYBduK'),(29,'admin1',10,'0000000001','admin@admin.com','admin'),(36,'harsh',11,'9069052542','harsh@gmail.com','$2b$10$sSSvH0x1cz5Nj2K3H8iAkO5P44NcgUiO4k9GUHNfRqBWdib6WqGO6'),(43,'vivek',11,'7069052535','vivek@gmail.com','$2b$10$IdXv.9XwPCYat9pgZ3oORegYrGAXBeHdBnO3oPH6F94XbJgSRZM5O');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -355,4 +265,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-03-05  8:35:38
+-- Dump completed on 2022-03-09 23:27:42
