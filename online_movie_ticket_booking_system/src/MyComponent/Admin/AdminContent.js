@@ -8,6 +8,7 @@ import Movie from '../Movie/Movie.js'
 import Snacks from '../Snacks/Snack';
 import Dashboard from './Dashboard';
 import Collection from './Collection';
+import Consumer from './Consumer';
 
 export default function AdminContent(props) {
 
@@ -18,6 +19,7 @@ export default function AdminContent(props) {
     const [snacks, setSnacks] = useState(false);
     const [dashboard, setDashboard] = useState(true);
     const [collection, setCollection] = useState(false);
+    const [consumer, setConsumer] = useState(false);
 
 
     useEffect(() => {
@@ -42,41 +44,48 @@ export default function AdminContent(props) {
 
                 < button className={(dashboard === false) ? styles.navtext : styles.navtext_click}
                     onClick={() => {
-                        setRole(false); setScreen(false); setMovie(false); setSnacks(false);setDashboard(true);setCollection(false)
+                        setRole(false); setScreen(false); setMovie(false); setSnacks(false);setDashboard(true);setCollection(false);setConsumer(false)
                     }}>
                     <span>Dashboard</span>
                 </button>
 
                 < button className={(movie === false) ? styles.navtext : styles.navtext_click}
                     onClick={() => {
-                        setRole(false); setScreen(false); setMovie(true); setSnacks(false);setDashboard(false);setCollection(false)
+                        setRole(false); setScreen(false); setMovie(true); setSnacks(false);setDashboard(false);setCollection(false);setConsumer(false)
                     }}>
                     <span>Movie</span>
                 </button>
 
                 < button className={(screen === false) ? styles.navtext : styles.navtext_click} onClick={(e) => {
-                    setRole(false); setScreen(true); setMovie(false); setSnacks(false);setDashboard(false);setCollection(false)
+                    setRole(false); setScreen(true); setMovie(false); setSnacks(false);setDashboard(false);setCollection(false);setConsumer(false)
                 }}>
                     <span>Screen</span>
                 </button>
 
                 < button className={(snacks === false) ? styles.navtext : styles.navtext_click}
                     onClick={() => {
-                        setRole(false); setScreen(false); setMovie(false); setSnacks(true);setDashboard(false);setCollection(false)
+                        setRole(false); setScreen(false); setMovie(false); setSnacks(true);setDashboard(false);setCollection(false);setConsumer(false)
                     }}>
                     <span>Snacks</span>
                 </button>
 
                 < button className={(collection === false) ? styles.navtext : styles.navtext_click}
                     onClick={() => {
-                        setRole(false); setScreen(false); setMovie(false); setSnacks(false);setDashboard(false);setCollection(true)
+                        setRole(false); setScreen(false); setMovie(false); setSnacks(false);setDashboard(false);setCollection(true);setConsumer(false)
                     }}>
                     <span>Collection</span>
                 </button>
 
+                < button className={(consumer === false) ? styles.navtext : styles.navtext_click}
+                    onClick={() => {
+                        setRole(false); setScreen(false); setMovie(false); setSnacks(false);setDashboard(false);setCollection(false);setConsumer(true)
+                    }}>
+                    <span>Customer</span>
+                </button>
+
                 < button className={(role === false) ? styles.navtext : styles.navtext_click}
                     onClick={() => {
-                        setRole(true); setScreen(false); setMovie(false); setSnacks(false);setDashboard(false);setCollection(false)
+                        setRole(true); setScreen(false); setMovie(false); setSnacks(false);setDashboard(false);setCollection(false);setConsumer(false)
                     }}>
                     <span>Role</span>
                 </button>
@@ -89,6 +98,7 @@ export default function AdminContent(props) {
             {dashboard === true ? <Dashboard />:null}
             {snacks === true ? <Snacks /> : null}
             {collection === true ? <Collection /> : null}
+            {consumer ===true ? <Consumer/>: null}
 
         </>
     );

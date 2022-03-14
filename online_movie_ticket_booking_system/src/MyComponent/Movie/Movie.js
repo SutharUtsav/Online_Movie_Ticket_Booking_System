@@ -6,6 +6,7 @@ import ViewMovie from './ViewMovie'
 
 const Movie = () => {
     const [selectedMovie,setSelectedMovie]=useState(null)
+    
     const [movies, setMovies] = useState([]);
     const [isAddMovie, setIsAddMovie] = useState(false);
     const [movieName, setMovieName] = useState("");
@@ -37,6 +38,7 @@ const Movie = () => {
 
     function addmovie(e) {
         e.preventDefault();
+
         //console.log(movieName, movieLanguage, movieGenre, movieTrailerLink, movieBanner, movieReleaseDate, movieDescription, movieHours);
         try {
             axios.post('http://localhost:3001/api/insertMovie', {
@@ -80,7 +82,7 @@ const Movie = () => {
 
             {(isAddMovie) ? (
 
-                <div className="container" >
+                <div className="container"  >
                     <div className="row py-5 mt-4 align-items-center" >
                         <div className="col-md-7 col-lg-6 ml-auto">
                             <form onSubmit={addmovie}>
@@ -165,7 +167,7 @@ const Movie = () => {
                         </div>
                     </div>
                 </div>) : ""}
-            <div className="container-fluid "   >
+            <div className="container-fluid " style={{width:"67vw",marginLeft:"5pc"}}  >
                 <div className="row" style={{ overflowX: 'auto', color: "white" }} >
                     <ListMovies movies={movies} setSelectedMovie = {setSelectedMovie}/>
                 </div>
@@ -173,8 +175,8 @@ const Movie = () => {
         </div>
     ):(
         <div className={styles.content}>
-            <button className={styles.close_btn} onClick={() => { setSelectedMovie(null) }}><i className="fa fa-close" style={{ fontSize: "24px" }}></i></button>
-            <ViewMovie movie={selectedMovie} setMovie={setSelectedMovie}/>
+            <button className={styles.close_btn} onClick={() => { setSelectedMovie(null) }}><i className="fa fa-arrow-left m-1" aria-hidden="true"></i></button>
+            <ViewMovie movie={selectedMovie} setMovie={setSelectedMovie} />
         </div>
     );
 }

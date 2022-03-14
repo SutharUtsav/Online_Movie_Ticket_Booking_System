@@ -147,13 +147,13 @@ const ViewSnack = (props) => {
                 <div style={{ float: "left" }}>
                 <img src={process.env.PUBLIC_URL + "/Snacks/" + props.snack.snack_image} alt='movie-banner' width="300" height="300" />
                 </div>
-                <div style={{ marginLeft: "21pc", width: "36vw", fontSize: "larger" }}>
+                <div style={{ marginLeft: "23pc", width: "36vw", fontSize: "larger" }}>
                     <p><b>Snack Amount : </b>{snackAmount}</p>
-                    <p><b>snack Type :</b> {snackType}</p>
+                    <p><b>Snack Type :</b> {snackType}</p>
                     <p><b>Snack Description :</b> {snackDescription}</p>
-                    <p><b>Snack Offer :</b> {snackOffer}</p>
+                    <p><b>Snack Offer :</b> {snackOffer === '-' ? <p style={{color:"red",margin:"2px"}}>NO OFFER AVAILABLE</p> : snackOffer}</p>
                 </div>
-                <button type='button' className='btn btn-outline-primary py-2 font-weight-bold col-5' onClick={() => {
+                <button type='button' className='btn btn-outline-primary py-2 font-weight-bold col-3 mx-5' onClick={() => {
                     setIsUpdate(true)
                 }}>Update</button>
                 

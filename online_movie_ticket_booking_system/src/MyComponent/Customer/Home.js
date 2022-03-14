@@ -28,7 +28,14 @@ const Home = () => {
         const banners = []; //upcoming movies in slider
         movies.forEach((movie) => {
             if (((parseInt(today.getMonth()) + 1 === parseInt(movie.movie_release_date.substring(5, 7)) | (parseInt(today.getMonth()) + 2 === parseInt(movie.movie_release_date.substring(5, 7)))) & (parseInt(today.getFullYear()) === parseInt(movie.movie_release_date.substring(0, 4))))) {
-                banners.push(movie);
+                if(   parseInt(today.getMonth()) + 1 === parseInt(movie.movie_release_date.substring(5, 7) ) ){
+                    if(parseInt(today.getDate()) < parseInt(movie.movie_release_date.substring(8,10))){
+                        banners.push(movie);
+                    }  
+                }   
+                else{
+                    banners.push(movie)
+                }
             }
             else if (parseInt(today.getFullYear()) - parseInt(movie.movie_release_date.substring(0, 4)) === 1) {
                 if( parseInt(today.getMonth()+1) -(12 - parseInt(movie.movie_release_date.substring(5, 7))) <= 2 ){
@@ -151,7 +158,7 @@ const Home = () => {
                                         }}>Change Password?</button></div>
                                         {(isChangePassword) ? (
                                             <>
-                                                <div className="col-md-12"><label className="labels">Password</label><input type="password" className="form-control" placeholder="Enter Password" value={userPassword} onChange={(e) => {
+                                                <div className="col-md-12"><label className="labels">New Password</label><input type="password" className="form-control" placeholder="Enter New Password" value={userPassword} onChange={(e) => {
                                                     setUserPassword(e.target.value)
                                                 }} required /></div>
                                                 <div className="col-md-12"><label className="labels">Confirm Password</label><input type="password" className="form-control" placeholder="Re-enter Password" value={userConfirmPassword} onChange={(e) => {

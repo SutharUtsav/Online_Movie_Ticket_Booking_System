@@ -16,7 +16,12 @@ const ViewMovie = (props) => {
 
     useState(() => {
         let str1 = movieReleaseDate.substring(0, 8);
+        
         let str2 = (parseInt(movieReleaseDate.substring(8, 10)) + 1).toString();
+
+        if(str2 >=0 & str2<=9){
+            str2 = "0"+str2
+        }
         setMovieReleaseDate(str1 + str2)
     }, [])
 
@@ -149,7 +154,7 @@ const ViewMovie = (props) => {
         </>
     ) : (
         <>
-            <center><u><h2>{movieName}</h2></u></center>
+            <u><h2 style={{marginLeft:"32vw"}}>{movieName}</h2></u>
 
             <div className={styles.container_view}>
                 <img src={process.env.PUBLIC_URL + "/Movies/" + movieBanner} alt="MovieBanner" />
@@ -167,10 +172,10 @@ const ViewMovie = (props) => {
                     <p><b>Movie Release Date :</b> {movieReleaseDate}</p>
                     <p><b>Movie Description :</b> {movieDescription}</p>
                 </div>
-                <button type='button' className='btn btn-outline-primary py-2 font-weight-bold col-5' onClick={() => {
+                <button type='button' className='btn btn-outline-primary py-2 font-weight-bold col-3' onClick={() => {
                     setIsUpdate(true)
                 }}>Update</button>
-                <button className="btn btn-outline-danger py-2 font-weight-bold col-5" style={{ marginLeft: "2pc", marginTop: "10px" }}
+                <button className="btn btn-outline-danger py-2 font-weight-bold col-3" style={{ marginLeft: "2pc", marginTop: "10px" }}
                     value={movieTrailerLink}
                     onClick={(e)=>{
                         window.location.assign(e.target.value)

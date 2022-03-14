@@ -5,6 +5,7 @@ import React from 'react';
 const Content = (props) => {
         // const [isBook,setIsBook]=useState(false)
 
+        var noSearch = false;
         function playtrailer(e) {
 
                 window.location.assign(e.target.value)
@@ -53,7 +54,7 @@ const Content = (props) => {
                                                                         onClick={playtrailer}><i className="fa fa-play" aria-hidden="true"></i> Play Trailer</button>
                                                         </div>
                                                 </div>
-                                        </>) : ""}
+                                        </>) : <>{noSearch = true}</>}
                                 </div>)}
                         </>)
                 }
@@ -64,28 +65,19 @@ const Content = (props) => {
                         <>
 
                                 <div>
-                                        <h3 style={{ marginTop: "2pc", marginLeft: "3pc" }}>Now Showing</h3>
+                                        <h3 style={{ marginTop: "3pc", textAlign:"center" }}>Now Showing</h3>
                                 </div>
-                                {/* <div style={{ float: "right", marginRight: "2pc" }}>
-                                        <select className="form-select d-flex" aria-label="Default select example">
-                                                <option>All Genre</option>
-                                                <option defaultValue="1">Drama</option>
-                                                <option defaultValue="2">Action</option>
-                                                <option defaultValue="3">Horror</option>
-                                        </select>
-                                        <select className="form-select d-flex" placeholder='Language' aria-label="Select Language">
-                                                <option>All Language</option>
-                                                <option defaultValue="1">Hindi</option>
-                                                <option defaultValue="2">English</option>
-                                        </select>
-                                </div> */}
-
                         </>) : <h3 style={{ marginTop: "2pc", marginLeft: "3pc" }}>Searching Result</h3>}
+                        <div style={{marginLeft:"10%"}}>
                 {props.movies.map((movie, index) => (
                         <div key={index} >
                                 {displayMovies(movie)}
+                                
                         </div>
                 ))}
+                
+                {noSearch?<p style={{ color: "red", padding: "11px 0"}}>Sorry, No Search result by {props.searchData} </p>:""}
+                </div>
                 {/* {!isBook ? <BookingSeat />:"" } */}
         </div>
         );

@@ -31,6 +31,7 @@ CREATE TABLE `booking` (
   `booking_snacks` varchar(100) DEFAULT NULL,
   `booking_price` double NOT NULL,
   `booking_payment_status` varchar(45) NOT NULL,
+  `booking_code` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `booking_screen_id_idx` (`booking_screen_id`),
   KEY `booking_user_id_idx` (`booking_user_id`),
@@ -38,7 +39,7 @@ CREATE TABLE `booking` (
   CONSTRAINT `booking_movie_id` FOREIGN KEY (`booking_movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `booking_screen_id` FOREIGN KEY (`booking_screen_id`) REFERENCES `screen` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `booking_user_id` FOREIGN KEY (`booking_user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +48,7 @@ CREATE TABLE `booking` (
 
 LOCK TABLES `booking` WRITE;
 /*!40000 ALTER TABLE `booking` DISABLE KEYS */;
-INSERT INTO `booking` VALUES (20,3,34,15,'1646420412929','',360,'1'),(25,7,37,15,'1646826146812','popcorn + pepsi,',719,'1'),(26,3,45,15,'1646826203375','',80,'1'),(27,3,45,15,'1646841000872','',150,'1'),(28,3,47,15,'1646841086874','',180,'1');
+INSERT INTO `booking` VALUES (31,10,71,15,'1647058976253','popcorn-large,popcorn-large,',658,'1','450448'),(33,9,51,15,'1647059935203','popcorn-large,',509,'1','977276'),(34,10,71,15,'1647061275080','popcorn,popcorn,popcorn + pepsi,',697,'1','680723'),(35,11,69,15,'1647061370873','popcorn-large,popcorn-large,',658,'1','932512');
 /*!40000 ALTER TABLE `booking` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -99,7 +100,7 @@ CREATE TABLE `movie` (
   `movie_description` text NOT NULL,
   `movie_image` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,7 +109,7 @@ CREATE TABLE `movie` (
 
 LOCK TABLES `movie` WRITE;
 /*!40000 ALTER TABLE `movie` DISABLE KEYS */;
-INSERT INTO `movie` VALUES (3,'Pushpa - The Rise','Hindi','02:45:00','Action','pushpa_banner.jpg','https://youtu.be/pKctjlxbFDQ','2021-12-17','Pushpa: The Rise – Part 01 is a 2021 Indian Telugu-language action drama film written and directed by Sukumar. Produced by Mythri Movie Makers in association with Muttamsetty Media, it stars Allu Arjun as the titular character alongside Fahadh Faasil (in his Telugu debut) and Rashmika Mandanna while Jagadeesh Prathap Bandari, Sunil, Rao Ramesh, Dhananjaya, Anasuya Bharadwaj, Ajay and Ajay Ghosh play supporting roles. The first of two cinematic parts, the film depicts the rise of a coolie in the smuggling syndicate of red sandalwood, a rare wood that grows only in the Seshachalam Hills of Andhra Pradesh state.','Pushpa_image.jpg'),(4,'RRR-Rise Roar Revolt','Hindi','03:04:00','Action / Drama','RRR_banner.jpg','https://youtu.be/GY4BgdUSpbE','2022-03-25','RRR is an Indian Telugu-language period action drama film directed by S. S. Rajamouli, and produced by D. V. V. Danayya of DVV Entertainments. The film stars N. T. Rama Rao Jr. and Ram Charan in lead roles, while Ajay Devgn and Alia Bhatt make cameo appearances[5][6] while Samuthirakani, Alison Doody, Ray Stevenson, Olivia Morris and Shriya Saran play supporting roles. It is a fictional story about two Indian revolutionaries, Alluri Sitarama Raju (Charan) and Komaram Bheem (Rama Rao), who fought against the British Raj and Nizam of Hyderabad respectively.','RRR_image.jpg'),(5,'Bachhan Pandey','Hindi','02:35:00','Action / Comedy','Bachhan_Pandey_banner.jpg','https://youtu.be/4d8m59ct2wQ','2022-03-18','Bachchhan Paandey is an upcoming Indian Hindi-language action comedy film directed by Farhad Samji, written by Nischay Kuttanda and Farhad Samji and produced by Sajid Nadiadwala. It stars Akshay Kumar, Kriti Sanon, Jacqueline Fernandez and Arshad Warsi. It is a remake of the 2014 Tamil film Jigarthanda which itself was inspired by the 2006 South Korean movie A Dirty Carnival. The film is scheduled to be released theatrically on 18 March 2022.','Bachchan_Pandey_Image.jpeg'),(6,'Jersey','Hindi','02:50:00','Drama / Sports','Jersey_Poster.jpeg','https://youtu.be/BT0zd0kmTxM','2022-04-14','Jersey is an upcoming Indian Hindi-language sports drama film written and directed by Gowtam Tinnanuri, being his Hindi directorial debut and the remake of his 2019 Telugu film of the same title. It stars Shahid Kapoor as a former cricketer who returns to the game for his son\'s wish of a jersey, alongside Mrunal Thakur and Pankaj Kapoor. The film is produced by Geetha Arts, Dil Raju Production, Sithara Entertainments and Brat Films.','Jersey_Image.jpg'),(7,'Gangubai Kathiavadi','Hindi','02:35:00','Drama / Crime Film','Gangubai_Kathiavadi_banner.jfif','https://youtu.be/N1ZwRv3vJJY','2022-02-25','Gangubai Kathiawadi is a 2022 Indian Hindi-language biographical crime drama film directed by Sanjay Leela Bhansali and produced by Jayantilal Gada and Bhansali. The film stars Alia Bhatt as the title character while Shantanu Maheshwari, Vijay Raaz, Indira Tiwari and Seema Pahwa play pivotal roles with Ajay Devgn featuring in an extended cameo appearance. The narrative walks through the life of young Ganga who in no time marks her own territory and becomes Gangubai – a madame in the red light area of Kamathipura.','Gangubai_Kathiavadi_Image.jfif');
+INSERT INTO `movie` VALUES (4,'RRR-Rise Roar Revolt','Hindi','03:04:00','Action / Drama','RRR_banner.jpg','https://youtu.be/GY4BgdUSpbE','2022-03-25','RRR is an Indian Telugu-language period action drama film directed by S. S. Rajamouli, and produced by D. V. V. Danayya of DVV Entertainments. The film stars N. T. Rama Rao Jr. and Ram Charan in lead roles, while Ajay Devgn and Alia Bhatt make cameo appearances[5][6] while Samuthirakani, Alison Doody, Ray Stevenson, Olivia Morris and Shriya Saran play supporting roles. It is a fictional story about two Indian revolutionaries, Alluri Sitarama Raju (Charan) and Komaram Bheem (Rama Rao), who fought against the British Raj and Nizam of Hyderabad respectively.','RRR_image.jpg'),(5,'Bachhan Pandey','Hindi','02:35:00','Action / Comedy','Bachchan_Pandey_banner.jpg','https://youtu.be/4d8m59ct2wQ','2022-03-18','Bachchhan Paandey is an upcoming Indian Hindi-language action comedy film directed by Farhad Samji, written by Nischay Kuttanda and Farhad Samji and produced by Sajid Nadiadwala. It stars Akshay Kumar, Kriti Sanon, Jacqueline Fernandez and Arshad Warsi. It is a remake of the 2014 Tamil film Jigarthanda which itself was inspired by the 2006 South Korean movie A Dirty Carnival. The film is scheduled to be released theatrically on 18 March 2022.','Bachchan_Pandey_Image.jpeg'),(6,'Jersey','Hindi','02:50:00','Drama / Sports','Jersey_Poster.jpeg','https://youtu.be/BT0zd0kmTxM','2022-04-14','Jersey is an upcoming Indian Hindi-language sports drama film written and directed by Gowtam Tinnanuri, being his Hindi directorial debut and the remake of his 2019 Telugu film of the same title. It stars Shahid Kapoor as a former cricketer who returns to the game for his son\'s wish of a jersey, alongside Mrunal Thakur and Pankaj Kapoor. The film is produced by Geetha Arts, Dil Raju Production, Sithara Entertainments and Brat Films.','Jersey_Image.jpg'),(9,'Pushpa - The Rise','Hindi','02:58:00','cmd / Drama / Thriller','pushpa_banner.jpg','https://youtu.be/Gs9TQr1D9Ps','2021-12-17','Pushpa: The Rise – Part 01 is a 2021 Indian Telugu-language action drama film written and directed by Sukumar. Produced by Mythri Movie Makers in association with Muttamsetty Media, it stars Allu Arjun as the titular character alongside Fahadh Faasil (in his Telugu debut) and Rashmika Mandanna while Jagadeesh Prathap Bandari, Sunil, Rao Ramesh, Dhananjaya, Anasuya Bharadwaj, Ajay and Ajay Ghosh play supporting roles. The first of two cinematic parts, the film depicts the rise of a coolie in the smuggling syndicate of red sandalwood, a rare wood that grows only in the Seshachalam Hills of Andhra Pradesh state.','Pushpa_image.jpg'),(10,'Gangubai Kathiavadi','Hindi','02:34:00','Drama / Crime Film','Gangubai_Kathiawadi_Banner.jpg','https://youtu.be/N1ZwRv3vJJY','2022-02-25','Gangubai Kathiawadi is a 2022 Indian Hindi-language biographical crime drama film directed by Sanjay Leela Bhansali and produced by Jayantilal Gada and Sanjay Leela Bhansali. The film stars Alia Bhatt as the titular character while Shantanu Maheshwari, Vijay Raaz, Indira Tiwari and Seema Pahwa play pivotal roles with Ajay Devgn featuring in an extended cameo appearance. The narrative walks through the life of young Ganga who in no time marks her own territory and becomes Gangubai – a madame in the red light area of Kamathipura.','Gangubai_Kathiavadi_Image.jpg'),(11,'The Batman','English','02:55:00','Action / Superhero / Mystery','The_Batman_Banner.jpg','https://youtu.be/mqqft2x_Aa4','2022-03-04','The Batman is a 2022 American superhero film based on the DC Comics character Batman. Produced by DC Films, 6th & Idaho, and Dylan Clark Productions, and distributed by Warner Bros. Pictures, it is a reboot of the Batman film franchise. The film was directed by Matt Reeves, who wrote the screenplay with Peter Craig. It stars Robert Pattinson as Bruce Wayne / Batman alongside Zoë Kravitz, Paul Dano, Jeffrey Wright, John Turturro, Peter Sarsgaard, Andy Serkis, and Colin Farrell. The film sees Batman, who has been fighting crime in Gotham City for two years, uncover corruption while pursuing the Riddler (Dano), a serial killer who targets Gotham\'s elite.','The_Batman_Poster.jpg'),(12,'Badhai Do ','Hindi','02:00:00','Comedy / Drama','badhai_do_poster.jpeg','https://youtu.be/HpMsvH7DpPc','2022-02-11','Badhaai Do (transl. Felicitations Due) is a 2022 Indian Hindi-language comedy drama film written by Suman Adhikary and Akshat Ghildial, and directed by Harshavardhan Kulkarni. The film is produced by Junglee Pictures, and serves as a spiritual sequel of the 2018 film Badhaai Ho. It stars Rajkummar Rao and Bhumi Pednekar as a couple in a lavender marriage.[5][6] The principal photography began on 5 January 2021 in Dehradun. Badhaai Do was theatrically released on 11 February 2022.','badhaai_do_image.jpg');
 /*!40000 ALTER TABLE `movie` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -154,7 +155,7 @@ CREATE TABLE `screen` (
   PRIMARY KEY (`id`),
   KEY `screen_movie_id` (`screen_movie_id`),
   CONSTRAINT `screen_movie_id_fk` FOREIGN KEY (`screen_movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -163,7 +164,7 @@ CREATE TABLE `screen` (
 
 LOCK TABLES `screen` WRITE;
 /*!40000 ALTER TABLE `screen` DISABLE KEYS */;
-INSERT INTO `screen` VALUES (31,7,'1646473545263',0,2,'1646484000000'),(32,7,'1646491526096',0,3,'1646503200000'),(34,3,'1646559950756',0,1,'1646569800000'),(35,3,'1646486137472',0,2,'1646496000000'),(36,7,'1646631959265',0,3,'1646642400000'),(37,7,'1646802937342',0,2,'1646813400000'),(38,7,'1646806555488',0,1,'1646816999999'),(40,7,'1646818216093',0,2,'1646828700000'),(41,7,'1646811051248',0,3,'1646821500000'),(43,3,'1646837128945',0,3,'1646846999999'),(45,3,'1646915420012',0,2,'1646925300000'),(46,7,'1646893831930',0,3,'1646904300000'),(47,3,'1647004559054',0,1,'1647014400000');
+INSERT INTO `screen` VALUES (48,10,'1647062158591',0,1,'1647072660000'),(49,11,'1647073822292',0,1,'1647083100000'),(50,12,'1647095450898',0,1,'1647108000000'),(51,9,'1647145817674',0,1,'1647154920000'),(52,11,'1647156605230',0,1,'1647165900000'),(53,12,'1647251133537',0,1,'1647263700000'),(54,9,'1647268252808',0,1,'1647277320000'),(55,9,'1647315952783',0,1,'1647325020000'),(56,10,'1647334850517',0,1,'1647345360000'),(57,11,'1647347415011',0,1,'1647356700000'),(58,9,'1647054940856',0,2,'1647064020000'),(59,11,'1647077409996',0,2,'1647086700000'),(60,12,'1647096329997',0,2,'1647108900000'),(61,10,'1647146458961',0,2,'1647156960000'),(62,12,'1647160213943',0,2,'1647172800000'),(63,11,'1647174637399',0,2,'1647183900000'),(64,11,'1647185454098',0,2,'1647194700000'),(65,12,'1647242115814',0,2,'1647254700000'),(66,10,'1647263738157',0,2,'1647274260000'),(67,9,'1647063925583',0,3,'1647073020000'),(68,10,'1647088203471',0,3,'1647098760000'),(69,11,'1647099056251',0,3,'1647108300000'),(70,9,'1647144912733',0,3,'1647154020000'),(71,10,'1647156626063',0,3,'1647167160000'),(72,11,'1647167410982',0,3,'1647176700000'),(73,12,'1647181825710',0,3,'1647194399999'),(74,11,'1647252943085',0,3,'1647262200000'),(75,12,'1647330005108',0,3,'1647342600000'),(76,10,'1647318627272',0,3,'1647329160000'),(77,9,'1647343818222',0,3,'1647352920000');
 /*!40000 ALTER TABLE `screen` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -185,7 +186,7 @@ CREATE TABLE `seat` (
   KEY `seat_booking_id_idx` (`seat_booking_id`),
   CONSTRAINT `seat_booking_id` FOREIGN KEY (`seat_booking_id`) REFERENCES `booking` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `seat_screen_id` FOREIGN KEY (`seat_show_id`) REFERENCES `screen` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=161 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=173 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -194,7 +195,7 @@ CREATE TABLE `seat` (
 
 LOCK TABLES `seat` WRITE;
 /*!40000 ALTER TABLE `seat` DISABLE KEYS */;
-INSERT INTO `seat` VALUES (147,180,34,'B2',20),(148,180,34,'B3',20),(155,120,37,'D8',25),(156,80,45,'G6',26),(157,150,45,'C5',27),(158,180,47,'B5',28);
+INSERT INTO `seat` VALUES (163,180,71,'B5',31),(164,180,71,'B6',31),(167,180,51,'B4',33),(168,180,51,'B3',33),(169,150,71,'C5',34),(170,150,71,'C6',34),(171,180,69,'B5',35),(172,180,69,'B6',35);
 /*!40000 ALTER TABLE `seat` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -222,7 +223,7 @@ CREATE TABLE `snack` (
 
 LOCK TABLES `snack` WRITE;
 /*!40000 ALTER TABLE `snack` DISABLE KEYS */;
-INSERT INTO `snack` VALUES (1,299,'popcorn','salty popcorn','-','popcorn_small.jpg'),(2,399,'popcorn-large','large salty popcorn','-','popcorn_large.jpg'),(3,599,'popcorn + pepsi','combo of popcorn and coke','combo','combo.jpg');
+INSERT INTO `snack` VALUES (1,99,'popcorn','salty popcorn','-','popcorn_small.jpg'),(2,149,'popcorn-large','large salty popcorn','-','popcorn_large.jpg'),(3,199,'popcorn + pepsi','combo of popcorn and coke','combo','combo.jpg');
 /*!40000 ALTER TABLE `snack` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -243,7 +244,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`),
   KEY `user_role_id_idx` (`user_role_id`),
   CONSTRAINT `user_role_id` FOREIGN KEY (`user_role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -252,7 +253,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (15,'utsav',11,'7069052544','utsavsuthar24@gmail.com','$2b$10$mKhCw.HPX5c77UKjKyTU6.Yy64Ne1uFK2gRKyh91TLi7mAqwkJTRu'),(18,'Admin',10,'0000000000','admin@gmail.com','$2b$10$/I6OT69z4B8focjD1Bwxdu0b6gbpV///K9JUQ.hJf00EwygI.BVaK'),(23,'rahil',11,'7069052542','rahil@gmail.com','$2b$10$0jwyqWpPu.q8HVCy4fjJUOqelvYFUXAGbtPUqB/MS.PbJozFYBduK'),(29,'admin1',10,'0000000001','admin@admin.com','admin'),(36,'harsh',11,'9069052542','harsh@gmail.com','$2b$10$sSSvH0x1cz5Nj2K3H8iAkO5P44NcgUiO4k9GUHNfRqBWdib6WqGO6'),(43,'vivek',11,'7069052535','vivek@gmail.com','$2b$10$IdXv.9XwPCYat9pgZ3oORegYrGAXBeHdBnO3oPH6F94XbJgSRZM5O');
+INSERT INTO `user` VALUES (15,'utsav',11,'7069052544','utsavsuthar24@gmail.com','$2b$10$mKhCw.HPX5c77UKjKyTU6.Yy64Ne1uFK2gRKyh91TLi7mAqwkJTRu'),(18,'Admin',10,'0000000000','admin@gmail.com','$2b$10$/I6OT69z4B8focjD1Bwxdu0b6gbpV///K9JUQ.hJf00EwygI.BVaK'),(29,'admin1',10,'0000000001','admin@admin.com','admin'),(43,'vivek',11,'7069052535','vivek@gmail.com','$2b$10$IdXv.9XwPCYat9pgZ3oORegYrGAXBeHdBnO3oPH6F94XbJgSRZM5O');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -265,4 +266,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-03-09 23:27:42
+-- Dump completed on 2022-03-12 10:37:09

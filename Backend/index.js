@@ -4,6 +4,7 @@ const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const path = require('path');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -25,13 +26,14 @@ app.use(session({
     },
 }))
 
+
 const bcrypt = require('bcrypt');
 const { response } = require("express");
 const e = require("express");
 const saltRounds = 10;
 
 const jwt = require('jsonwebtoken')
-
+const TOKEN = "jwtSecret";
 app.use(express.json());
 
 const db = mysql.createConnection({
@@ -148,6 +150,18 @@ app.post("/api/updateAdmin", async (req, res) => {
 })
 
 //customer
+app.get("/api/getCustomer", (req, res) => {
+    const role_title = "Customer";
+    var sqlSelect = `SELECT * FROM user WHERE user_role_id = ( SELECT id FROM role WHERE role_title=?)`;
+    db.query(sqlSelect, role_title, (err, result) => {
+        if (err)
+            console.log(err.message);
+        else {
+            res.send({ customers: result });
+        }
+    });
+})
+
 app.post("/api/insertCustomer", async (req, res) => {
 
     let userName = req.body.userName;
@@ -186,8 +200,8 @@ app.post("/api/insertCustomer", async (req, res) => {
                             }
                             if (resp.length > 0) {
                                 const id = resp[0].id
-                                const token = jwt.sign({ id }, "jwtSecret", {
-                                    expiresIn: 300,
+                                const token = jwt.sign({ id }, TOKEN, {
+                                    expiresIn: '365d',
                                 })
                                 req.session.user = resp[0];
                                 res.send({ token: token, user: resp[0], message: "You are successfully registered" })
@@ -259,9 +273,9 @@ const verifyJWT = (req, res, next) => {
     if (!token) {
         res.send("We need token")
     } else {
-        jwt.verify(token, "jwtSecret", (err, decoded) => {
+        jwt.verify(token, TOKEN, (err, decoded) => {
             if (err) {
-                res.json({ isLoggedin: false, message: "Failed to authenticate" })
+                res.json({ isLoggedin: false, message: "Failed to authenticate, Please Login First" })
             }
             else {
                 req.userId = decoded.id;
@@ -271,7 +285,7 @@ const verifyJWT = (req, res, next) => {
     }
 }
 app.get('/api/isUserAuth', verifyJWT, (req, res) => {
-    res.send({isLoggedin:true,message:"You are already logged in!!"})
+    res.send({ isLoggedin: true, message: "You are already logged in!!" })
 })
 
 //login
@@ -300,8 +314,8 @@ app.post("/api/login", async (req, res) => {
                     //admin tries to login
 
                     const id = r.id
-                    const token = jwt.sign({ id }, "jwtSecret", {
-                        expiresIn: 300,
+                    const token = jwt.sign({ id }, TOKEN, {
+                        expiresIn: '365d',
 
                     })
                     req.session.user = r;
@@ -633,6 +647,62 @@ app.delete("/api/deleteSnack/:id", async (req, res) => {
 })
 
 //Booking
+
+//twilio
+// const accountSid = process.env.ACCOUNT_SID;
+// const authToken = process.env.AUTH_TOKEN;
+// const smsKey = process.env.SMS_SECRET_KEY;
+// let twilioNum = process.env.TWILIO_PHONE_NUMBER;
+
+
+// const client = require('twilio')(accountSid,authToken); 
+//send SMS
+const Vonage = require('@vonage/server-sdk')
+const vonage = new Vonage({
+    apiKey: "1c9e59c6",
+    apiSecret: "3aUNQNExc4ZmMKMv"
+  })
+
+var bookingCode =""
+
+app.post("/api/sendSMS", async (req, res) => {
+    let userName = req.body.userName;
+    let userPhoneNumber = "91" + req.body.userPhoneNumber;
+    let movieName = req.body.movieName;
+    let amount = req.body.amount;
+    let screenNo = req.body.screenNo;
+    let seatType = req.body.seatType;
+    let showTime = req.body.showTime;
+    let showDate = req.body.showDate;
+    let snackType = req.body.snackType;
+
+    const from = "The Movie Bit"
+    const to = userPhoneNumber
+    const text = `Congratulations ${userName} !!!  You Booking for show at ${showTime} ${showDate} for Movie named ${movieName} is successfully Booked. 
+    Screen No : ${screenNo}
+    Seats : ${seatType}
+    Snacks : ${snackType}
+    Amount : ${amount}
+    Secret Code : ${bookingCode}`
+
+    res.send({message:"Booking SMS will be sent!!"})
+    
+    // vonage.message.sendSms(from, to, text, (err, responseData) => {
+    //     if (err) {
+    //         console.log(err);
+    //     } else {
+    //         if (responseData.messages[0]['status'] === "0") {
+    //             console.log("Message sent successfully.");
+    //             res.send({message:"Booking SMS will be sent!!"})
+    //         } else {
+    //             console.log(`Message failed with error: ${responseData.messages[0]['error-text']}`);
+    //             res.send({message:"Can't send SMS please check in your Booking History"})
+    //         }
+    //     }
+    // })
+})
+
+
 app.post("/api/insertBooking", async (req, res) => {
 
     let movieId = req.body.movieId;
@@ -643,6 +713,10 @@ app.post("/api/insertBooking", async (req, res) => {
     let snacks = req.body.snacks;
     let price = req.body.price;
     let payment_status = true;
+
+    bookingCode = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000
+
+    let code = bookingCode
 
     // console.log(movieId)
     // console.log(showId)
@@ -658,9 +732,10 @@ app.post("/api/insertBooking", async (req, res) => {
                                                 booking_date=?,
                                                 booking_snacks=?,
                                                 booking_price=?,
+                                                booking_code =?,
                                                 booking_payment_status=?`;
 
-    db.query(sqlInsert, [movieId, showId, userId, bookingDate, snacks, price, payment_status], (err, result) => {
+    db.query(sqlInsert, [movieId, showId, userId, bookingDate, snacks, price, code, payment_status], (err, result) => {
         if (err)
             console.log(err.message);
         else if (result) {
@@ -670,9 +745,10 @@ app.post("/api/insertBooking", async (req, res) => {
                                                       booking_date=? AND
                                                       booking_snacks=? AND
                                                       booking_price=? AND
+                                                      booking_code =? AND 
                                                       booking_payment_status=?`;
 
-            db.query(sqlGet, [movieId, showId, userId, bookingDate, snacks, price, payment_status], (error, result) => {
+            db.query(sqlGet, [movieId, showId, userId, bookingDate, snacks, price, code, payment_status], (error, result) => {
                 if (error) {
                     console.log(error);
                 }

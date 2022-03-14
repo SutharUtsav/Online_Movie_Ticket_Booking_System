@@ -115,9 +115,10 @@ const BookingHistory = (props) => {
 
     return (
         <div style={{ color: "white", height: "100%" }}>
+
             <button className={styles.back_btn} onClick={() => { props.setIsBookingHistory(false) }}><i className="fa fa-arrow-left" aria-hidden="true"></i></button>
 
-            <p style={{ fontSize: "35px", fontWeight: "bold", marginLeft: "35%", textDecorationLine: "underline" }}> List of Roles</p>
+            <p style={{ fontSize: "35px", fontWeight: "bold", marginLeft: "35%", textDecorationLine: "underline" }}> Bookings</p>
             <p style={{ marginLeft: "10%", textDecorationLine: "underline" }}>User Name : {props.user.user_name}</p>
             <table className="table" style={{ color: "white", marginLeft: "10%", width: "72%" }}>
                 <thead>
@@ -128,6 +129,7 @@ const BookingHistory = (props) => {
                         <th>Show Date</th>
                         <th>Seats</th>
                         <th>Booking Date</th>
+                        <th>Booking Code</th>
                         <th>Amount</th>
                     </tr>
                 </thead>
@@ -140,6 +142,7 @@ const BookingHistory = (props) => {
                             <td>{show_date}</td>
                             <td>{displaySeats(bk)}</td>
                             <td>{displayBookingDate(bk)}</td>
+                            <td>{bk.booking_code}</td>
                             <td>{bk.booking_price}</td>
                             <td>{ is_show_end ? (<p>Thank you for Booking!!</p>):(<button value={bk.id} className="btn btn-danger" onClick={DeleteBooking}>Cancel Booking</button>)}</td>
                         </tr>

@@ -5,7 +5,7 @@ import BookSnacks from './BookSnacks';
 
 const BookingSeat = (props) => {
 
-    
+
     const selectedSeats = [];
     const raws = 8;
     const cols = 8;
@@ -95,33 +95,33 @@ const BookingSeat = (props) => {
         catch (error) {
             console.log(error)
         }
-    },[])
+    }, [])
 
     function displaySeat(seat, index1, index2) {
         var state = true
         seats.forEach((st) => {
             if (st.seat_show_id === props.selectedShow.id & st.seat_type === seat.seat_type) {
-                state=false;
+                state = false;
             }
         })
 
-        if(!state){
-            return( raws /2 === (index1+1)?(
-                cols/2 === (index2+1)?(
-                    <div key={index2} className={styles.seat_occupied} style={{ marginBottom: "5pc",marginRight:"5pc" }}></div>
-                ):(
-                    index2===0?(
-                        <div key={index2} className={styles.seat_occupied} style={{ marginBottom: "5pc"}}></div>
-                    ):(
-                        index2 === (raws -1) ? (
-                            <div key={index2} className={styles.seat_occupied} style={{ marginBottom: "5pc" }}></div>
-                        ):(
+        if (!state) {
+            return (raws / 2 === (index1 + 1) ? (
+                cols / 2 === (index2 + 1) ? (
+                    <div key={index2} className={styles.seat_occupied} style={{ marginBottom: "5pc", marginRight: "5pc" }}></div>
+                ) : (
+                    index2 === 0 ? (
                         <div key={index2} className={styles.seat_occupied} style={{ marginBottom: "5pc" }}></div>
+                    ) : (
+                        index2 === (raws - 1) ? (
+                            <div key={index2} className={styles.seat_occupied} style={{ marginBottom: "5pc" }}></div>
+                        ) : (
+                            <div key={index2} className={styles.seat_occupied} style={{ marginBottom: "5pc" }}></div>
                         )))
-            ):(
-                cols/2 === (index2+1)?(
-                    <div key={index2} className={styles.seat_occupied} style={{ marginRight:"5pc" }}></div>
-                ):(<div key={index2} className={styles.seat_occupied}></div>)
+            ) : (
+                cols / 2 === (index2 + 1) ? (
+                    <div key={index2} className={styles.seat_occupied} style={{ marginRight: "5pc" }}></div>
+                ) : (<div key={index2} className={styles.seat_occupied}></div>)
             ))
 
         }
@@ -130,7 +130,7 @@ const BookingSeat = (props) => {
                 cols / 2 === (index2 + 1) ? (
                     <div key={index2} className={styles.seat} style={{ marginBottom: "5pc", marginRight: "5pc" }} onClick={
                         (e) => {
-                            console.log(seat.selected)
+                            //console.log(seat.selected)
                             seat.selected = !seat.selected;
                             console.log(seat.selected)
                             if (seat.selected === true) {
@@ -144,6 +144,15 @@ const BookingSeat = (props) => {
                                     selectedSeats.push(seat)
                                     localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
                                 }
+
+                                const sts = []
+                                selectedSeats.forEach((st) => {
+                                    if (st !== null) {
+                                        sts.push(st)
+                                    }
+                                })
+                                localStorage.setItem('selectedSeats', JSON.stringify(sts));
+
 
                             }
                             else {
@@ -183,6 +192,15 @@ const BookingSeat = (props) => {
                                         localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
                                     }
 
+                                    const sts = []
+                                    selectedSeats.forEach((st) => {
+                                        if (st !== null) {
+                                            sts.push(st)
+                                        }
+                                    })
+                                    localStorage.setItem('selectedSeats', JSON.stringify(sts));
+
+
                                 }
                                 else {
                                     e.target.className = styles.seat
@@ -220,6 +238,15 @@ const BookingSeat = (props) => {
                                         localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
                                     }
 
+                                    const sts = []
+                                    selectedSeats.forEach((st) => {
+                                        if (st !== null) {
+                                            sts.push(st)
+                                        }
+                                    })
+                                    localStorage.setItem('selectedSeats', JSON.stringify(sts));
+
+
                                 }
                                 else {
                                     e.target.className = styles.seat
@@ -256,6 +283,15 @@ const BookingSeat = (props) => {
                                             selectedSeats.push(seat)
                                             localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
                                         }
+
+                                        const sts = []
+                                        selectedSeats.forEach((st) => {
+                                            if (st !== null) {
+                                                sts.push(st)
+                                            }
+                                        })
+                                        localStorage.setItem('selectedSeats', JSON.stringify(sts));
+
 
                                     }
                                     else {
@@ -295,6 +331,14 @@ const BookingSeat = (props) => {
                                     localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
                                 }
 
+                                const sts = []
+                                selectedSeats.forEach((st) => {
+                                    if (st !== null) {
+                                        sts.push(st)
+                                    }
+                                })
+                                localStorage.setItem('selectedSeats', JSON.stringify(sts));
+
                             }
                             else {
                                 e.target.className = styles.seat
@@ -323,6 +367,7 @@ const BookingSeat = (props) => {
                             if (seat.selected === true) {
                                 e.target.className = styles.seat_selected
                                 var getSelectesSeats1 = JSON.parse(localStorage.getItem('selectedSeats'))
+
                                 if (getSelectesSeats1 === 0) {
                                     selectedSeats.push(seat)
                                     localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
@@ -331,6 +376,15 @@ const BookingSeat = (props) => {
                                     selectedSeats.push(seat)
                                     localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
                                 }
+
+                                const sts = []
+                                selectedSeats.forEach((st) => {
+                                    if (st !== null) {
+                                        sts.push(st)
+                                    }
+                                })
+                                localStorage.setItem('selectedSeats', JSON.stringify(sts));
+
 
                             }
                             else {
@@ -358,7 +412,7 @@ const BookingSeat = (props) => {
             ))
 
         }
-        
+
     }
 
     function addSeat() {
@@ -366,8 +420,11 @@ const BookingSeat = (props) => {
         var array = []
         if (selectedSeats != null) {
             selectedSeats.forEach((seat) => {
-                array.push(seat)
-                setSelectSeat(array)
+                if (seat.selected === true) {
+                    array.push(seat)
+                    setSelectSeat(array)
+                }
+
             })
             //localStorage.removeItem("selectedSeats")
             setIsSeatSelected(true)
@@ -411,14 +468,14 @@ const BookingSeat = (props) => {
                             <div key={index1} className={styles.row}>
                                 {raw.map((seat, index2) => (
                                     <span key={index2}>
-                                    {displaySeat(seat, index1, index2)}
+                                        {displaySeat(seat, index1, index2)}
                                     </span>
                                 ))}
                             </div>
 
                         ))}
-                        <div className={styles.screen}><p style={{color:"black",textAlign:"center"}}>screen</p></div>
-                        
+                        <div className={styles.screen}><p style={{ color: "black", textAlign: "center" }}>screen</p></div>
+
                     </div>
                     <div className="form-group col-lg-12 mx-auto mb-0">
                         <button className="btn btn-outline-info py-2 font-weight-bold d-grid col-6 mx-auto" onClick={addSeat}>Proceed...</button>

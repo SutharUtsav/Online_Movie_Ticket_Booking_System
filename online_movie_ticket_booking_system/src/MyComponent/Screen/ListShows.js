@@ -67,12 +67,12 @@ const ListShows = (props) => {
                     et.setTime(show.screen_show_end_time);
 
                     if (start_time.getTime() < st.getTime()) {
-                        if (end_time.getTime() > st.getTime() & end_time.getTime() < et.getTime()) {
+                        if (end_time.getTime() > st.getTime() & end_time.getTime() < et.getTime() & show.id !== showId ) {
                             alert("This slot is already allocated")
                             status = false;
                         }
                     }
-                    else if (start_time.getTime() > st.getTime() & start_time.getTime() < et.getTime()) {
+                    else if (start_time.getTime() > st.getTime() & start_time.getTime() < et.getTime() & show.id !== showId) {
                         alert("This slot is already allocated")
                         status = false;
                     }
@@ -188,7 +188,8 @@ const ListShows = (props) => {
         if (releaseDate.getTime() <= today.getTime()) {
             return (
                 <>
-                    <input className='form-check-input mx-2 mb-2 ' type="radio" checked={selectedMovieID === movie.id ? true : false} name="radioNoLabel" id="radioNoLabel1" value={movie.id} onChange={(e) => { setSelectedMovieID(e.target.value); setSelectedMovieHours(movie.movie_hours) }} required />{movie.movie_name}
+                {/* checked={selectedMovieID === movie.id ? true : false} */}
+                    <input className='form-check-input mx-2 mb-2 ' type="radio"  name="radioNoLabel" id="radioNoLabel1" value={movie.id} onChange={(e) => { setSelectedMovieID(e.target.value); setSelectedMovieHours(movie.movie_hours) }} required />{movie.movie_name}
                 </>
             )
         }

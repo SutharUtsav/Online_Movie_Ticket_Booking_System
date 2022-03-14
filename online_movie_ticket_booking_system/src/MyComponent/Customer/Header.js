@@ -60,7 +60,7 @@ export default function Header(props) {
       <nav className={styles.navbar}>
 
         <div className="d-flex" style={{ width: "100%" }}>
-          <img src='/movie_logo.png' alt="movie-logo" width="200px" className="bg-red" ></img>
+          <img src='/movie_logo_13.png' alt="movie-logo" width="200px" className="bg-red" ></img>
           <i className="fa fa-search" aria-hidden="true" style={{ color: "white", padding: "10px", marginLeft:"15%", fontSize: "20px", borderRadius: "6px" }}></i>
           <input className="form-control me-2 w-8" style={{width:"38%",height:"3pc"}} type="search" placeholder="Enter Movie Name" value={props.searchData} aria-label="Search" onChange={(e) => { props.setSearchData(e.target.value) }} />
 

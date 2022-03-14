@@ -98,9 +98,9 @@ const BookSnacks = (props) => {
             props.setIsSeatSelected(false)
         }}><i className="fa fa-arrow-left" aria-hidden="true"></i></button>
         <center><h1><u>Select Snacks</u></h1></center>
-        <div className="m-5" style={{ overflowX: "auto", display: "flex" }}>
+        <div style={{ overflowX: "auto", display: "flex",margin:"3pc 20pc" }}>
             {snacks.map((snack, index) => (
-                <div key={index} className="card m-2" style={{ width: "18rem" }}>
+                <div key={index} className="card m-4" style={{ width: "18rem" }}>
                     <img src={process.env.PUBLIC_URL + "/Snacks/" + snack.snack_image} alt='snack_image' width="300" height="300" className='card-img-top' />
                     <div className="card-body" style={{ color: "black" }}>
                         <h5 className="card-title">{snack.snack_type}</h5>

@@ -133,7 +133,7 @@ const Snack = () => {
                         </div>
                     </div>
                 </div>) : ""}
-            <div className="container-fluid "   >
+            <div className="container-fluid "  style={{width:"67vw",marginLeft:"5pc"}} >
                 <div className="row" style={{ overflowX: 'auto', color: "white" }} >
                     <ListSnacks snacks={snacks} setSelectedSnack = {setSelectedSnack}/>
                 </div>
@@ -142,7 +142,7 @@ const Snack = () => {
     ):(
        
         <div className={styles.content}>
-            <button className={styles.close_btn} onClick={() => { setSelectedSnack(null) }}><i className="fa fa-close" style={{ fontSize: "24px" }}></i></button>
+            <button className={styles.close_btn} onClick={() => { setSelectedSnack(null) }}><i className="fa fa-close mx-1"></i></button>
             <ViewSnack snack={selectedSnack} setSnack={setSelectedSnack}/>
         </div>
     );

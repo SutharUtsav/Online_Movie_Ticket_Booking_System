@@ -12,11 +12,17 @@ npm install react-router-dom
 npm install axios 
 
 
+//OTP verification
+npm install --save firebase
+
+
 //for backend
 npm init
 npm install express body-parser mysql
 npm install nodemon   //it helps develop node. js based applications by automatically restarting the node application when file changes in the directory are detected.
 npm install cors
+npm install path
+
 
 //for authentication
 npm install jsonwebtoken
@@ -24,3 +30,9 @@ npm install jsonwebtoken
 npm install bcrypt //for password hashing
 
 npm install express-session body-parser cookie-parser //for session and cookie
+
+//To send SMS
+npm install twilio 
+
+npm install nexmo 
+npm install @vonage/server-sdk

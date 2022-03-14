@@ -1,6 +1,8 @@
 .addshowbutton{
     color: white;
     background-color: darkcyan;
+    border: none;
+    border-radius: 25px;
     font-weight: 500;
     height: 50px;
     width: 15%;
