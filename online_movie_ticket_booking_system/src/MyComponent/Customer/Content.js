@@ -1,10 +1,12 @@
 import React from 'react';
-// import axios from 'axios';
-// import BookingSeat from '../BookingSeat/BookingSeat';
+import useWindowDimensions from "../useWindowDimensions";
+
 
 const Content = (props) => {
-        // const [isBook,setIsBook]=useState(false)
 
+        const {height,width}=useWindowDimensions();
+  
+        
         var noSearch = false;
         function playtrailer(e) {
 
@@ -14,8 +16,7 @@ const Content = (props) => {
         function displayMovies(movie) {
                 var status = false;
                 props.shows.forEach((show) => {
-                        // const date = new Date()
-                        // date.setTime(show.screen_show_start_time)
+                        
                         const today = new Date()
                         if (show.screen_movie_id === movie.id && show.screen_show_start_time > today.getTime()) {
                                 status = true;
@@ -68,7 +69,7 @@ const Content = (props) => {
                                         <h3 style={{ marginTop: "3pc", textAlign:"center" }}>Now Showing</h3>
                                 </div>
                         </>) : <h3 style={{ marginTop: "2pc", marginLeft: "3pc" }}>Searching Result</h3>}
-                        <div style={{marginLeft:"10%"}}>
+                        <div style={ width>=1024 ? {marginLeft:"10%"}:{}}>
                 {props.movies.map((movie, index) => (
                         <div key={index} >
                                 {displayMovies(movie)}
@@ -78,7 +79,6 @@ const Content = (props) => {
                 
                 {noSearch?<p style={{ color: "red", padding: "11px 0"}}>Sorry, No Search result by {props.searchData} </p>:""}
                 </div>
-                {/* {!isBook ? <BookingSeat />:"" } */}
         </div>
         );
 }

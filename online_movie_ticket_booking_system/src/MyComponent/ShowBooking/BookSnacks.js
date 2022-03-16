@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import styles from './booking.module.css'
 import axios from 'axios';
 import BookingInfo from './BookingInfo';
+import useWindowDimensions from "../useWindowDimensions";
 
 const BookSnacks = (props) => {
+
+    const {height,width}=useWindowDimensions();
+  
     const selectedSnacks = []
     const [snacks, setSnack] = useState([]);
     const [selectedSnack, setSelectedSnack] = useState([]);
@@ -91,14 +95,14 @@ const BookSnacks = (props) => {
         }
     }
 
-    return (!isProceedtoPay) ? (<div style={{ color: "white", height: "100%", width: "100%" }}>
+    return (!isProceedtoPay) ? (<div style={ width>=1024 ? { color: "white", height: "100%", width: "100%" }:{color:"white",width:"100vw"}}>
         <button className={styles.back_btn} onClick={() => {
             localStorage.removeItem('selectedSeats')
             localStorage.removeItem('selectedSnacks')
             props.setIsSeatSelected(false)
         }}><i className="fa fa-arrow-left" aria-hidden="true"></i></button>
         <center><h1><u>Select Snacks</u></h1></center>
-        <div style={{ overflowX: "auto", display: "flex",margin:"3pc 20pc" }}>
+        <div style={ window.width>=1024 ? { overflowX: "auto", display: "flex",margin:"3pc 20pc" }:{}}>
             {snacks.map((snack, index) => (
                 <div key={index} className="card m-4" style={{ width: "18rem" }}>
                     <img src={process.env.PUBLIC_URL + "/Snacks/" + snack.snack_image} alt='snack_image' width="300" height="300" className='card-img-top' />

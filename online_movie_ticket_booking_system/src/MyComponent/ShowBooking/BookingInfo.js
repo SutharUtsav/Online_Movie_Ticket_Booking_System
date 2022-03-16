@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import styles from './booking.module.css'
 import axios from 'axios';
+import useWindowDimensions from "../useWindowDimensions";
 
 const BookingInfo = (props) => {
 
 
     const [ispay, setIsPay] = useState(false)
-
+    const {height,width}=useWindowDimensions();
+  
 
     let selected_seat = "";
     let snack_type = "";
@@ -73,14 +75,14 @@ const BookingInfo = (props) => {
         }
     }
 
-    return (<div style={{ color: "white", height: "100%", width: "100%" }}>
+    return (<div style={width >= 1024 ? { color: "white", height: "100%", width: "100%" } : { color: "white" }}>
         <button className={styles.back_btn} onClick={() => {
             localStorage.removeItem('selectedSnacks')
             props.setIsProceedtoPay(false)
         }}><i className="fa fa-arrow-left" aria-hidden="true"></i></button>
 
         {ispay ? (
-            <div class="spinner-border text-info" style={{marginLeft:"50%"}} role="status">
+            <div class="spinner-border text-info" style={{ marginLeft: "50%" }} role="status">
                 <span class="sr-only">Loading...</span>
             </div>
         ) : ""}
@@ -88,54 +90,61 @@ const BookingInfo = (props) => {
             <h1><center><u>Booking Info</u></center></h1>
 
 
-            <div className={styles.cardWrap}>
-                <div className={styles.cardLeft}>
-                    <p style={{ fontSize: "2pc", textAlign: "center", background: "rgba(214, 19, 19, 0.822)", borderRadius: "8px" }}>Ticket</p>
-                    <div className={styles.ticket_title}>
-                        <span style={{ fontSize: ".7pc" }}>movie</span>
-                        <p>{props.selectedMovie.movie_name}</p>
-                    </div>
-                    <div className={styles.amount}>
-                        <span style={{ fontSize: ".7pc" }}>amount</span>
-                        <p style={{ fontWeight: "bold" }}>{amount}</p>
-                    </div>
-                    <div className={styles.ticket_name}>
-                        <span style={{ fontSize: ".7pc" }}>name</span>
-                        <p>{props.user.user_name}</p>
-                    </div>
-                    <div className={styles.ticket_name}>
-                        <span style={{ fontSize: ".7pc" }}>screen</span>
-                        <p>{props.selectedShow.screen_no}</p>
-                    </div>
-                    <div className={styles.ticket_seat}>
-                        <span style={{ fontSize: ".7pc", display: "block" }}>seat</span>
-                        {props.selectedSeat.map((seat, index) => (<span key={index}>
-                            <p style={{ display: "inline" }}>{seat.seat_type + " "}</p>
-                            {<span style={{display:"none"}}>{selected_seat += seat.seat_type + " "}</span>}
-                        </span>
-                        ))}
-                    </div>
-                    <div className={styles.ticket_time}>
-                        <span style={{ fontSize: ".7pc" }}>Time</span>
-                        <p>{start_time.getHours()}:{start_time.getMinutes()} - {end_time.getHours()}:{end_time.getMinutes()}</p>
+            {width >= 1024 ? (
 
-                    </div>
-
-                    {(props.selectedSnack !== null) ? (
-                        <div className={styles.ticket_snack}>
-                            <span style={{ fontSize: ".7pc", display: "block" }}>Snacks</span>
-                            {props.selectedSnack.map((snack, index) => (
-                                <span key={index}>
-                                    <p style={{ display: "block", margin: "0px" }}>{snack.snack_type + "\n"}</p>
-                                    {<span style={{display:"none"}}>{snack_type += snack.snack_type + " "}</span>}
-                                    
-                                </span>
+                <div className={styles.cardWrap}>
+                    <div className={styles.cardLeft}>
+                        <p style={{ fontSize: "2pc", textAlign: "center", background: "rgba(214, 19, 19, 0.822)", borderRadius: "8px" }}>Ticket</p>
+                        <div className={styles.ticket_title}>
+                            <span style={{ fontSize: ".7pc" }}>movie</span>
+                            <p>{props.selectedMovie.movie_name}</p>
+                        </div>
+                        <div className={styles.amount}>
+                            <span style={{ fontSize: ".7pc" }}>amount</span>
+                            <p style={{ fontWeight: "bold" }}>{amount}</p>
+                        </div>
+                        <div className={styles.ticket_name}>
+                            <span style={{ fontSize: ".7pc" }}>name</span>
+                            <p>{props.user.user_name}</p>
+                        </div>
+                        <div className={styles.ticket_name}>
+                            <span style={{ fontSize: ".7pc" }}>screen</span>
+                            <p>{props.selectedShow.screen_no}</p>
+                        </div>
+                        <div className={styles.ticket_seat}>
+                            <span style={{ fontSize: ".7pc", display: "block" }}>seat</span>
+                            {props.selectedSeat.map((seat, index) => (<span key={index}>
+                                <p style={{ display: "inline" }}>{seat.seat_type + " "}</p>
+                                {<span style={{ display: "none" }}>{selected_seat += seat.seat_type + " "}</span>}
+                            </span>
                             ))}
                         </div>
-                    ) : ""}
+                        <div className={styles.ticket_time}>
+                            <span style={{ fontSize: ".7pc" }}>Time</span>
+                            <p>{start_time.getHours()}:{start_time.getMinutes()} - {end_time.getHours()}:{end_time.getMinutes()}</p>
 
+                        </div>
+
+                        {(props.selectedSnack !== null) ? (
+                            <div className={styles.ticket_snack}>
+                                <span style={{ fontSize: ".7pc", display: "block" }}>Snacks</span>
+                                {props.selectedSnack.map((snack, index) => (
+                                    <span key={index}>
+                                        <p style={{ display: "block", margin: "0px" }}>{snack.snack_type + "\n"}</p>
+                                        {<span style={{ display: "none" }}>{snack_type += snack.snack_type + " "}</span>}
+
+                                    </span>
+                                ))}
+                            </div>
+                        ) : (
+                            <div></div>
+                        )}
+
+                    </div>
                 </div>
-            </div>
+
+            ) : ""}
+
         </div>
 
         <div className="col-lg-12" style={{ marginTop: "37pc" }}>

@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import styles from './booking.module.css'
 import axios from 'axios';
 import BookSnacks from './BookSnacks';
+import useWindowDimensions from "../useWindowDimensions";
 
 const BookingSeat = (props) => {
 
+    const {height,width}=useWindowDimensions();
+  
 
     const selectedSeats = [];
     const raws = 8;
@@ -108,27 +111,27 @@ const BookingSeat = (props) => {
         if (!state) {
             return (raws / 2 === (index1 + 1) ? (
                 cols / 2 === (index2 + 1) ? (
-                    <div key={index2} className={styles.seat_occupied} style={{ marginBottom: "5pc", marginRight: "5pc" }}></div>
+                    <div key={index2} className={styles.seat_occupied} style={ width>=1024 ? { marginBottom: "5pc", marginRight: "5pc" } :{width:"1pc",height:"1pc",margin:"10px 2pc 2pc 10px"}}></div>
                 ) : (
                     index2 === 0 ? (
-                        <div key={index2} className={styles.seat_occupied} style={{ marginBottom: "5pc" }}></div>
+                        <div key={index2} className={styles.seat_occupied} style={width>=1024 ?{ marginBottom: "5pc" }:{width:"1pc",height:"1pc",margin:"10px 10px 2pc 10px"}}></div>
                     ) : (
                         index2 === (raws - 1) ? (
-                            <div key={index2} className={styles.seat_occupied} style={{ marginBottom: "5pc" }}></div>
+                            <div key={index2} className={styles.seat_occupied} style={width>=1024 ?{ marginBottom: "5pc" }:{width:"1pc",height:"1pc",margin:"10px 10px 2pc 10px"}}></div>
                         ) : (
-                            <div key={index2} className={styles.seat_occupied} style={{ marginBottom: "5pc" }}></div>
+                            <div key={index2} className={styles.seat_occupied} style={width>=1024 ?{ marginBottom: "5pc" }:{width:"1pc",height:"1pc",margin:"10px 10px 2pc 10px"}}></div>
                         )))
             ) : (
                 cols / 2 === (index2 + 1) ? (
-                    <div key={index2} className={styles.seat_occupied} style={{ marginRight: "5pc" }}></div>
-                ) : (<div key={index2} className={styles.seat_occupied}></div>)
+                    <div key={index2} className={styles.seat_occupied} style={width>=1024 ?{ marginRight: "5pc" }:{width:"1pc",height:"1pc",margin:"10px 2pc 10px 10px"}}></div>
+                ) : (<div key={index2} className={styles.seat_occupied} style={width>=1024 ?{ }:{width:"1pc",height:"1pc",margin:"10px"}}></div>)
             ))
 
         }
         else {
             return (raws / 2 === (index1 + 1) ? (
                 cols / 2 === (index2 + 1) ? (
-                    <div key={index2} className={styles.seat} style={{ marginBottom: "5pc", marginRight: "5pc" }} onClick={
+                    <div key={index2} className={styles.seat} style={width>=1024 ?{ marginBottom: "5pc", marginRight: "5pc" }:{width:"1pc",height:"1pc",margin:"10px 2pc 2pc 10px" }} onClick={
                         (e) => {
                             //console.log(seat.selected)
                             seat.selected = !seat.selected;
@@ -177,7 +180,7 @@ const BookingSeat = (props) => {
                     </div>
                 ) : (
                     index2 === 0 ? (
-                        <div key={index2} className={styles.seat} style={{ marginBottom: "5pc" }} onClick={
+                        <div key={index2} className={styles.seat} style={width>=1024 ?{ marginBottom: "5pc" }:{width:"1pc",height:"1pc",margin:"10px 10px 2pc 10px"}} onClick={
                             (e) => {
                                 seat.selected = !seat.selected;
                                 if (seat.selected === true) {
@@ -221,9 +224,9 @@ const BookingSeat = (props) => {
                             }
                         }>
                             <span className={styles.tooltiptext}>{seat.seat_type} - {seat.seat_price}Rs.</span>
-                            <div style={{ marginTop: "4pc", width: "37px", border: "none", borderRadius: "25px" }} className="btn btn-light"><i className="fa fa-arrow-left" style={{ display: "content" }} aria-hidden="true"></i></div>
+                            <div style={width>=1024 ?{ marginTop: "4pc", width: "37px", border: "none", borderRadius: "25px" }:{marginTop: "1.5pc", width: "35px",height:"24px", border: "none", borderRadius: "20px"}} className="btn btn-light"><i className="fa fa-arrow-left" style={width>=1024 ?{ display: "content" }:{display:"block",fontSize:"12px"}} aria-hidden="true"></i></div>
                         </div>) : (
-                        index2 === (raws - 1) ? (<div key={index2} className={styles.seat} style={{ marginBottom: "5pc" }} onClick={
+                        index2 === (raws - 1) ? (<div key={index2} className={styles.seat} style={width>=1024 ?{ marginBottom: "5pc" }:{width:"1pc",height:"1pc",margin:"10px 10px 2pc 10px"}} onClick={
                             (e) => {
                                 seat.selected = !seat.selected;
                                 if (seat.selected === true) {
@@ -267,9 +270,9 @@ const BookingSeat = (props) => {
                             }
                         }>
                             <span className={styles.tooltiptext}>{seat.seat_type} - {seat.seat_price}Rs.</span>
-                            <div style={{ marginTop: "4pc", width: "37px", border: "none", borderRadius: "25px" }} className="btn btn-light"><i className="fa fa-arrow-left" style={{ display: "content" }} aria-hidden="true"></i></div>
+                            <div style={ width>=1024 ?{ marginTop: "4pc", width: "37px", border: "none", borderRadius: "25px" }:{marginTop: "1.5pc", width: "35px",height:"24px", border: "none", borderRadius: "20px"}} className="btn btn-light"><i className="fa fa-arrow-left" style={width>=1024 ?{ display: "content" }:{display:"block",fontSize:"12px"}} aria-hidden="true"></i></div>
                         </div>) : (
-                            <div key={index2} className={styles.seat} style={{ marginBottom: "5pc" }} onClick={
+                            <div key={index2} className={styles.seat} style={width>=1024 ?{ marginBottom: "5pc" }:{ width:"1pc",height:"1pc",margin:"10px 10px 2pc 10px"}} onClick={
                                 (e) => {
                                     seat.selected = !seat.selected;
                                     if (seat.selected === true) {
@@ -316,7 +319,7 @@ const BookingSeat = (props) => {
                             </div>)))
             ) : (
                 cols / 2 === (index2 + 1) ? (
-                    <div key={index2} className={styles.seat} style={{ marginRight: "5pc" }} onClick={
+                    <div key={index2} className={styles.seat} style={width>=1024 ?{ marginRight: "5pc" }:{width:"1pc",height:"1pc",margin:"10px 2pc 10px 10px"}} onClick={
                         (e) => {
                             seat.selected = !seat.selected;
                             if (seat.selected === true) {
@@ -361,7 +364,7 @@ const BookingSeat = (props) => {
                         <span className={styles.tooltiptext}>{seat.seat_type} - {seat.seat_price}Rs.</span>
                     </div>
                 ) : (
-                    <div key={index2} className={styles.seat} onClick={
+                    <div key={index2} className={styles.seat} style={width>=1024 ? {}:{width:"1pc",height:"1pc",margin:"10px"}} onClick={
                         (e) => {
                             seat.selected = !seat.selected;
                             if (seat.selected === true) {
@@ -418,7 +421,7 @@ const BookingSeat = (props) => {
     function addSeat() {
         var selectedSeats = JSON.parse(localStorage.getItem('selectedSeats'))
         var array = []
-        if (selectedSeats != null) {
+        if (selectedSeats !== null) {
             selectedSeats.forEach((seat) => {
                 if (seat.selected === true) {
                     array.push(seat)
@@ -427,11 +430,18 @@ const BookingSeat = (props) => {
 
             })
             //localStorage.removeItem("selectedSeats")
-            setIsSeatSelected(true)
+            if(array.length >0 ){
+                setIsSeatSelected(true)
+            }
+            else{
+                alert("Please Select Seats")
+            }
         }
         else {
             alert("Please Select Seats")
         }
+
+        
 
     }
 
@@ -444,26 +454,25 @@ const BookingSeat = (props) => {
                     props.setIsShowSelected(false)
                 }}><i className="fa fa-arrow-left" aria-hidden="true"></i></button>
 
-                <div style={{ marginLeft: "16%", marginRight: "23%" }}>
-                    <ul className={styles.showcase}>
+                <div style={  width >=1024? { marginLeft: "16%", marginRight: "23%" }:{}}>
+                    <ul className={styles.showcase} style={  width >=1024? {}:{justifyContent:"unset"}}>
                         <li>
-                            <div className={styles.seat}></div>
+                            <div className={styles.seat} style={width >=1024 ?{}:{width:"1pc",height:"1pc"}}></div>
                             N/A
                         </li>
 
                         <li>
-                            <div className={styles.seat_selected}></div>
+                            <div className={styles.seat_selected} style={width >=1024 ?{}:{width:"1pc",height:"1pc"}}></div>
                             Selected
                         </li>
 
                         <li>
-                            <div className={styles.seat_occupied}></div>
+                            <div className={styles.seat_occupied} style={width >=1024 ?{}:{width:"1pc",height:"1pc"}}></div>
                             Occupied
                         </li>
                     </ul>
 
-                    <div className={styles.container}>
-                        {/* <div className={styles.screen}></div> */}
+                    <div className={styles.container} style={  width >=1024? {}:{marginLeft:"2pc"}}>
                         {theater.map((raw, index1) => (
                             <div key={index1} className={styles.row}>
                                 {raw.map((seat, index2) => (

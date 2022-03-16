@@ -25,15 +25,17 @@ const Collection = () => {
         today_str += today.getDate()
     }
 
-
-
     const [bookings, setBookings] = useState([])
     const [movies, setMovies] = useState([])
     const [consumers, setConsumers] = useState([])
     const [selectedDate, setSelectedDate] = useState(today_str)
-    const [selectedMovie, setSelectedMovie] = useState("")
+    const [selectedMovieId, setSelectedMovieId] = useState("-")
+    //const [selectedMovie, setSelectedMovie] = useState([])
+    const [selectedWeek, setSelectedWeek] = useState("-")
+    const [selectedMonth, setSelectedMonth] = useState("-")
 
 
+    
     useEffect(() => {
         let isMounted = true; //for cleanup
         try {
@@ -64,7 +66,7 @@ const Collection = () => {
         catch (error) {
             console.log(error)
         }
-    }, [selectedDate])
+    }, [])
 
     let phone_number = ""
     let collection = 0
@@ -89,8 +91,6 @@ const Collection = () => {
             if (movie.id === booking.booking_movie_id) {
                 name += movie.movie_name
             }
-
-
         })
         return name;
     }
@@ -117,7 +117,17 @@ const Collection = () => {
         }
 
         if (date_str === selectedDate) {
-            return true
+            if (selectedMovieId !== '-') {
+                if (parseInt(selectedMovieId) === booking.booking_movie_id) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                return true
+            }
         }
         else {
             return false
@@ -138,87 +148,149 @@ const Collection = () => {
         return false
     }
 
-    var selected_movie_week=[]
-    var selected_movie_month=[]
-    function getWeeksMonths(date){
-        let week =1;
-        let month=1;
-        const release_day = new Date();
-        release_day.setDate(date.substring(8, 10))
-        release_day.setMonth(parseInt(date.substring(5, 7)) - 1)
-        release_day.setFullYear(date.substring(0, 4))
+    
+    var selectedMovie_name=""
 
-        while(today.getTime() >= release_day.getTime()){
-            selected_movie_week.push(week);
-            week++;
-            release_day.setDate(release_day.getDate()+7)
-        }
 
-        release_day.setDate(date.substring(8, 10))
-        release_day.setMonth(parseInt(date.substring(5, 7)) - 1)
-        release_day.setFullYear(date.substring(0, 4))
+    var selected_movie_week = []
+    var selected_movie_month = []
+    function getWeeksMonths(id) {
+        let week = 1;
+        let month = 1;
+        movies.forEach((movie) => {
+            if (movie.id === parseInt(id)) {
 
-        while(today.getTime() >= release_day.getTime()){
-            selected_movie_month.push(month);
-            month++;
-            release_day.setDate(release_day.getDate()+28)
-        }
+               selectedMovie_name = movie.movie_name
+                const date = movie.movie_release_date
+                const release_day = new Date();
+                release_day.setDate(date.substring(8, 10))
+                release_day.setMonth(parseInt(date.substring(5, 7)) - 1)
+                release_day.setFullYear(date.substring(0, 4))
+
+                while (today.getTime() >= release_day.getTime()) {
+                    selected_movie_week.push(week);
+                    week++;
+                    release_day.setDate(release_day.getDate() + 7)
+                }
+
+                release_day.setDate(date.substring(8, 10))
+                release_day.setMonth(parseInt(date.substring(5, 7)) - 1)
+                release_day.setFullYear(date.substring(0, 4))
+
+                while (today.getTime() >= release_day.getTime()) {
+                    selected_movie_month.push(month);
+                    month++;
+                    release_day.setDate(release_day.getDate() + 28)
+                }
+            }
+        })
+    }
+
+
+    function getWeeksMonthsBooking(booking) {
+        let status = false;
+        movies.forEach((movie)=>{
+            if(movie.id === parseInt(selectedMovieId)){
+                if (booking.booking_movie_id === parseInt(selectedMovieId)) {
+                    selectedMovie_name = movie.movie_name
+
+                    const date = movie.movie_release_date
+                    const release_day = new Date();
+                    release_day.setDate(date.substring(8, 10))
+                    release_day.setMonth(parseInt(date.substring(5, 7)) - 1)
+                    release_day.setFullYear(date.substring(0, 4))
+                    if (selectedWeek !== '-' & selectedMonth === '-') {
+                        
+                        release_day.setDate(release_day.getDate() + selectedWeek * 7)
+
+                        // console.log(selectedWeek)
+                        if (booking.booking_date <= release_day.getTime()) {
+                            // console.log("Week "+ selectedWeek)
+                            status = true;
+                        }
+                        
+                    }
+                    else {
+                        release_day.setDate(release_day.getDate() + selectedMonth*28)
+                        if (booking.booking_date <= release_day.getTime()) {
+                            status = true;
+                        }
+                    }
+                }
+            }
+        })
+
+        return status;
+
+        
     }
 
     return (<div className={styles.content}>
         <p className={styles.RoleList}> List of Bookings</p>
-        <div style={window.innerWidth > 1000 ? { display: "flex", marginLeft: "21%", width: "inherit" } : { display: "block", marginLeft: "21%", width: "inherit" }}>
+        <div style={window.innerWidth > 1000 ? selectedMovieId === "-" ? { display: "flex", marginLeft: "30%", width: "inherit" } : { display: "flex", marginLeft: "20%", width: "inherit" } : { display: "block", marginLeft: "20%", width: "inherit" }}>
             <div style={{ display: "block", position: "relative", margin: "1pc" }}>
                 <label htmlFor="SelectMovie" style={{ fontSize: "larger" }}>Select Movie:</label>
-                <select defaultValue="All Movie" id="SelectMovie" style={{ display: "block", padding: "7px", border: "none", borderRadius: "4px", width: "8pc" }} onChange={(e) => { console.log(e.target.value); setSelectedMovie(e.target.value) }}>
-                    <option>All Movies</option>
-                    {movies.map((m, index) => (
-                        <option value={m.movie_release_date} key={index} style={isReleased(m.movie_release_date) ? {} : { display: "none" }}>
+                <select value={selectedMovieId} id="SelectMovie" style={{ display: "block", padding: "7px", border: "none", borderRadius: "4px", width: "8pc" }} onChange={(e) => {
+                    if(e.target.value === '-'){
+                        setSelectedWeek('-')
+                        setSelectedMonth('-')
+                    }
+                    setSelectedMovieId(e.target.value) }}>
+                    <option value="-">All Movies</option>
+                    {movies.map((m) => (
+                        <option value={m.id} key={m.id} style={isReleased(m.movie_release_date) ? {} : { display: "none" }} >
                             {m.movie_name}
                         </option>
                     ))}
-
                 </select>
             </div>
-
-            {selectedMovie !== "All Movie" ? (
+            {selectedMovieId !== "-" ? (
                 <>
                     <div style={{ display: "block", position: "relative", margin: "1pc" }}>
                         <label htmlFor="selectWeek" style={{ fontSize: "larger" }}>Select Week:</label>
-                        {getWeeksMonths(selectedMovie)}
-                        <select  id="selectWeek" style={{ display: "block", padding: "7px", border: "none", borderRadius: "4px", width: "8pc" }}>
-                            {selected_movie_week.map((week,index)=>(
-                                <option key={index}>
-                                {week}
-                            </option>
+                        {getWeeksMonths(selectedMovieId)}
+                        <select id="selectWeek" value={selectedWeek} style={{ display: "block", padding: "7px", border: "none", borderRadius: "4px", width: "8pc" }} onChange={(e) => { setSelectedWeek(e.target.value); setSelectedMonth("-") }}>
+                            <option value="-">-</option>
+                            {selected_movie_week.map((week, index) => (
+                                <option value={week} key={index}>
+                                    {week}
+                                </option>
                             ))}
                         </select>
                     </div>
                     <div style={{ display: "block", position: "relative", margin: "1pc" }}>
                         <label htmlFor="selectMonth" style={{ fontSize: "larger" }}>Select Month:</label>
-                        <select id="selectMonth" style={{ display: "block", padding: "7px", border: "none", borderRadius: "4px", width: "8pc" }}>
-                            {selected_movie_month.map((month,index)=>(
-                                <option key={index}>
-                                {month}
-                            </option>
+                        <select id="selectMonth" value={selectedMonth} style={{ display: "block", padding: "7px", border: "none", borderRadius: "4px", width: "8pc" }} onChange={(e) => { setSelectedMonth(e.target.value); setSelectedWeek("-") }}>
+                            <option value="-">-</option>
+                            {selected_movie_month.map((month, index) => (
+                                <option key={index} value={month}>
+                                    {month}
+                                </option>
                             ))}
                         </select>
                     </div>
 
                 </>
             ) : ""}
-
-
-            <div style={{ display: "block", position: "relative", margin: "1pc" }}>
-                <label htmlFor="showStartTime" style={{ fontSize: "larger" }}>Select Date:</label>
-                <input id="showStartTime" type="date" name="showStartTime" placeholder="Enter Show Time" className=" form-control" value={selectedDate} onChange={(e) => {
-                    setSelectedDate(e.target.value);
-                }} required />
-            </div>
+            {(selectedWeek === "-" & selectedMonth === "-") ? (
+                <div style={{ display: "block", position: "relative", margin: "1pc" }}>
+                    <label htmlFor="showStartTime" style={{ fontSize: "larger" }}>Select Date:</label>
+                    <input id="showStartTime" type="date" name="showStartTime" placeholder="Enter Show Time" className=" form-control" value={selectedDate} onChange={(e) => {
+                        setSelectedDate(e.target.value);
+                    }} required />
+                </div>
+            ) : (
+                <div style={{ display: "block", position: "relative", margin: "1pc" }}>
+                    <label htmlFor="showStartTime" style={{ fontSize: "larger" }}>Select Date:</label>
+                    <input id="showStartTime" type="date" readOnly name="showStartTime" placeholder="Enter Show Time" className=" form-control" value={selectedDate} onChange={(e) => {
+                        setSelectedDate(e.target.value);
+                    }} required />
+                </div>
+            )}
 
 
         </div>
-        <table className="table" style={{ color: "white", marginLeft: "5%", width: "72%" }}>
+        <table className="table" style={{ color: "white", marginLeft: "7%", width: "80%" }}>
             <thead>
                 <tr>
                     <th>Id</th>
@@ -230,21 +302,59 @@ const Collection = () => {
                 </tr>
             </thead>
             <tbody>
-                {bookings && bookings.map(booking =>
-                    <tr key={booking.id}>
-                        {dateselected(booking) ? (
-                            <> <td>{++x} </td>
-                                <td>{displayConsumerName(booking)}</td>
-                                <td>{phone_number}</td>
-                                <td>{displayMovieName(booking)}</td>
-                                <td>{booking.booking_code}</td>
-                                <td>{booking.booking_price}<i className="fa fa-inr mx-1" aria-hidden="true"></i></td></>) : <td style={{ display: "none" }}></td>}
 
-                    </tr>
-                )}
+                {selectedMonth === '-' & selectedWeek === '-' ? (<>
+                    {bookings && bookings.map((booking) =>
+                        <tr key={booking.id}>
+                            {dateselected(booking) ? (
+                                <><td>{++x}</td>
+                                    <td>{displayConsumerName(booking)}</td>
+                                    <td>{phone_number}</td>
+                                    <td>{displayMovieName(booking)}</td>
+                                    <td>{booking.booking_code}</td>
+                                    <td>{booking.booking_price}<i className="fa fa-inr mx-1" aria-hidden="true"></i></td>
+                                </>) : <td style={{ display: "none" }}></td>}
+                        </tr>
+                    )}
+                </>) :
+                    (<>
+                        {bookings && bookings.map((booking) =>
+                            <tr key={booking.id}>
+                                {getWeeksMonthsBooking(booking) ? (
+                                    <><td>{++x}</td>
+                                        <td>{displayConsumerName(booking)}</td>
+                                        <td>{phone_number}</td>
+                                        <td>{displayMovieName(booking)}</td>
+                                        <td>{booking.booking_code}</td>
+                                        <td>{booking.booking_price}<i className="fa fa-inr mx-1" aria-hidden="true"></i></td>
+                                    </>) : <td style={{ display: "none" }}></td>}
+                            </tr>
+                        )}
+                    </>)
+
+                }
             </tbody>
         </table>
-        <h3 style={{ marginLeft: "30%", display: "inline" }}>Collection of the Day : </h3><h2 style={{ display: "inline", color: "coral" }}>{collection}<i className="fa fa-inr mx-1" aria-hidden="true"></i></h2>
+        {selectedMonth === '-' & selectedWeek === '-' ? (
+            <>
+            
+            {selectedMovieId === '-' ?(
+            <>
+            <h3 style={{ marginLeft: "30%", display: "inline" }}>Collection of the Day : </h3><h2 style={{ display: "inline", color: "coral" }}>{collection}<i className="fa fa-inr mx-1" aria-hidden="true"></i></h2>
+            </>):(<>
+                <h3 style={{ marginLeft: "20%", display: "inline" }}>Collection of the Day by <u>{ selectedMovie_name}</u> : </h3><h2 style={{ display: "inline", color: "coral" }}>{collection}<i className="fa fa-inr mx-1" aria-hidden="true"></i></h2>
+            </>) }
+                
+            </>) : (
+            <>
+                {selectedMonth === '-' ? (<>
+                    <h3 style={{ marginLeft: "20%", display: "inline" }}>Total Collection by <u>{ selectedMovie_name}</u> in Week {selectedWeek} : </h3><h2 style={{ display: "inline", color: "coral" }}>{collection}<i className="fa fa-inr mx-1" aria-hidden="true"></i></h2>
+                </>) : (
+                    <>
+                        <h3 style={{ marginLeft: "20%", display: "inline" }}>Total Collection by <u>{  selectedMovie_name} </u> in Month {selectedMonth} : </h3><h2 style={{ display: "inline", color: "coral" }}>{collection}<i className="fa fa-inr mx-1" aria-hidden="true"></i></h2>
+                    </>)}
+            </>)}
+
     </div>);
 }
 

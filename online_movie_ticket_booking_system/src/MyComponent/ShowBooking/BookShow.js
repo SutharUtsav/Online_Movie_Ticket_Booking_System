@@ -3,8 +3,11 @@ import styles from './booking.module.css'
 import BookingSeat from './BookingSeat';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import useWindowDimensions from "../useWindowDimensions";
 
 const BookShow = (props) => {
+    const {height,width}=useWindowDimensions();
+  
     const navigate = useNavigate()
     const [selectedDateIndex, setSelectedDateIndex] = useState(0)
     const sort_show_by_date = []
@@ -47,7 +50,7 @@ const BookShow = (props) => {
     const [isShowSelected, setIsShowSelected] = useState(false);
     const [selectedShow, setSelectedShow] = useState({});
 
-    
+
     var show_count = 0;
     function availableshows(show) {
         if (show.screen_movie_id === props.selectedMovie.id) {
@@ -78,7 +81,7 @@ const BookShow = (props) => {
                 show_count++;
                 return (
                     <>
-                        <button value={show.id} className='py-2 my-1 mx-3 font-weight-bold col-9' style={{ border: "none", borderRadius: "5px", background: "goldenrod" }} onClick={() => {
+                        <button value={show.id} className='py-2 my-1 mx-3 font-weight-bold col-9' style={{ border: "none", borderRadius: "14px", background: "goldenrod" }} onClick={() => {
 
                             axios.get('http://localhost:3001/api/isUserAuth', {
                                 headers: {
@@ -95,7 +98,7 @@ const BookShow = (props) => {
                                     navigate("/Login")
                                 }
                             })
-                           
+
                         }}>{(start_time.getHours() >= 0 & start_time.getHours() <= 9) ? ("0" + start_time.getHours()) : (start_time.getHours())}:{(start_time.getMinutes() >= 0 & start_time.getMinutes() <= 9) ? ("0" + start_time.getMinutes()) : (start_time.getMinutes())} -
                             {(end_time.getHours() >= 0 & end_time.getHours() <= 9) ? ("0" + end_time.getHours()) : (end_time.getHours())}:{(start_time.getMinutes() >= 0 & start_time.getMinutes() <= 9) ? ("0" + start_time.getMinutes()) : (start_time.getMinutes())}</button>
                     </>
@@ -111,30 +114,44 @@ const BookShow = (props) => {
         <center><u><h2>{props.selectedMovie.movie_name}</h2></u></center>
 
         <div className={styles.container_view}>
-            <img src={process.env.PUBLIC_URL + "/Movies/" + props.selectedMovie.movie_banner} alt="MovieBanner" />
+            <img src={process.env.PUBLIC_URL + "/Movies/" + props.selectedMovie.movie_banner} width={width} alt="MovieBanner" />
 
         </div>
+
+
         <div className={styles.container_detail}>
-            <div style={{ float: "left", marginLeft: "2pc" }}>
-                <img src={process.env.PUBLIC_URL + "/Movies/" + props.selectedMovie.movie_image} alt="MovieImage" />
-            </div>
-            <div style={{ marginLeft: "23pc", textAlign: "justify", fontSize: "larger" }}>
-                <p><b>Movie Name : </b>{props.selectedMovie.movie_name}</p><hr />
-                <p><b>Movie Language :</b> {props.selectedMovie.movie_language}</p><hr />
-                <p><b>Movie Genre :</b> {props.selectedMovie.movie_genre}</p><hr />
-                <p><b>Total hours of movie :</b> {props.selectedMovie.movie_hours}</p><hr />
-                <p><b>Movie Release Date :</b> {props.selectedMovie.movie_release_date}</p><hr />
-                <p><b>Movie Description :</b> {props.selectedMovie.movie_description}</p>
-            </div>
+
+            {width >= 1024 ? (
+                <>
+                    <div style={{ float: "left", marginLeft: "2pc" }}>
+                        <img src={process.env.PUBLIC_URL + "/Movies/" + props.selectedMovie.movie_image} alt="MovieImage" />
+                    </div>
+                    <div style={{ marginLeft: "23pc", textAlign: "justify", fontSize: "larger" }}>
+                        <p><b>Movie Name : </b>{props.selectedMovie.movie_name}</p><hr />
+                        <p><b>Movie Language :</b> {props.selectedMovie.movie_language}</p><hr />
+                        <p><b>Movie Genre :</b> {props.selectedMovie.movie_genre}</p><hr />
+                        <p><b>Total hours of movie :</b> {props.selectedMovie.movie_hours}</p><hr />
+                        <p><b>Movie Release Date :</b> {props.selectedMovie.movie_release_date}</p><hr />
+                        <p><b>Movie Description :</b> {props.selectedMovie.movie_description}</p>
+                    </div>
+
+                </>
+            ) : <>
+            <p><b>Movie Name : </b>{props.selectedMovie.movie_name}</p><hr />
+                        <p><b>Movie Language :</b> {props.selectedMovie.movie_language}</p><hr />
+                        <p><b>Movie Genre :</b> {props.selectedMovie.movie_genre}</p><hr />
+                        <p><b>Total hours of movie :</b> {props.selectedMovie.movie_hours}</p><hr />
+                        <p><b>Movie Release Date :</b> {props.selectedMovie.movie_release_date}</p><hr />
+                        <p style={{height:"8pc", overflowY:"scroll"}}><b>Movie Description :</b> {props.selectedMovie.movie_description}</p></>}
 
             <div style={{ marginTop: "8pc", position: "relative", display: "flex", width: "100%" }}>
                 <div style={{ position: "relative", left: "auto", width: "50%" }}>
-                    <h4 className='py-2 px-3 my-0' style={{}}>Select Date :</h4>
+                    <h4 className='py-2 px-3 my-0' style={{}}>Select Date <i className="fa fa-calendar mx-2" aria-hidden="true"></i> :</h4>
                     {(sort_show_by_date.length > 0) ? (
 
                         sort_show_by_date.map((date, index) => (
                             <div key={index}>
-                                <div className={selectedDateIndex === index ? "py-4 font-weight-bold bg-primary" : 'py-3 font-weight-bold'} style={{ background: "cornflowerblue", textAlign: "center" }} onClick={() => { setSelectedDateIndex(index) }}>{date}</div>
+                                <div className={selectedDateIndex === index ? "py-4 font-weight-bold bg-primary" : 'py-3 font-weight-bold'} style={{ background: "cornflowerblue", textAlign: "center",borderRadius:"15px" }} onClick={() => { setSelectedDateIndex(index) }}>{date}</div>
                             </div>
                         ))
                     ) : <p className='mx-2' style={{ color: "red", padding: "11px 0" }}>NO SHOW AVAILABLE </p>
@@ -146,7 +163,7 @@ const BookShow = (props) => {
                 {(sort_show_by_date.length > 0) ? (
 
                     <div style={{ position: "sticky", left: "50%", width: "50%" }}>
-                        <h4 className='py-2 px-4' style={{}}>Select Show :</h4>
+                        <h4 className='py-2 px-4' style={{}}>Select Show Time <i className="fa fa-clock-o mx-1" aria-hidden="true"></i>:</h4>
                         {
                             props.shows.map((show, index) => (
                                 <div key={index}>
@@ -163,7 +180,6 @@ const BookShow = (props) => {
         </div>
     </div>) : (
         <>
-
             <BookingSeat setIsMovieSelected={props.setIsMovieSelected} user={props.user} selectedShow={selectedShow} selectedMovie={props.selectedMovie} setIsShowSelected={setIsShowSelected} />
 
         </>
