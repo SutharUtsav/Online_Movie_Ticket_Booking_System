@@ -8,6 +8,9 @@ const Footer = () => {
   const {height,width}=useWindowDimensions();
 
   return (
+
+
+
     <div style={{ bottom: 0, display: "inline-block", width: "100%" }}>
       <div className="d-flex flex-column h-100">
 
@@ -23,8 +26,7 @@ const Footer = () => {
           </div>
         </section>
 
-
-        {width >= 1024 ? (<>
+        
           <footer className=" text-white mainfooter" role="contentinfo">
             <div className="footer-middle">
               <div className="container">
@@ -91,7 +93,7 @@ const Footer = () => {
             </div>
           </footer>
 
-        </>) : ""}
+        
       </div>
     </div>
   )

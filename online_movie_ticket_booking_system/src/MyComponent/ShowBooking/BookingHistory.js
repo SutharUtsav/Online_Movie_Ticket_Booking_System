@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styles from './booking.module.css'
 import axios from 'axios';
+import useWindowDimensions from "../useWindowDimensions";
 
 const BookingHistory = (props) => {
+
+    
+  const {height,width}=useWindowDimensions();
+
     let x = 0;
     const [booking, setBooking] = useState([])
     const [seats, setSeats] = useState([]);
@@ -114,11 +119,10 @@ const BookingHistory = (props) => {
     }
 
     return (
-        <div style={{ color: "white", height: "100%" }}>
-
+        <div style={ width>=1024 ? { color: "white", height: "100%",marginTop:"8pc" }:{color: "white",marginTop:"12pc",width:"fit-content"}}>
             <button className={styles.back_btn} onClick={() => { props.setIsBookingHistory(false) }}><i className="fa fa-arrow-left" aria-hidden="true"></i></button>
 
-            <p style={{ fontSize: "35px", fontWeight: "bold", marginLeft: "35%", textDecorationLine: "underline" }}> Bookings</p>
+            <p style={{ fontSize: "35px", fontWeight: "bold", marginLeft: "35%", textDecorationLine: "underline" }}>Your Bookings</p>
             <p style={{ marginLeft: "10%", textDecorationLine: "underline" }}>User Name : {props.user.user_name}</p>
             <table className="table" style={{ color: "white", marginLeft: "10%", width: "72%" }}>
                 <thead>

@@ -1,6 +1,6 @@
 import React from 'react';
 import useWindowDimensions from "../useWindowDimensions";
-
+import styles from './customer.module.css'
 
 const Content = (props) => {
 
@@ -61,19 +61,18 @@ const Content = (props) => {
                 }
 
         }
-        return (<div style={{ color: "white" }}>
+        return (<div style={ width >= 1024 ? { color: "white" }:{color: "white",marginTop:"16pc" }}>
                 {props.searchData === "" ? (
                         <>
-
-                                <div>
+                                <div className={styles.section_header_1}>
                                         <h3 style={{ marginTop: "3pc", textAlign:"center" }}>Now Showing</h3>
                                 </div>
-                        </>) : <h3 style={{ marginTop: "2pc", marginLeft: "3pc" }}>Searching Result</h3>}
-                        <div style={ width>=1024 ? {marginLeft:"10%"}:{}}>
+                        </>) :(<div className={styles.section_header_1}> <h3 style={{ marginTop: "2pc", marginLeft: "3pc" }}>Searching Result</h3></div>)}
+
+                        <div  style={ width>=1024 ? {marginLeft:"10%"}:{}}>
                 {props.movies.map((movie, index) => (
-                        <div key={index} >
+                        <div key={index} className={styles.img_wrapper}>
                                 {displayMovies(movie)}
-                                
                         </div>
                 ))}
                 

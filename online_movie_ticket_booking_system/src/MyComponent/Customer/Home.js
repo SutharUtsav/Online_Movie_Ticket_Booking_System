@@ -129,7 +129,7 @@ const Home = () => {
     }
 
     return (isProfile ? (
-        <div className={styles.background} style={width >= 1024 ?{position:"relative"}:{position:"absolute"}}>
+        <div className={styles.background} style={width >= 1024 ?{position:"relative"}:width>=768 ? {position:"absolute",width:"100%"}:{position:"absolute"}}>
             <Header isProfile={isProfile} setIsProfile={setIsProfile} isbookingHistory={isbookingHistory} setIsBookingHistory={setIsBookingHistory} user={user} setUser={setUser} searchData={searchData} setSearchData={setSearchData}></Header>
             <div className={styles.popup}>
                 <div className={styles.popup_inner}>
@@ -181,16 +181,16 @@ const Home = () => {
             </div>
             <Footer></Footer>
         </div>) : ( 
-            isbookingHistory ? (<div className={styles.background} style={width >= 1024 ?{position:"relative"}:{position:"absolute"}}>
+            isbookingHistory ? (<div className={styles.background} style={width >= 1024 ?{position:"relative"}: width>=768 ? {position:"absolute",width:"100%"}:{position:"absolute"}}>
             <Header isProfile={isProfile} setIsProfile={setIsProfile} isbookingHistory={isbookingHistory} setIsBookingHistory={setIsBookingHistory} user={user} setUser={setUser} searchData={searchData} setSearchData={setSearchData}></Header>
             <BookingHistory setIsBookingHistory={setIsBookingHistory} user={user} movies={movies} shows={shows}/>
             <Footer></Footer>
             </div>):(
-        <div className={styles.background} style={width >= 1024 ?{position:"relative"}:{position:"absolute"}}>
+        <div className={styles.background} style={width >= 1024 ?{position:"relative"}:width>=768 ? {position:"absolute",width:"100%"}:{position:"absolute"}}>
             {!isMovieSelected ? (<>
                 <Header isProfile={isProfile} setIsProfile={setIsProfile} isbookingHistory={isbookingHistory} setIsBookingHistory={setIsBookingHistory} user={user} setUser={setUser} searchData={searchData} setSearchData={setSearchData}></Header>
 
-                {width >= 768 ? <SliderView searchData={searchData} banners={getBanners()} />:""}
+                {width >= 1024 ? <SliderView searchData={searchData} banners={getBanners()} />:""}
                 <Content searchData={searchData} setSearchData={setSearchData} isMovieSelected={isMovieSelected} selectedMovie={selectedMovie} setSelectedMovie={setSelectedMovie} setIsMovieSelected={setIsMovieSelected} shows={shows} movies={movies} />
             </>) : (<>
                 <BookShow user={user} setIsMovieSelected={setIsMovieSelected} shows={shows} selectedMovie={selectedMovie} />

@@ -7,8 +7,8 @@ const BookingInfo = (props) => {
 
 
     const [ispay, setIsPay] = useState(false)
-    const {height,width}=useWindowDimensions();
-  
+    const { height, width } = useWindowDimensions();
+
 
     let selected_seat = "";
     let snack_type = "";
@@ -87,12 +87,70 @@ const BookingInfo = (props) => {
             </div>
         ) : ""}
         <div className='container'>
-            <h1><center><u>Booking Info</u></center></h1>
+            <div className='row' style={ width>=1024 ? {marginLeft:"19%",width:"166pc"}:{}}>
+                <div className='col-lg-4'>
+                    <div className={styles.booking_summary}>
+                        <h4 className={styles.title}>booking summary</h4>
+                        <ul>
+                            <li>
+                                <h6 className={styles.subtitle}>Customer Name:</h6>
+                                <span className={styles.info}>{props.user.user_name}</span>
+                            </li>
+                            <li>
+                                <h6 className={styles.subtitle}>Movie Name:</h6>
+                                <span className={styles.info}>{props.selectedMovie.movie_name}</span>
+                            </li>
+                            <li>
+
+                                <h6 className={styles.subtitle}>Show Time:</h6>
+                                <span className={styles.info}>{start_time.getHours()}:{start_time.getMinutes()} - {end_time.getHours()}:{end_time.getMinutes()}</span>
+
+                            </li>
+                            <li>
+                                <h6 className={styles.subtitle}>
+                                    <span>Screen:</span>
+                                    <span>Seats:</span>
+                                </h6>
+                                <div className={styles.info}>
+                                    <span>{props.selectedShow.screen_no}</span>
+
+                                    <span>
+                                        {props.selectedSeat.map((seat, index) => (
+                                            <span key={index}>
+                                                {seat.seat_type + " "}
+                                                {<span style={{ display: "none" }}>{selected_seat += seat.seat_type + " "}</span>}
+                                            </span>
+                                        ))}
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul className={styles.side_shape}>
+                            <li>
+                                <h6 className={styles.subtitle}>Snacks:</h6>
+                                <span className={styles.info} style={{color:"goldenrod"}}>
+                                    { (props.selectedSnack !== null) ? props.selectedSnack.map((snack, index) => (
+                                        <span key={index}>
+                                            <span style={{ display: "block", margin: "0px" }}>{snack.snack_type + "\n"}</span>
+                                            {<span style={{ display: "none" }}>{snack_type += snack.snack_type + " "}</span>}
+                                        </span>
+                                    )):<span style={{color:"red"}}>No snacks selected</span>}
+                                </span>
+                            </li>
+                        </ul>
+                        <div className={styles.proceed_area}>
+                            <h6 className={styles.subtitle}>
+                                <span>Amount Payable : </span>
+                                <span>{amount}<i className="fa fa-inr m-1" aria-hidden="true"></i></span>
+                            </h6>
+                            <button className="btn btn-success py-2 font-weight-bold d-grid col-4 mx-auto" onClick={() => { addBooking() }}>Pay</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
-            {width >= 1024 ? (
-
-                <div className={styles.cardWrap}>
+            {/* <div className={styles.cardWrap}>
                     <div className={styles.cardLeft}>
                         <p style={{ fontSize: "2pc", textAlign: "center", background: "rgba(214, 19, 19, 0.822)", borderRadius: "8px" }}>Ticket</p>
                         <div className={styles.ticket_title}>
@@ -141,15 +199,14 @@ const BookingInfo = (props) => {
                         )}
 
                     </div>
-                </div>
+                </div> */}
 
-            ) : ""}
 
         </div>
 
-        <div className="col-lg-12" style={{ marginTop: "37pc" }}>
+        {/* <div className="col-lg-12" style={{ marginTop: "37pc" }}>
             <button className="btn btn-success py-2 font-weight-bold d-grid col-4 mx-auto" onClick={() => { addBooking() }}>Pay</button>
-        </div>
+        </div> */}
     </div>);
 }
 

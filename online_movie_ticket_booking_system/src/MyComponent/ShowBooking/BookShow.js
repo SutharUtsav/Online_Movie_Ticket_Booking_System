@@ -114,7 +114,7 @@ const BookShow = (props) => {
         <center><u><h2>{props.selectedMovie.movie_name}</h2></u></center>
 
         <div className={styles.container_view}>
-            <img src={process.env.PUBLIC_URL + "/Movies/" + props.selectedMovie.movie_banner} width={width} alt="MovieBanner" />
+            <img src={process.env.PUBLIC_URL + "/Movies/" + props.selectedMovie.movie_banner} width={width >=768 ? "860px":width} alt="MovieBanner" />
 
         </div>
 
@@ -166,7 +166,7 @@ const BookShow = (props) => {
                         <h4 className='py-2 px-4' style={{}}>Select Show Time <i className="fa fa-clock-o mx-1" aria-hidden="true"></i>:</h4>
                         {
                             props.shows.map((show, index) => (
-                                <div key={index}>
+                                <div key={index} className={styles.availableShow}>
                                     {availableshows(show)}
                                 </div>
                             ))
@@ -179,10 +179,10 @@ const BookShow = (props) => {
             </div>
         </div>
     </div>) : (
-        <>
+        <div>
             <BookingSeat setIsMovieSelected={props.setIsMovieSelected} user={props.user} selectedShow={selectedShow} selectedMovie={props.selectedMovie} setIsShowSelected={setIsShowSelected} />
 
-        </>
+        </div>
     );
 }
 

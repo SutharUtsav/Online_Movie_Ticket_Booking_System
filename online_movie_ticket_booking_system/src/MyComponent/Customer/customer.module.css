@@ -3,22 +3,64 @@
                         linear-gradient(126deg, rgba(194, 194, 194,0.05) 0%, rgba(194, 194, 194,0.05) 11%,rgba(127, 127, 127,0.05) 11%, rgba(127, 127, 127,0.05) 33%,rgba(117, 117, 117,0.05) 33%, rgba(117, 117, 117,0.05) 99%,rgba(248, 248, 248,0.05) 99%, rgba(248, 248, 248,0.05) 100%),
                         linear-gradient(144deg, rgba(64, 64, 64,0.05) 0%, rgba(64, 64, 64,0.05) 33%,rgba(211, 211, 211,0.05) 33%, rgba(211, 211, 211,0.05) 50%,rgba(53, 53, 53,0.05) 50%, rgba(53, 53, 53,0.05) 75%,rgba(144, 144, 144,0.05) 75%, rgba(144, 144, 144,0.05) 100%),
                         linear-gradient(329deg, hsl(148,0%,0%),hsl(148,0%,0%));
-    
-    min-height: 135vh;
-    height: fit-content;
-    
+
+    /* background-image: url("./assets/images/banner/banner01.jpg"); */
+    /* width:100%; */
+    background-size: cover;
 }
 
 .navbar{
-    height: 72px;
+    border-bottom:1px solid rgba(255, 255, 255, 0.102) ;
+    padding: 25px 0;
+    position: fixed;
+    width: 100%;
+    top:0;
+    left:0;
+    z-index: 99;
+    background: inherit;
+    /* height: 72px;
     background: transparent;
     position: relative;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    padding-bottom: 0.5rem; */
+}
+
+.header_wrapper{
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    display: inline-flex;
+    width: fit-content;
+}
+
+.menu{
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-box-pack: end;
+    justify-content: flex-end;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+.menu_item_has_children{
+    padding: 5px 12px;
+    position: relative;
+}
+
+ul li{
+    list-style: none;
+}
+ul li a{
+    position: relative;
+}
+
+.img_wrapper :hover{
+    transform: scale(1.1);
 }
 
 .popup{
     position: relative;
+    margin-top:5pc ;
     top:0;
     left: 0;
     width: 100%;
@@ -44,3 +86,17 @@
     background: transparent;
     border: none;
 }
+
+.section_header_1{
+    margin-bottom: 30px;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    border-bottom: 1px solid #1a2a47;
+    padding-bottom: 10px;
+    position: relative;
+}
+
+.footer_section{
+    position: relative;
+}
+

@@ -13,3 +13,6 @@
     }
   }
 
+.slider_wrapper :hover{
+  transform: scaleY(1.1);
+}

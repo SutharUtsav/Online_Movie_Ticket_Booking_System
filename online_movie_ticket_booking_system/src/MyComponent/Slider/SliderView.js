@@ -23,12 +23,12 @@ const SliderView = (props) => {
   }
 
   return (props.searchData === "") ? (
-    <div style={{ color: "white" }}>
-      <center><h3 style={{ margin: "20px" }}>Upcoming Movies</h3></center>
+    <div style={{ color: "white",marginTop:"5pc" }}>
+      <center><h3 style={{ paddingTop:"4pc" }}>Upcoming Movies</h3></center>
       <Slider {...settings} className={styles.container_slider}>
 
         {props.banners.map((banner, index) => (
-          <Carousel.Item key={index} interval={2000}>
+          <Carousel.Item key={index} className={styles.slider_wrapper} interval={2000}>
             <img
               className="d-block w-100"
               src={process.env.PUBLIC_URL + "/Movies/" + banner.movie_banner}

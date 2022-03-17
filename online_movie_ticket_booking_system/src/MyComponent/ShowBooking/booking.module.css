@@ -44,6 +44,11 @@
 .showcase li small {
     margin-left: 10px;
 }
+
+
+.availableShow :hover{
+  transform: scale(1.06);
+}
  
 .container {
     perspective: 1000px;
@@ -59,6 +64,7 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }
+
 
   
 .seat_selected {
@@ -142,7 +148,111 @@
     transform: rotateX(-45deg);
     box-shadow: 0 3px 10px rgba(255, 255, 255, 0.75);
   }
-  
+
+  .snack_header{
+    text-align: center;
+  }
+
+  .cate{
+    color:#31d7a9;
+    text-transform: uppercase;
+    display: block;
+    font-size: 24px;
+    margin-bottom: 25px;
+    margin-top: 8px;
+  }
+
+  .snack_header .title{
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .snack_header p{
+    font-size: 18px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+
+  .booking_summary{
+    padding: 30px;
+    border: 1px solid #11326f;
+    border-bottom-style: dashed ;
+    padding-bottom: 10px;
+    margin-top: 60px;
+    background-color: #032055;
+  }
+  .booking_summary .title{
+    text-align: center;
+    border-bottom: 1px dashed #11326f;
+    padding-bottom: 23px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .booking_summary ul{
+    border-bottom: 1px dashed #11326f;
+  }
+
+  .booking_summary ul li{
+    padding: 0;
+    margin-bottom: 30px;
+  }
+
+  .booking_summary ul li .subtitle{
+    text-transform: uppercase;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    margin-bottom: 7px;
+    display: flex;
+    flex-wrap: wrap;
+
+  }
+  .booking_summary ul li .info{
+    -webkit-box-pack: justify;
+    font-size: 14px;
+    text-transform: uppercase;
+    justify-content: space-between;
+    color:#9aace5;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .side_shape{
+    position: relative;
+  }
+
+  .side_shape ::before{
+    position: absolute;
+    content: '';
+  }
+  .side_shape ::after{
+    left: -26px;
+    width: 48px;
+    height: 48px;
+    background-color: #001232;
+    border-radius: 50%;
+    top: -48px;
+  }
+
+  .proceed_area{
+    background: #05245c;
+    padding: 30px;
+    text-align: center !important;
+  }
+
+  .proceed_area .subtitle{
+    text-transform: uppercase;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    margin-bottom: 23px;
+  }
+
+  ul li{
+    list-style: none;
+  }
+
   p.text {
     margin: 2pc 2pc;
   }
