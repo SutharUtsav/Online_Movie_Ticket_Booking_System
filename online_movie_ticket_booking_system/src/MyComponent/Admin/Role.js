@@ -9,6 +9,9 @@ const Role = () => {
     const [roleDescription, setRoleDescription] = useState("");
     const [rolesList, setRolesList] = useState([]);
 
+    const[isAddRole,setIsAddRole] = useState(false)
+    const[isDeleteRole,setIsDeleteRole] = useState(false)
+
     useEffect(() => {
         let isMounted = true; //for cleanup
         axios.get('http://localhost:3001/api/getRole').then((response) => {
@@ -17,7 +20,7 @@ const Role = () => {
             }
         });
         return ()=>{isMounted=false};
-    })
+    },[isAddRole,isDeleteRole])
 
     function AddRole(e) {
         e.preventDefault();
@@ -26,7 +29,11 @@ const Role = () => {
             axios.post('http://localhost:3001/api/insertRole', {
                 roleTitle: roleTitle,
                 roleDescription: roleDescription,
-            }).then(() => { alert("Successfully role inserted") })
+            }).then((response) => { 
+                alert(response.data.message)
+                setIsAddRole(true) 
+                setIsDeleteRole(false)
+            })
             setRoleTitle("")
             setRoleDescription("")
         }
@@ -38,9 +45,15 @@ const Role = () => {
 
     function DeleteRole(e){
         try{
-            //console.log(e.target.value)
-            axios.delete(`http://localhost:3001/api/deleteRole/${e.target.value}`)
-            .then(()=>{ alert("Successfully delete role")})
+            console.log(e.target.value)
+            axios.post(`http://localhost:3001/api/deleteRole`,{
+                id:e.target.value,
+            })
+            .then((response)=>{ 
+                alert(response.data.message)
+                setIsDeleteRole(true)
+                setIsAddRole(false) 
+        })
         }catch(error){
             console.log(error)
         }

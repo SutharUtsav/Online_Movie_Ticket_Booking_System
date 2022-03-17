@@ -14,6 +14,8 @@ const Screen = () => {
 
     const [selectedScreen, setSelectedScreen] = useState(1);
     const [isAddShow, setIsAddShow] = useState(false);
+    const [isDeletedShow, setIsDeletedShow] = useState(false);
+    const [isUpdatedShow, setIsUpdatedShow] = useState(false);
     const [movies,setMovies]=useState([])
 
     
@@ -33,8 +35,7 @@ const Screen = () => {
             console.log(error)
         }
 
-    }, [])
-
+    }, [isDeletedShow,isUpdatedShow])
 
     return (
 
@@ -47,7 +48,7 @@ const Screen = () => {
                     }}>Screen {screen}</button>
                 ))}
             </div>   
-            <Show screenNo={selectedScreen} movies={movies} isAddShow={isAddShow} setIsAddShow={setIsAddShow} />
+            <Show screenNo={selectedScreen} movies={movies} isAddShow={isAddShow} setIsAddShow={setIsAddShow} setIsDeletedShow={setIsDeletedShow} setIsUpdatedShow={setIsUpdatedShow}/>
         </div>
     )
 }

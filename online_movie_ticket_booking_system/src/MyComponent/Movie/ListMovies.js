@@ -8,8 +8,9 @@ const ListMovies = (props) => {
             axios.delete(`http://localhost:3001/api/deleteMovie/${e.target.value}`)
             .then((response)=>{ 
                 alert(response.data.message)
-                props.setIsMovieDeleted(true)
+                
                 props.setSelectedMovie(null)
+                props.setIsDeletedMovie(true)
             })
         }catch(error){
             console.log(error)
@@ -21,10 +22,10 @@ const ListMovies = (props) => {
         {props.movies.map((movie)=>(
                 <div key={movie.id} className= "justify-content-start m-3" style={{ width:"min-content"}} >
                     <img src={process.env.PUBLIC_URL + "/Movies/" + movie.movie_image} alt='movie-banner' width="300" height="400" />
-                    <button className="btn btn-outline-info py-2 font-weight-bold col-5" style={{ marginLeft: "7px", marginTop: "10px" }} onClick={()=>{
+                    <button className="btn btn-outline-info py-2 font-weight-bold col-5" style={{ marginLeft: "7px", marginTop: "10px",minWidth:"8pc" }} onClick={()=>{
                         props.setSelectedMovie(movie)
                     }}> View</button>
-                    <button className="btn btn-outline-danger py-2 font-weight-bold col-5" style={{ marginLeft: "2pc", marginTop: "10px" }} value={movie.id} onClick={deletemovie}>Delete</button>
+                    <button className="btn btn-outline-danger py-2 font-weight-bold col-5" style={{ marginLeft: "2pc", marginTop: "10px",minWidth:"8pc" }} value={movie.id} onClick={deletemovie}>Delete</button>
                 </div>
         ))}
         

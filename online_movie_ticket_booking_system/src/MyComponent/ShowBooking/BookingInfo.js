@@ -75,7 +75,7 @@ const BookingInfo = (props) => {
         }
     }
 
-    return (<div style={width >= 1024 ? { color: "white", height: "100%", width: "100%" } : { color: "white" }}>
+    return (<div style={width >= 1024 ? { color: "white" } : { color: "white" }}>
         <button className={styles.back_btn} onClick={() => {
             localStorage.removeItem('selectedSnacks')
             props.setIsProceedtoPay(false)
@@ -87,8 +87,8 @@ const BookingInfo = (props) => {
             </div>
         ) : ""}
         <div className='container'>
-            <div className='row' style={ width>=1024 ? {marginLeft:"19%",width:"166pc"}:{}}>
-                <div className='col-lg-4'>
+            <div className='row' style={ width>=1024 ? {marginLeft:"22%"}:{}}>
+                <div className='col-lg-4'  style={ width>=1024 ? {width:"44pc"}:{}}>
                     <div className={styles.booking_summary}>
                         <h4 className={styles.title}>booking summary</h4>
                         <ul>

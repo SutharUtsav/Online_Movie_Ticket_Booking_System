@@ -6,6 +6,7 @@
     font-weight: 500;
     height: 50px;
     width: 15%;
+    min-width: 9pc;
     margin-left: 65%;
 }
 .seatingButton{

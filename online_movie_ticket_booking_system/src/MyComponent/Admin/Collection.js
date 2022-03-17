@@ -142,7 +142,7 @@ const Collection = () => {
         release_day.setMonth(parseInt(date.substring(5, 7)) - 1)
         release_day.setFullYear(date.substring(0, 4))
 
-        if (today.getTime() >= release_day.getTime()) {
+        if (today.getTime() > release_day.getTime()) {
             return true
         }
         return false

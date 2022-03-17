@@ -74,22 +74,22 @@ app.post("/api/insertRole", async (req, res) => {
     db.query(sqlInsert, [roleTitle, roleDescription], (err, result) => {
         if (err)
             console.log(err.message);
-        else {
-            console.log(result);
+        if (result) {
+            res.send({ message: "Successfully Role Inserted" })
         }
     });
 
 })
 
-app.delete("/api/deleteRole/:id", async (req, res) => {
-    let id = req.params.id;
+app.post("/api/deleteRole", async (req, res) => {
+    let id = req.body.id;
 
     var sqlDelete = "DELETE FROM role WHERE id=?";
     db.query(sqlDelete, id, (err, result) => {
         if (err)
             console.log(err.message);
-        else {
-            console.log(result);
+        if (result) {
+            res.send({ message: "Successfully delete role" })
         }
     });
 
@@ -661,9 +661,9 @@ const Vonage = require('@vonage/server-sdk')
 const vonage = new Vonage({
     apiKey: "1c9e59c6",
     apiSecret: "3aUNQNExc4ZmMKMv"
-  })
+})
 
-var bookingCode =""
+var bookingCode = ""
 
 app.post("/api/sendSMS", async (req, res) => {
     let userName = req.body.userName;
@@ -685,8 +685,8 @@ app.post("/api/sendSMS", async (req, res) => {
     Amount : ${amount}
     Secret Code : ${bookingCode}`
 
-    res.send({message:"Booking SMS will be sent!!"})
-    
+    res.send({ message: "Booking SMS will be sent!!" })
+
     // vonage.message.sendSms(from, to, text, (err, responseData) => {
     //     if (err) {
     //         console.log(err);

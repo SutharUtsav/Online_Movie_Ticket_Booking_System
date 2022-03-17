@@ -17,9 +17,10 @@ const ListShows = (props) => {
         try {
             //console.log(e.target.value)
             axios.delete(`http://localhost:3001/api/deleteShow/${e.target.value}`)
-                .then((response) => { 
+                .then((response) => {
                     alert(response.data.message)
-                 })
+                    props.setIsDeletedShow(true)
+                })
         } catch (error) {
             console.log(error)
         }
@@ -67,7 +68,7 @@ const ListShows = (props) => {
                     et.setTime(show.screen_show_end_time);
 
                     if (start_time.getTime() < st.getTime()) {
-                        if (end_time.getTime() > st.getTime() & end_time.getTime() < et.getTime() & show.id !== showId ) {
+                        if (end_time.getTime() > st.getTime() & end_time.getTime() < et.getTime() & show.id !== showId) {
                             alert("This slot is already allocated")
                             status = false;
                         }
@@ -92,6 +93,7 @@ const ListShows = (props) => {
                         if (response.data.message) {
                             alert(response.data.message)
                             setIsUpdateShow(false);
+                            props.setIsUpdatedShow(true);
                         }
                     });
                 }
@@ -137,8 +139,8 @@ const ListShows = (props) => {
                         /{start_time.getFullYear()}</td>
                     <td>
                         <div style={{ display: "inline" }}>
-                            <button value={show.id} className="btn btn-danger" onClick={deleteShow} >Remove</button>
-                            <button value={show.id} className="btn btn-primary mx-2 col-4" onClick={() => {
+                            <button value={show.id} className="btn btn-danger" style={{minWidth:"4pc"}} onClick={deleteShow} >Remove</button>
+                            <button value={show.id} className="btn btn-primary mx-2 col-4" style={{minWidth:"4pc"}} onClick={() => {
                                 const d = new Date()
                                 d.setTime(show.screen_show_start_time);
 
@@ -188,8 +190,8 @@ const ListShows = (props) => {
         if (releaseDate.getTime() <= today.getTime()) {
             return (
                 <>
-                {/* checked={selectedMovieID === movie.id ? true : false} */}
-                    <input className='form-check-input mx-2 mb-2 ' type="radio"  name="radioNoLabel" id="radioNoLabel1" value={movie.id} onChange={(e) => { setSelectedMovieID(e.target.value); setSelectedMovieHours(movie.movie_hours) }} required />{movie.movie_name}
+                    {/* checked={selectedMovieID === movie.id ? true : false} */}
+                    <input className='form-check-input mx-2 mb-2 ' type="radio" name="radioNoLabel" id="radioNoLabel1" value={movie.id} onChange={(e) => { setSelectedMovieID(e.target.value); setSelectedMovieHours(movie.movie_hours) }} required />{movie.movie_name}
                 </>
             )
         }
@@ -200,24 +202,26 @@ const ListShows = (props) => {
     return (!isUpdateShow) ? (
         <>
             <p style={{ fontSize: "35px", fontWeight: "bold", marginLeft: "30%", textDecorationLine: "underline" }}> List of Shows (Screen {props.screenNo})</p>
-            <table className="table" style={{ color: "white", marginLeft: "5%", width: "72%" }}>
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Movie Name</th>
-                        <th>Show Starting Time</th>
-                        <th>Show Ending Time</th>
-                        <th>Show Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {props.shows.map((show, index) => (
-                        <tr key={show.id}>
-                            {displayShows(show)}
+            
+                <table className="table" style={{ color: "white", marginLeft: "5%",width:"70%" }}>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Movie Name</th>
+                            <th>Show Starting Time</th>
+                            <th>Show Ending Time</th>
+                            <th>Show Date</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {props.shows.map((show, index) => (
+                            <tr key={show.id}>
+                                {displayShows(show)}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            
         </>) : (
         <>
             <div className="container" >

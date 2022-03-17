@@ -49,7 +49,7 @@ const ViewMovie = (props) => {
                 if (isMounted) {
                     if (response.data.message) {
                         alert(response.data.message);
-                        setIsUpdate(false);
+                        props.setIsUpdatedMovie(true);
                         props.setMovie(null)
                     }
                 }

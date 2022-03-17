@@ -33,7 +33,7 @@ const Home = () => {
         movies.forEach((movie) => {
             if (((parseInt(today.getMonth()) + 1 === parseInt(movie.movie_release_date.substring(5, 7)) | (parseInt(today.getMonth()) + 2 === parseInt(movie.movie_release_date.substring(5, 7)))) & (parseInt(today.getFullYear()) === parseInt(movie.movie_release_date.substring(0, 4))))) {
                 if(   parseInt(today.getMonth()) + 1 === parseInt(movie.movie_release_date.substring(5, 7) ) ){
-                    if(parseInt(today.getDate()) < parseInt(movie.movie_release_date.substring(8,10))){
+                    if(parseInt(today.getDate()) <= parseInt(movie.movie_release_date.substring(8,10))){
                         banners.push(movie);
                     }  
                 }   

@@ -9,6 +9,8 @@ const Movie = () => {
     
     const [movies, setMovies] = useState([]);
     const [isAddMovie, setIsAddMovie] = useState(false);
+    const [isUpdatedMovie, setIsUpdatedMovie] = useState(false);
+    const [isDeletedMovie, setIsDeletedMovie] = useState(false);
     const [movieName, setMovieName] = useState("");
     const [movieLanguage, setMovieLanguage] = useState("");
     const [movieGenre, setMovieGenre] = useState("");
@@ -34,7 +36,7 @@ const Movie = () => {
         catch (error) {
             console.log(error)
         }
-    }, [movies])
+    }, [isAddMovie,isDeletedMovie,isUpdatedMovie])
 
     function addmovie(e) {
         e.preventDefault();
@@ -169,14 +171,14 @@ const Movie = () => {
                 </div>) : ""}
             <div className="container-fluid " style={{width:"67vw",marginLeft:"5pc"}}  >
                 <div className="row" style={{ overflowX: 'auto', color: "white" }} >
-                    <ListMovies movies={movies} setSelectedMovie = {setSelectedMovie}/>
+                    <ListMovies movies={movies} setSelectedMovie = {setSelectedMovie} setIsDeletedMovie={setIsDeletedMovie}/>
                 </div>
             </div>
         </div>
     ):(
         <div className={styles.content}>
             <button className={styles.close_btn} onClick={() => { setSelectedMovie(null) }}><i className="fa fa-arrow-left m-1" aria-hidden="true"></i></button>
-            <ViewMovie movie={selectedMovie} setMovie={setSelectedMovie} />
+            <ViewMovie movie={selectedMovie} setMovie={setSelectedMovie} setIsUpdatedMovie={setIsUpdatedMovie} />
         </div>
     );
 }

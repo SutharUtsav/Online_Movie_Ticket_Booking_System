@@ -8,7 +8,8 @@ const Snack = () => {
     const [selectedSnack,setSelectedSnack]=useState(null)
     const [snacks, setSnack] = useState([]);
     const [isAddSnack, setIsAddSnack] = useState(false);
-
+    const [isDeletedSnack, setIsDeleteSnack] = useState(false);
+    const [isUpdate,setIsUpdate] = useState(false);
     const [snackAmount, setSnackAmount] = useState("");
     const [snackType, setSnackType] = useState("");
     const [snackDescription, setSnackDescription] = useState("");
@@ -30,7 +31,7 @@ const Snack = () => {
         catch (error) {
             console.log(error)
         }
-    }, [snacks])
+    }, [isAddSnack,isUpdate,isDeletedSnack])
 
     function addsnack(e) {
         e.preventDefault();
@@ -135,7 +136,7 @@ const Snack = () => {
                 </div>) : ""}
             <div className="container-fluid "  style={{width:"67vw",marginLeft:"5pc"}} >
                 <div className="row" style={{ overflowX: 'auto', color: "white" }} >
-                    <ListSnacks snacks={snacks} setSelectedSnack = {setSelectedSnack}/>
+                    <ListSnacks snacks={snacks} setSelectedSnack = {setSelectedSnack} setIsDeleteSnack={setIsDeleteSnack}/>
                 </div>
             </div>
         </div>
@@ -143,7 +144,7 @@ const Snack = () => {
        
         <div className={styles.content}>
             <button className={styles.close_btn} onClick={() => { setSelectedSnack(null) }}><i className="fa fa-close mx-1"></i></button>
-            <ViewSnack snack={selectedSnack} setSnack={setSelectedSnack}/>
+            <ViewSnack snack={selectedSnack} setSnack={setSelectedSnack} isUpdate={isUpdate} setIsUpdate={setIsUpdate}/>
         </div>
     );
 }

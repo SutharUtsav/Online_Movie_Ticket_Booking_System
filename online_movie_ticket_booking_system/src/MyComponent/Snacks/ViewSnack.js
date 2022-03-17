@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const ViewSnack = (props) => {
 
-    const [isUpdate, setIsUpdate] = useState(false);
+    //const [isUpdate, isUpdate] = useState(false);
 
     // const [movieName, setMovieName] = useState(props.movie.movie_name);
     // const [movieLanguage, setMovieLanguage] = useState(props.movie.movie_language);
@@ -62,7 +62,7 @@ const ViewSnack = (props) => {
                 if (isMounted) {
                     if (response.data.message) {
                         alert(response.data.message);
-                        setIsUpdate(false);
+                        props.setIsUpdate(false);
                         props.setSnack(null)
                     }
                 }
@@ -77,7 +77,7 @@ const ViewSnack = (props) => {
 
     }
 
-    return (isUpdate) ? (
+    return (props.isUpdate) ? (
         <>
             <div className="container" >
                 <div className="row py-5 mt-4 align-items-center" >
@@ -145,7 +145,7 @@ const ViewSnack = (props) => {
 
             <div className={styles.container_detail}>
                 <div style={{ float: "left" }}>
-                <img src={process.env.PUBLIC_URL + "/Snacks/" + props.snack.snack_image} alt='movie-banner' width="300" height="300" />
+                <img src={process.env.PUBLIC_URL + "/Snacks/" + props.snack.snack_image} alt='snack' width="300" height="300" />
                 </div>
                 <div style={{ marginLeft: "23pc", width: "36vw", fontSize: "larger" }}>
                     <p><b>Snack Amount : </b>{snackAmount}</p>
@@ -154,7 +154,7 @@ const ViewSnack = (props) => {
                     <p><b>Snack Offer :</b> {snackOffer === '-' ? <p style={{color:"red",margin:"2px"}}>NO OFFER AVAILABLE</p> : snackOffer}</p>
                 </div>
                 <button type='button' className='btn btn-outline-primary py-2 font-weight-bold col-3 mx-5' onClick={() => {
-                    setIsUpdate(true)
+                    props.setIsUpdate(true)
                 }}>Update</button>
                 
             </div>

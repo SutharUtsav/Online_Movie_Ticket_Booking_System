@@ -26,7 +26,7 @@ const Show = (props) => {
             console.log(error)
         }
 
-    }, [props,shows])
+    }, [props])
 
     function addshow(e) {
         e.preventDefault();
@@ -120,7 +120,7 @@ const Show = (props) => {
         releaseDate.setFullYear(movie.movie_release_date.substring(0, 4))
         releaseDate.setMonth(movie.movie_release_date.substring(5, 7))
         releaseDate.setDate(movie.movie_release_date.substring(8, 10))
-        if (releaseDate.getTime() <= today.getTime()) {
+        if (releaseDate.getTime() < today.getTime()) {
             return (
                 <>
                     <input className='form-check-input mx-2 mb-2 ' type="radio" name="radioNoLabel" id="radioNoLabel1" value={movie.id} onChange={(e) => { setSelectedMovieID(e.target.value); setSelectedMovieHours(movie.movie_hours) }} required />{movie.movie_name}
@@ -177,7 +177,7 @@ const Show = (props) => {
                     </div>
                 </div>) : (
                 <>
-                    <ListShows shows={shows} movies={props.movies} screenNo={props.screenNo} />
+                    <ListShows shows={shows} movies={props.movies} screenNo={props.screenNo} setIsDeletedShow={props.setIsDeletedShow} setIsUpdatedShow={props.setIsUpdatedShow}/>
                 </>)}
 
 
